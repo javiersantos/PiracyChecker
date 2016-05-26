@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_unlicensed">This app is not licensed</string>
+    <string name="app_unlicensed_description">This application is not licensed. Please purchase it from Google Play.</string>
+    <string name="app_unlicensed_close">Close</string>
+</resources>
