@@ -62,7 +62,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-**BE CAREFUL!!** Your app signature can be retrieved using a PiracyCheckerUtils method. Make sure that you have signed your APK using your production keystore and installed the version that you plan to distribute.
+**BE CAREFUL!!** Your app signature can be retrieved using a PiracyCheckerUtils method. Make sure that you have signed your APK using your production keystore and installed the version that you plan to distribute. Then copy the signature returned by this method on the console and paste in `.enableSigningCertificate("YOUR_APK_SIGNATURE")`
 
 ```Java
 // This method will print your app signature in the console
