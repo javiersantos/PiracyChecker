@@ -88,7 +88,7 @@ new PiracyChecker(this)
 Use the builder and add following:
 
 ```Java
-// Provide a custom callback .
+// Provide a custom callback. When using this method you must be aware of blocking the app from unauthorized users.
 // Default: The app will display a non-cancelable dialog if the user is not allowed to use the app, otherwise nothing will happen.
 .callback(new PiracyCheckerCallback() {
 	@Overrirde
