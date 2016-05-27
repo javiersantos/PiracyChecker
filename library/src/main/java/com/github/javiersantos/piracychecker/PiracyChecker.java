@@ -6,7 +6,7 @@ import android.support.annotation.StringRes;
 
 import com.github.javiersantos.piracychecker.enums.InstallerID;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerError;
-import com.github.javiersantos.piracychecker.listeners.PiracyCheckerCallback;
+import com.github.javiersantos.piracychecker.enums.PiracyCheckerCallback;
 import com.google.android.vending.licensing.AESObfuscator;
 import com.google.android.vending.licensing.LicenseChecker;
 import com.google.android.vending.licensing.LicenseCheckerCallback;
@@ -82,14 +82,8 @@ public class PiracyChecker {
             licenseChecker.checkAccess(new LicenseCheckerCallback() {
                 @Override
                 public void allow(int reason) {
-                    if (enableSigningCertificate)
-                        if (!UtilsLibrary.verifySigningCertificate(context, signature))
-                            verifyCallback.dontAllow(PiracyCheckerError.SIGNATURE_NOT_VALID);
-                    if (enableInstallerId)
-                        if (!UtilsLibrary.verifyInstallerId(context, installerID))
-                            verifyCallback.dontAllow(PiracyCheckerError.INVALID_INSTALLER_ID);
-                        else
-                            verifyCallback.allow();
+                    if (verifyNonLVL(verifyCallback))
+                        verifyCallback.allow();
                 }
 
                 @Override
@@ -101,15 +95,37 @@ public class PiracyChecker {
                 public void applicationError(int errorCode) {}
             });
         } else {
-           if (enableSigningCertificate)
-               if (!UtilsLibrary.verifySigningCertificate(context, signature))
-                   verifyCallback.dontAllow(PiracyCheckerError.SIGNATURE_NOT_VALID);
-           if (enableInstallerId)
-               if (!UtilsLibrary.verifyInstallerId(context, installerID))
-                   verifyCallback.dontAllow(PiracyCheckerError.INVALID_INSTALLER_ID);
-               else
-                   verifyCallback.allow();
+           if (verifyNonLVL(verifyCallback))
+               verifyCallback.allow();
         }
+    }
+
+    private boolean verifyNonLVL(PiracyCheckerCallback verifyCallback) {
+        boolean signingVerifyValid = false;
+        boolean installerIdValid = false;
+
+        if (enableSigningCertificate) {
+            if (UtilsLibrary.verifySigningCertificate(context, signature)) {
+                signingVerifyValid = true;
+            } else {
+                verifyCallback.dontAllow(PiracyCheckerError.SIGNATURE_NOT_VALID);
+            }
+        } else {
+            signingVerifyValid = true;
+        }
+
+        if (enableInstallerId) {
+            if (UtilsLibrary.verifyInstallerId(context, installerID)) {
+                installerIdValid = true;
+            } else {
+                verifyCallback.dontAllow(PiracyCheckerError.INVALID_INSTALLER_ID);
+            }
+        } else {
+            installerIdValid = true;
+        }
+
+
+        return signingVerifyValid && installerIdValid;
     }
 
 }

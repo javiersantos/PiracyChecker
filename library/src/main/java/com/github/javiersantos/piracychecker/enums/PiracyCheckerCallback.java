@@ -1,4 +1,4 @@
-package com.github.javiersantos.piracychecker.listeners;
+package com.github.javiersantos.piracychecker.enums;
 
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerError;
 

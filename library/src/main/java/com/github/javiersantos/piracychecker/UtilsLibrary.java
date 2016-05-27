@@ -10,8 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 
 import com.github.javiersantos.piracychecker.enums.InstallerID;
-import com.github.javiersantos.piracychecker.listeners.PiracyCheckerCallback;
-import com.google.android.vending.licensing.LicenseCheckerCallback;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -39,24 +37,23 @@ class UtilsLibrary {
                 }).create();
     }
 
-    static boolean verifySigningCertificate(Context context, String appSignature) {
-        boolean isValid = false;
+    static String getCurrentSignature(Context context) {
+        String res = "";
 
         try {
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
             for (Signature signature : packageInfo.signatures) {
                 MessageDigest messageDigest = MessageDigest.getInstance("SHA");
                 messageDigest.update(signature.toByteArray());
-                final String currentSignature = Base64.encodeToString(messageDigest.digest(), Base64.DEFAULT);
-                if (appSignature.equals(currentSignature)) {
-                    isValid = true;
-                }
+                res = Base64.encodeToString(messageDigest.digest(), Base64.DEFAULT);
             }
-        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException ignored) {
-            isValid = true;
-        }
+        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException ignored) {}
 
-        return isValid;
+        return res;
+    }
+
+    static boolean verifySigningCertificate(Context context, String appSignature) {
+        return getCurrentSignature(context).equals(appSignature);
     }
 
     static boolean verifyInstallerId(Context context, InstallerID installerID) {
