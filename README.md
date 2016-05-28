@@ -31,7 +31,7 @@ And add the library to your module **build.gradle**:
 
 ```Javascript
 dependencies {
-    compile 'com.github.javiersantos:PiracyChecker:0.0.1'
+    compile 'com.github.javiersantos:PiracyChecker:0.0.2'
 }
 ```
 
@@ -72,11 +72,12 @@ Log.e("SIGNATURE", PiracyCheckerUtils.getAPKSignature(this));
 ### Verify the installer
 If you only plan to distribute the app on a particular store this technique will block from installing the app using any another store.
 
-Supported stores: Google Play.
+Supported stores: Google Play, Amazon App Store.
 
 ```Java
 new PiracyChecker(this)
 	.enableInstallerId(InstallerID.GOOGLE_PLAY)
+	//.enableInstallerId(InstallerID.AMAZON_APP_STORE)
 	.start();
 ```
 
