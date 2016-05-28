@@ -49,7 +49,7 @@ class UtilsLibrary {
             }
         } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException ignored) {}
 
-        return res;
+        return res.trim();
     }
 
     static boolean verifySigningCertificate(Context context, String appSignature) {
