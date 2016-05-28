@@ -77,7 +77,7 @@ Supported stores: Google Play, Amazon App Store.
 ```Java
 new PiracyChecker(this)
 	.enableInstallerId(InstallerID.GOOGLE_PLAY)
-	//.enableInstallerId(InstallerID.AMAZON_APP_STORE)
+	.enableInstallerId(InstallerID.AMAZON_APP_STORE)
 	.start();
 ```
 
