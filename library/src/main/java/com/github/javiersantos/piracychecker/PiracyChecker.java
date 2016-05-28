@@ -12,25 +12,30 @@ import com.google.android.vending.licensing.LicenseChecker;
 import com.google.android.vending.licensing.LicenseCheckerCallback;
 import com.google.android.vending.licensing.ServerManagedPolicy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PiracyChecker {
     private Context context;
     private String unlicensedDialogTitle, unlicensedDialogDescription;
     private boolean enableLVL, enableSigningCertificate, enableInstallerId;
     private String licenseBase64;
     private String signature;
-    private InstallerID installerID;
+    private List<InstallerID> installerIDs;
     private PiracyCheckerCallback callback;
 
     public PiracyChecker(Context context) {
         this.context = context;
         this.unlicensedDialogTitle = context.getString(R.string.app_unlicensed);
         this.unlicensedDialogDescription = context.getString(R.string.app_unlicensed_description);
+        this.installerIDs = new ArrayList<>();
     }
 
     public PiracyChecker(Context context, String title, String description) {
         this.context = context;
         this.unlicensedDialogTitle = title;
         this.unlicensedDialogDescription = description;
+        this.installerIDs = new ArrayList<>();
     }
 
     public PiracyChecker(Context context, @StringRes int title, @StringRes int description) {
@@ -51,7 +56,7 @@ public class PiracyChecker {
 
     public PiracyChecker enableInstallerId(InstallerID installerID) {
         this.enableInstallerId = true;
-        this.installerID = installerID;
+        this.installerIDs.add(installerID);
         return this;
     }
 
@@ -123,7 +128,7 @@ public class PiracyChecker {
         boolean installerIdValid = false;
 
         if (enableInstallerId) {
-            if (UtilsLibrary.verifyInstallerId(context, installerID)) {
+            if (UtilsLibrary.verifyInstallerId(context, installerIDs)) {
                 installerIdValid = true;
             }
         } else {

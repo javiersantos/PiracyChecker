@@ -13,6 +13,8 @@ import com.github.javiersantos.piracychecker.enums.InstallerID;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 class UtilsLibrary {
     static final byte[] SALT = new byte[] {
@@ -56,10 +58,15 @@ class UtilsLibrary {
         return getCurrentSignature(context).equals(appSignature);
     }
 
-    static boolean verifyInstallerId(Context context, InstallerID installerID) {
+    static boolean verifyInstallerId(Context context, List<InstallerID> installerID) {
+        List<String> validInstallers = new ArrayList<>();
         final String installer = context.getPackageManager().getInstallerPackageName(context.getPackageName());
 
-        return installer != null && installer.startsWith(installerID.toString());
+        for (InstallerID id : installerID) {
+            validInstallers.addAll(id.toIDs());
+        }
+
+        return installer != null && validInstallers.contains(installer);
     }
 
 }
