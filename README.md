@@ -62,7 +62,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-**BE CAREFUL!!** Your app signature can be retrieved using a PiracyCheckerUtils method. Make sure that you have signed your APK using your production keystore and installed the version that you plan to distribute. Then copy the signature returned by this method on the console and paste in `.enableSigningCertificate("YOUR_APK_SIGNATURE")`
+**BE CAREFUL!!** Your app signature can be retrieved using a PiracyCheckerUtils method. Make sure that you have signed your APK using your PRODUCTION keystore (not using the DEBUG one) and installed the version that you plan to distribute. Then copy the signature returned by this method on the console and paste in `.enableSigningCertificate("YOUR_APK_SIGNATURE")`
 
 ```Java
 // This method will print your app signature in the console
@@ -81,7 +81,6 @@ new PiracyChecker(this)
 ```
 
 **BE CAREFUL!!** This is a really restrictive technique since it will block your app from being installed using another market or directly installing the .apk on the device. It isn't recommended for most cases.
-
 
 ## Customizations
 
@@ -102,6 +101,17 @@ Use the builder and add following:
 		// Do something when the user is not allowed to use the app
 		
 	}
+```
+
+## FAQs
+#### Can I protect my app using more than one validation method?
+Sure. You can use as many validation methods in the builder as you want. For example:
+
+```Java
+new PiracyChecker(this)
+	.enableGooglePlayLicensing("BASE_64_LICENSE_KEY")
+	.enableSigningCertificate("YOUR_APK_SIGNATURE")
+	.start();
 ```
 
 ## License
