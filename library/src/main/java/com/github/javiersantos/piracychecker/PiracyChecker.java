@@ -5,8 +5,8 @@ import android.provider.Settings;
 import android.support.annotation.StringRes;
 
 import com.github.javiersantos.piracychecker.enums.InstallerID;
-import com.github.javiersantos.piracychecker.enums.PiracyCheckerError;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerCallback;
+import com.github.javiersantos.piracychecker.enums.PiracyCheckerError;
 import com.google.android.vending.licensing.AESObfuscator;
 import com.google.android.vending.licensing.LicenseChecker;
 import com.google.android.vending.licensing.LicenseCheckerCallback;
@@ -76,56 +76,61 @@ public class PiracyChecker {
     }
 
     private void verify(final PiracyCheckerCallback verifyCallback) {
-       if (enableLVL) {
-            String deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-            LicenseChecker licenseChecker = new LicenseChecker(context, new ServerManagedPolicy(context, new AESObfuscator(UtilsLibrary.SALT, context.getPackageName(), deviceId)), licenseBase64);
-            licenseChecker.checkAccess(new LicenseCheckerCallback() {
-                @Override
-                public void allow(int reason) {
-                    if (verifyNonLVL(verifyCallback))
-                        verifyCallback.allow();
-                }
-
-                @Override
-                public void dontAllow(int reason) {
-                    verifyCallback.dontAllow(PiracyCheckerError.NOT_LICENSED);
-                }
-
-                @Override
-                public void applicationError(int errorCode) {}
-            });
+        // Library will verify first the non-LVL methods since LVL is asynchronous and could take some seconds to give a result
+        if (!verifySigningCertificate()) {
+            verifyCallback.dontAllow(PiracyCheckerError.SIGNATURE_NOT_VALID);
+        } else if (!verifyInstallerId()) {
+            verifyCallback.dontAllow(PiracyCheckerError.INVALID_INSTALLER_ID);
         } else {
-           if (verifyNonLVL(verifyCallback))
-               verifyCallback.allow();
+            if (enableLVL) {
+                String deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+                LicenseChecker licenseChecker = new LicenseChecker(context, new ServerManagedPolicy(context, new AESObfuscator(UtilsLibrary.SALT, context.getPackageName(), deviceId)), licenseBase64);
+                licenseChecker.checkAccess(new LicenseCheckerCallback() {
+                    @Override
+                    public void allow(int reason) {
+                        verifyCallback.allow();
+                    }
+
+                    @Override
+                    public void dontAllow(int reason) {
+                        verifyCallback.dontAllow(PiracyCheckerError.NOT_LICENSED);
+                    }
+
+                    @Override
+                    public void applicationError(int errorCode) {}
+                });
+            } else {
+                verifyCallback.allow();
+            }
         }
     }
 
-    private boolean verifyNonLVL(PiracyCheckerCallback verifyCallback) {
+    private boolean verifySigningCertificate() {
         boolean signingVerifyValid = false;
-        boolean installerIdValid = false;
 
         if (enableSigningCertificate) {
             if (UtilsLibrary.verifySigningCertificate(context, signature)) {
                 signingVerifyValid = true;
-            } else {
-                verifyCallback.dontAllow(PiracyCheckerError.SIGNATURE_NOT_VALID);
             }
         } else {
             signingVerifyValid = true;
         }
 
+        return signingVerifyValid;
+    }
+
+    private boolean verifyInstallerId() {
+        boolean installerIdValid = false;
+
         if (enableInstallerId) {
             if (UtilsLibrary.verifyInstallerId(context, installerID)) {
                 installerIdValid = true;
-            } else {
-                verifyCallback.dontAllow(PiracyCheckerError.INVALID_INSTALLER_ID);
             }
         } else {
             installerIdValid = true;
         }
 
-
-        return signingVerifyValid && installerIdValid;
+        return installerIdValid;
     }
 
 }
