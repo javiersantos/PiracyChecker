@@ -51,7 +51,7 @@ new PiracyChecker(this)
 
 In order to retrieve your BASE64 license key your app must be uploaded to the [Google Play Developer Console](https://play.google.com/apps/publish/). Then access to your app -> Services and APIs.
 
-## Verify your app's signing certificate (signature)
+### Verify your app's signing certificate (signature)
 In a nutshell, developers must sign applications with their private key/certificate (contained in a .keystore file) before the app can be installed on user devices. The signing certificate must stay consistent throughout the life of the app, and typically have an expiry date of 25 years in the future.
 
 The app signature will be broken if the .apk is altered in any way — unsigned apps cannot typically be installed. We can imagine an attacker removing license-checking code to enable full app features without paying, for instance. A more dangerous example would be altering the .apk to include malware in a legitimate app to harvest sensitive user data. In order for the altered .apk to be installed, the attacker must resign it.
@@ -69,7 +69,7 @@ new PiracyChecker(this)
 Log.e("SIGNATURE", PiracyCheckerUtils.getAPKSignature(this));
 ```
 
-## Verify the installer
+### Verify the installer
 If you only plan to distribute the app on a particular store this technique will block from installing the app using any another store.
 
 Supported stores: Google Play.
@@ -101,6 +101,14 @@ Use the builder and add following:
 		// Do something when the user is not allowed to use the app
 		
 	}
+```
+
+## ProGuard
+```
+-dontwarn org.apache.**
+-keep class com.google.**
+-dontwarn com.google.**
+-keep public class com.android.vending.licensing.ILicensingService
 ```
 
 ## FAQs
