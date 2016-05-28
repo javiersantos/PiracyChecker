@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_piracychecker"/>
+    <string name="library_piracychecker_author" translatable="false">Javier Santos</string>
+    <string name="library_piracychecker_authorWebsite" translatable="false">https://github.com/javiersantos</string>
+    <string name="library_piracychecker_libraryName" translatable="false">PiracyChecker</string>
+    <string name="library_piracychecker_libraryDescription">PiracyChecker prevents your app from being pirated / cracked using Google Play Licensing (LVL), APK signature protection and more.</string>
+    <string name="library_piracychecker_libraryWebsite" translatable="false">https://github.com/javiersantos/PiracyChecker</string>
+    <string name="library_piracychecker_licenseId" translatable="false">apache_2_0</string>
+    <string name="library_piracychecker_isOpenSource" translatable="false">true</string>
+    <string name="library_piracychecker_repositoryLink" translatable="false">https://github.com/javiersantos/PiracyChecker</string>
+</resources>
