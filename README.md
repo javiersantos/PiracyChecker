@@ -92,7 +92,7 @@ Use the builder and add following:
 // Provide a custom callback. When using this method you must be aware of blocking the app from unauthorized users.
 // Default: The app will display a non-cancelable dialog if the user is not allowed to use the app, otherwise nothing will happen.
 .callback(new PiracyCheckerCallback() {
-	@Overrirde
+	@Override
 	public void allow() {
 		// Do something when the user is allowed to use the app
 		
