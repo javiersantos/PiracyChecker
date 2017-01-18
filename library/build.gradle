@@ -1,16 +1,16 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
-    useLibrary  'org.apache.http.legacy'
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 8
-        targetSdkVersion 23
-        versionCode 1
-        versionName "0.0.2"
+        minSdkVersion 9
+        targetSdkVersion 25
+        versionCode 3
+        versionName "0.0.3"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -21,5 +21,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile project(':play-licensing-library')
 }

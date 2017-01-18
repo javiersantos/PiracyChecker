@@ -41,7 +41,7 @@ public class AESObfuscator implements Obfuscator {
     private static final String CIPHER_ALGORITHM = "AES/CBC/PKCS5Padding";
     private static final byte[] IV =
         { 16, 74, 71, -80, 32, 101, -47, 72, 117, -14, 0, -29, 70, 65, -12, 74 };
-    private static final String header = "com.android.vending.licensing.AESObfuscator-1|";
+    private static final String header = "com.google.android.vending.licensing.AESObfuscator-1|";
 
     private Cipher mEncryptor;
     private Cipher mDecryptor;
@@ -55,7 +55,7 @@ public class AESObfuscator implements Obfuscator {
     public AESObfuscator(byte[] salt, String applicationId, String deviceId) {
         try {
             SecretKeyFactory factory = SecretKeyFactory.getInstance(KEYGEN_ALGORITHM);
-            KeySpec keySpec =   
+            KeySpec keySpec =
                 new PBEKeySpec((applicationId + deviceId).toCharArray(), salt, 1024, 256);
             SecretKey tmp = factory.generateSecret(keySpec);
             SecretKey secret = new SecretKeySpec(tmp.getEncoded(), "AES");

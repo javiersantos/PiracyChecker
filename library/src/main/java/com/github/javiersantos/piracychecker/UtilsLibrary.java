@@ -22,9 +22,8 @@ class UtilsLibrary {
             -64, 89
     };
 
-    static AlertDialog showUnlicensedDialog(Context context, String title, String content) {
+    static AlertDialog buildUnlicensedDialog(Context context, String title, String content) {
         final Activity activity = (Activity) context;
-
         return new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setTitle(title)

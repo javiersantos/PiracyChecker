@@ -92,12 +92,15 @@ class LicenseValidator {
         ResponseData data = null;
         if (responseCode == LICENSED || responseCode == NOT_LICENSED ||
                 responseCode == LICENSED_OLD_KEY) {
-            if (signedData == null) {
-                handleInvalidResponse();
-                return;
-            }
             // Verify signature.
             try {
+                if (TextUtils.isEmpty(signedData)) {
+                    Log.e(TAG, "Signature verification failed: signedData is empty. " +
+                            "(Device not signed-in to any Google accounts?)");
+                    handleInvalidResponse();
+                    return;
+                }
+
                 Signature sig = Signature.getInstance(SIGNATURE_ALGORITHM);
                 sig.initVerify(publicKey);
                 sig.update(signedData.getBytes());
