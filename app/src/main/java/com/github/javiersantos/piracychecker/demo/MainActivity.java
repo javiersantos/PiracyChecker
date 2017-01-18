@@ -32,11 +32,13 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        fab.setImageDrawable(new IconicsDrawable(this).icon(MaterialDesignIconic.Icon.gmi_github).color(Color.WHITE).sizeDp(24));
+        fab.setImageDrawable(new IconicsDrawable(this).icon(MaterialDesignIconic.Icon.gmi_github)
+                .color(Color.WHITE).sizeDp(24));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/javiersantos/PiracyChecker")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github" +
+                        ".com/javiersantos/PiracyChecker")));
             }
         });
     }
@@ -65,9 +67,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-
-        menu.findItem(R.id.action_about).setIcon(new IconicsDrawable(this).icon(MaterialDesignIconic.Icon.gmi_info).color(Color.WHITE).actionBar());
-
+        menu.findItem(R.id.action_about).setIcon(new IconicsDrawable(this).icon
+                (MaterialDesignIconic.Icon.gmi_info).color(Color.WHITE).actionBar());
         return true;
     }
 
