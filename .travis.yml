@@ -3,18 +3,12 @@ jdk: oraclejdk8
 
 android:
   components:
-    - build-tools-25.0.2
+    - tools
+    - platform-tools
+    - build-tools-25.0.1
     - android-25
     - extra-android-support
-    - extra-google-m2repository
     - extra-android-m2repository
+    - extra-google-m2repository
   licenses:
     - '.+'
-    
-before_script:
-  - echo yes | android update sdk --no-ui --all --filter platform-tools,tools
-  - echo yes | android update sdk --no-ui --all --filter build-tools-25.0.2
-  - echo yes | android update sdk --no-ui --all --filter android-25
-
-script:
-    - ./gradlew clean test
