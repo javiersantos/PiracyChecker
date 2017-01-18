@@ -14,9 +14,7 @@
      limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.google.android.vending.licensing"
-    android:versionCode="2"
-    android:versionName="1.5">
+    package="com.google.android.vending.licensing">
     <!-- Devices >= 3 have version of Android Market that supports licensing. -->
     <!-- Required permission to check licensing. -->
     <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
