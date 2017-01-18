@@ -1,18 +1,5 @@
 apply plugin: 'com.android.library'
 
-buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-    }
-}
-
-repositories {
-    jcenter()
-    mavenCentral()
-    maven { url "https://jitpack.io" }
-}
-
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
