@@ -1,5 +1,4 @@
 # Built application files
-*.apk
 *.ap_
 
 # Files for the ART/Dalvik VM
@@ -32,9 +31,11 @@ proguard/
 # Android Studio captures folder
 captures/
 
+# Directory-based project format
+.idea/
+
 # Intellij
 *.iml
-.idea/workspace.xml
 
 # Keystore files
 *.jks
