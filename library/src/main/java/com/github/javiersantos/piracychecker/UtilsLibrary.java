@@ -1,5 +1,6 @@
 package com.github.javiersantos.piracychecker;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,8 +17,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressLint("PackageManagerGetSignatures")
 class UtilsLibrary {
-    static final byte[] SALT = new byte[] {
+    static final byte[] SALT = new byte[]{
             -46, 65, 30, -128, -103, -57, 74, -64, 51, 88, -95, -45, 77, -117, -36, -113, -11, 32,
             -64, 89
     };
@@ -28,27 +30,30 @@ class UtilsLibrary {
                 .setCancelable(false)
                 .setTitle(title)
                 .setMessage(content)
-                .setPositiveButton(context.getString(R.string.app_unlicensed_close), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (activity.isFinishing())
-                            return;
-                        activity.finish();
-                    }
-                }).create();
+                .setPositiveButton(context.getString(R.string.app_unlicensed_close), new
+                        DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (activity.isFinishing())
+                                    return;
+                                activity.finish();
+                            }
+                        }).create();
     }
 
     static String getCurrentSignature(Context context) {
         String res = "";
 
         try {
-            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context
+                    .getPackageName(), PackageManager.GET_SIGNATURES);
             for (Signature signature : packageInfo.signatures) {
                 MessageDigest messageDigest = MessageDigest.getInstance("SHA");
                 messageDigest.update(signature.toByteArray());
                 res = Base64.encodeToString(messageDigest.digest(), Base64.DEFAULT);
             }
-        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException ignored) {}
+        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException ignored) {
+        }
 
         return res.trim();
     }
@@ -59,7 +64,8 @@ class UtilsLibrary {
 
     static boolean verifyInstallerId(Context context, List<InstallerID> installerID) {
         List<String> validInstallers = new ArrayList<>();
-        final String installer = context.getPackageManager().getInstallerPackageName(context.getPackageName());
+        final String installer = context.getPackageManager().getInstallerPackageName(context
+                .getPackageName());
 
         for (InstallerID id : installerID) {
             validInstallers.addAll(id.toIDs());

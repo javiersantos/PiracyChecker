@@ -29,8 +29,7 @@ import java.security.Signature;
 import java.security.SignatureException;
 
 /**
- * Contains data related to a licensing request and methods to verify
- * and process the response.
+ * Contains data related to a licensing request and methods to verify and process the response.
  */
 class LicenseValidator {
     private static final String TAG = "LicenseValidator";
@@ -46,7 +45,7 @@ class LicenseValidator {
     private static final int ERROR_CONTACTING_SERVER = 0x101;
     private static final int ERROR_INVALID_PACKAGE_NAME = 0x102;
     private static final int ERROR_NON_MATCHING_UID = 0x103;
-
+    private static final String SIGNATURE_ALGORITHM = "SHA1withRSA";
     private final Policy mPolicy;
     private final LicenseCheckerCallback mCallback;
     private final int mNonce;
@@ -55,7 +54,7 @@ class LicenseValidator {
     private final DeviceLimiter mDeviceLimiter;
 
     LicenseValidator(Policy policy, DeviceLimiter deviceLimiter, LicenseCheckerCallback callback,
-             int nonce, String packageName, String versionCode) {
+                     int nonce, String packageName, String versionCode) {
         mPolicy = policy;
         mDeviceLimiter = deviceLimiter;
         mCallback = callback;
@@ -76,15 +75,13 @@ class LicenseValidator {
         return mPackageName;
     }
 
-    private static final String SIGNATURE_ALGORITHM = "SHA1withRSA";
-
     /**
      * Verifies the response from server and calls appropriate callback method.
      *
-     * @param publicKey public key associated with the developer account
+     * @param publicKey    public key associated with the developer account
      * @param responseCode server response code
-     * @param signedData signed data from server
-     * @param signature server signature
+     * @param signedData   signed data from server
+     * @param signature    server signature
      */
     public void verify(PublicKey publicKey, int responseCode, String signedData, String signature) {
         String userId = null;
@@ -204,9 +201,6 @@ class LicenseValidator {
 
     /**
      * Confers with policy and calls appropriate callback method.
-     *
-     * @param response
-     * @param rawData
      */
     private void handleResponse(int response, ResponseData rawData) {
         // Update policy data and increment retry counter (if needed)

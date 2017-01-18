@@ -31,15 +31,17 @@ public class ResponseData {
     public String versionCode;
     public String userId;
     public long timestamp;
-    /** Response-specific data. */
+    /**
+     * Response-specific data.
+     */
     public String extra;
 
     /**
      * Parses response string into ResponseData.
      *
      * @param responseData response data string
-     * @throws IllegalArgumentException upon parsing error
      * @return ResponseData object
+     * @throws IllegalArgumentException upon parsing error
      */
     public static ResponseData parse(String responseData) {
         // Must parse out main response data and response-specific data.
@@ -73,7 +75,7 @@ public class ResponseData {
 
     @Override
     public String toString() {
-        return TextUtils.join("|", new Object[] {
+        return TextUtils.join("|", new Object[]{
                 responseCode, nonce, packageName, versionCode,
                 userId, timestamp
         });

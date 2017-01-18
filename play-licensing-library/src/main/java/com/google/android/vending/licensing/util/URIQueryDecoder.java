@@ -31,8 +31,8 @@ public class URIQueryDecoder {
      * Decodes the query portion of the passed-in URI.
      *
      * @param encodedURI the URI containing the query to decode
-     * @param results a map containing all query parameters. Query parameters that do not have a
-     *            value will map to a null string
+     * @param results    a map containing all query parameters. Query parameters that do not have a
+     *                   value will map to a null string
      */
     static public void DecodeQuery(URI encodedURI, Map<String, String> results) {
         Scanner scanner = new Scanner(encodedURI.getRawQuery());
