@@ -17,10 +17,9 @@
 #}
 
 # Apache and Google
--dontwarn org.apache.**
 -keep class com.google.**
--dontwarn com.google.**
 -keep class autovalue.shaded.com.google.**
+-dontwarn com.google.**
 -dontwarn autovalue.shaded.com.google.**
 
 # LVL
