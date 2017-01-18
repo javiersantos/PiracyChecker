@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "com.github.javiersantos.piracychecker.demo"
-        minSdkVersion 11
-        targetSdkVersion 23
+        minSdkVersion 14
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
@@ -21,10 +21,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-    compile 'com.mikepenz:iconics-core:2.5.11@aar'
-    compile 'com.mikepenz:material-design-iconic-typeface:2.2.0.1@aar'
-    compile('com.mikepenz:aboutlibraries:5.6.6@aar') { transitive = true }
+    compile 'com.android.support:design:25.1.0'
+    compile 'com.mikepenz:iconics-core:2.8.2@aar'
+    compile 'com.mikepenz:material-design-iconic-typeface:2.2.0.2@aar'
+    compile('com.mikepenz:aboutlibraries:5.9.1@aar') { transitive = true }
     compile project(':library')
 }

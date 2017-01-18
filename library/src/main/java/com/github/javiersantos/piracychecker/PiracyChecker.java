@@ -1,5 +1,11 @@
 package com.github.javiersantos.piracychecker;
 
+import com.google.android.vending.licensing.AESObfuscator;
+import com.google.android.vending.licensing.LicenseChecker;
+import com.google.android.vending.licensing.LicenseCheckerCallback;
+import com.google.android.vending.licensing.ServerManagedPolicy;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.provider.Settings;
 import android.support.annotation.StringRes;
@@ -7,22 +13,23 @@ import android.support.annotation.StringRes;
 import com.github.javiersantos.piracychecker.enums.InstallerID;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerCallback;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerError;
-import com.google.android.vending.licensing.AESObfuscator;
-import com.google.android.vending.licensing.LicenseChecker;
-import com.google.android.vending.licensing.LicenseCheckerCallback;
-import com.google.android.vending.licensing.ServerManagedPolicy;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressLint("HardwareIds")
 public class PiracyChecker {
-    private Context context;
-    private String unlicensedDialogTitle, unlicensedDialogDescription;
-    private boolean enableLVL, enableSigningCertificate, enableInstallerId;
-    private String licenseBase64;
-    private String signature;
-    private List<InstallerID> installerIDs;
-    private PiracyCheckerCallback callback;
+
+    protected Context context;
+    protected String unlicensedDialogTitle;
+    protected String unlicensedDialogDescription;
+    protected boolean enableLVL;
+    protected boolean enableSigningCertificate;
+    protected boolean enableInstallerId;
+    protected String licenseBase64;
+    protected String signature;
+    protected List<InstallerID> installerIDs;
+    protected PiracyCheckerCallback callback;
 
     public PiracyChecker(Context context) {
         this.context = context;
@@ -71,25 +78,31 @@ public class PiracyChecker {
         else
             verify(new PiracyCheckerCallback() {
                 @Override
-                public void allow() {}
+                public void allow() {
+                }
 
                 @Override
                 public void dontAllow(PiracyCheckerError error) {
-                    UtilsLibrary.showUnlicensedDialog(context, unlicensedDialogTitle, unlicensedDialogDescription).show();
+                    UtilsLibrary.buildUnlicensedDialog(context, unlicensedDialogTitle,
+                            unlicensedDialogDescription).show();
                 }
             });
     }
 
-    private void verify(final PiracyCheckerCallback verifyCallback) {
-        // Library will verify first the non-LVL methods since LVL is asynchronous and could take some seconds to give a result
+    protected void verify(final PiracyCheckerCallback verifyCallback) {
+        // Library will verify first the non-LVL methods since LVL is asynchronous and could take
+        // some seconds to give a result
         if (!verifySigningCertificate()) {
             verifyCallback.dontAllow(PiracyCheckerError.SIGNATURE_NOT_VALID);
         } else if (!verifyInstallerId()) {
             verifyCallback.dontAllow(PiracyCheckerError.INVALID_INSTALLER_ID);
         } else {
             if (enableLVL) {
-                String deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-                LicenseChecker licenseChecker = new LicenseChecker(context, new ServerManagedPolicy(context, new AESObfuscator(UtilsLibrary.SALT, context.getPackageName(), deviceId)), licenseBase64);
+                String deviceId = Settings.Secure.getString(context.getContentResolver(),
+                        Settings.Secure.ANDROID_ID);
+                LicenseChecker licenseChecker = new LicenseChecker(context, new
+                        ServerManagedPolicy(context, new AESObfuscator(UtilsLibrary.SALT, context
+                        .getPackageName(), deviceId)), licenseBase64);
                 licenseChecker.checkAccess(new LicenseCheckerCallback() {
                     @Override
                     public void allow(int reason) {
@@ -102,7 +115,8 @@ public class PiracyChecker {
                     }
 
                     @Override
-                    public void applicationError(int errorCode) {}
+                    public void applicationError(int errorCode) {
+                    }
                 });
             } else {
                 verifyCallback.allow();
@@ -110,32 +124,26 @@ public class PiracyChecker {
         }
     }
 
-    private boolean verifySigningCertificate() {
-        boolean signingVerifyValid = false;
-
+    protected boolean verifySigningCertificate() {
         if (enableSigningCertificate) {
             if (UtilsLibrary.verifySigningCertificate(context, signature)) {
-                signingVerifyValid = true;
+                return true;
             }
         } else {
-            signingVerifyValid = true;
+            return true;
         }
-
-        return signingVerifyValid;
+        return false;
     }
 
-    private boolean verifyInstallerId() {
-        boolean installerIdValid = false;
-
+    protected boolean verifyInstallerId() {
         if (enableInstallerId) {
             if (UtilsLibrary.verifyInstallerId(context, installerIDs)) {
-                installerIdValid = true;
+                return true;
             }
         } else {
-            installerIdValid = true;
+            return true;
         }
-
-        return installerIdValid;
+        return false;
     }
 
 }
