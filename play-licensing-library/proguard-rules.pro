@@ -15,3 +15,12 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# Google
+-dontwarn com.google.**
+-dontwarn autovalue.shaded.com.google.**
+-keep class com.google.**
+-keep class autovalue.shaded.com.google.**
+
+# LVL
+-keep public class com.android.vending.licensing.ILicensingService
