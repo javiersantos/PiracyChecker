@@ -36,10 +36,9 @@ dependencies {
 ```
 
 ## Usage
-Add **INTERNET** and **ACCESS_NETWORK_STATE** permissions to your app's Manifest:
+Add **CHECK_LICENSE** permission to your app's Manifest:
 ```xml
-<uses-permission android:name="android.permission.INTERNET"/>
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+<uses-permission android:name="com.android.vending.CHECK_LICENSE"/>
 ```
 
 ### Verify Google Play Licensing (LVL)
