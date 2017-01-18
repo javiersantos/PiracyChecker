@@ -36,6 +36,12 @@ dependencies {
 ```
 
 ## Usage
+Add **INTERNET** and **ACCESS_NETWORK_STATE** permissions to your app's Manifest:
+```xml
+<uses-permission android:name="android.permission.INTERNET"/>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+```
+
 ### Verify Google Play Licensing (LVL)
 Google Play offers a licensing service that lets you enforce licensing policies for applications that you publish on Google Play. With Google Play Licensing, your application can query Google Play to obtain the licensing status for the current user.
 
