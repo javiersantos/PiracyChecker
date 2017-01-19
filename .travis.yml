@@ -10,7 +10,10 @@ android:
     - extra-android-m2repository
   licenses:
     - '.+'
-    
+
+before_install:
+  - chmod +x gradlew
+
 before_script:
   - echo yes | android update sdk --no-ui --all --filter platform-tools,tools
   - echo yes | android update sdk --no-ui --all --filter build-tools-25.0.2
