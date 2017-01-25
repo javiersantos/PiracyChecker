@@ -2,7 +2,7 @@
 <h4 align="center">Android Library</h4>
 
 <p align="center">
-  <a target="_blank" href="https://android-arsenal.com/api?level=8"><img src="https://img.shields.io/badge/API-8%2B-orange.svg"></a>
+  <a target="_blank" href="https://android-arsenal.com/api?level=9"><img src="https://img.shields.io/badge/API-9%2B-orange.svg"></a>
   <a target="_blank" href="https://travis-ci.org/javiersantos/PiracyChecker"><img src="https://travis-ci.org/javiersantos/PiracyChecker.svg?branch=master"></a>
   <a target="_blank" href="http://android-arsenal.com/details/1/3641"><img src="https://img.shields.io/badge/Android%20Arsenal-PiracyChecker-blue.svg"></a>
   <a target="_blank" href="https://www.paypal.me/javiersantos" title="Donate using PayPal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" /></a>
@@ -31,7 +31,7 @@ And add the library to your module **build.gradle**:
 
 ```Javascript
 dependencies {
-    compile 'com.github.javiersantos:PiracyChecker:0.0.2'
+    compile 'com.github.javiersantos:PiracyChecker:0.0.3'
 }
 ```
 
@@ -89,12 +89,13 @@ new PiracyChecker(this)
 **BE CAREFUL!!** This is a really restrictive technique since it will block your app from being installed using another market or directly installing the .apk on the device. It isn't recommended for most cases.
 
 ## Customizations
+Adding a callback to the builder allows you to customize what will happen when the license has been checked and manage the license check errors if the user is not allowed to use the app. Keep in mind that when using this method **you must be aware of blocking the app from unauthorized users**.
+
+By default, the library will display a non-cancelable dialog if the user is not allowed to use the app, otherwise nothing will happen.
 
 Use the builder and add following:
 
 ```Java
-// Provide a custom callback. When using this method you must be aware of blocking the app from unauthorized users.
-// Default: The app will display a non-cancelable dialog if the user is not allowed to use the app, otherwise nothing will happen.
 .callback(new PiracyCheckerCallback() {
 	@Override
 	public void allow() {
@@ -113,6 +114,7 @@ Use the builder and add following:
 		// You can either do something specific when an error occurs while checking the license,
 		// Or manage the error, using the 'error' parameter, yourself (Check errors at {@link PiracyCheckerError}).
     }
+})
 ```
 
 ## ProGuard
