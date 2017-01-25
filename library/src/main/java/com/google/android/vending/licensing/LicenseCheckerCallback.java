@@ -60,4 +60,5 @@ public interface LicenseCheckerCallback {
      * considered fatal.
      */
     void applicationError(int errorCode);
+
 }

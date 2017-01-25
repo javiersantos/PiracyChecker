@@ -10,6 +10,7 @@ import android.content.pm.Signature;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 
+import com.github.javiersantos.piracychecker.R;
 import com.github.javiersantos.piracychecker.enums.InstallerID;
 
 import java.security.MessageDigest;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("PackageManagerGetSignatures")
-class UtilsLibrary {
+class LibraryUtils {
     static final byte[] SALT = new byte[]{
             -46, 65, 30, -128, -103, -57, 74, -64, 51, 88, -95, -45, 77, -117, -36, -113, -11, 32,
             -64, 89
@@ -38,7 +39,8 @@ class UtilsLibrary {
                                     return;
                                 activity.finish();
                             }
-                        }).create();
+                        })
+                .create();
     }
 
     static String getCurrentSignature(Context context) {

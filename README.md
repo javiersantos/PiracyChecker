@@ -99,14 +99,20 @@ Use the builder and add following:
 	@Override
 	public void allow() {
 		// Do something when the user is allowed to use the app
-		
 	}
 	
 	@Override
-	public void dontAllow() {
-		// Do something when the user is not allowed to use the app
-		
+	public void dontAllow(PiracyCheckerError error) {
+		// You can either do something specific when the user is not allowed to use the app
+		// Or manage the error, using the 'error' parameter, yourself (Check errors at {@link PiracyCheckerError}).
 	}
+
+	@Override
+	public void onError(PiracyCheckerError error) {
+		// This method is not required to be implemented/overriden but...
+		// You can either do something specific when an error occurs while checking the license,
+		// Or manage the error, using the 'error' parameter, yourself (Check errors at {@link PiracyCheckerError}).
+    }
 ```
 
 ## ProGuard

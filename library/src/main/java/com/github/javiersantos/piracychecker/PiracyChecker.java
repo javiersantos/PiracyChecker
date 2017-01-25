@@ -73,20 +73,22 @@ public class PiracyChecker {
     }
 
     public void start() {
-        if (callback != null)
+        if (callback != null) {
             verify(callback);
-        else
-            verify(new PiracyCheckerCallback() {
+        } else {
+            this.callback = new PiracyCheckerCallback() {
                 @Override
                 public void allow() {
                 }
 
                 @Override
                 public void dontAllow(PiracyCheckerError error) {
-                    UtilsLibrary.buildUnlicensedDialog(context, unlicensedDialogTitle,
+                    LibraryUtils.buildUnlicensedDialog(context, unlicensedDialogTitle,
                             unlicensedDialogDescription).show();
                 }
-            });
+            };
+            verify(callback);
+        }
     }
 
     protected void verify(final PiracyCheckerCallback verifyCallback) {
@@ -101,7 +103,7 @@ public class PiracyChecker {
                 String deviceId = Settings.Secure.getString(context.getContentResolver(),
                         Settings.Secure.ANDROID_ID);
                 LicenseChecker licenseChecker = new LicenseChecker(context, new
-                        ServerManagedPolicy(context, new AESObfuscator(UtilsLibrary.SALT, context
+                        ServerManagedPolicy(context, new AESObfuscator(LibraryUtils.SALT, context
                         .getPackageName(), deviceId)), licenseBase64);
                 licenseChecker.checkAccess(new LicenseCheckerCallback() {
                     @Override
@@ -116,6 +118,8 @@ public class PiracyChecker {
 
                     @Override
                     public void applicationError(int errorCode) {
+                        verifyCallback.onError(PiracyCheckerUtils.getCheckerErrorFromCode
+                                (errorCode));
                     }
                 });
             } else {
@@ -126,7 +130,7 @@ public class PiracyChecker {
 
     protected boolean verifySigningCertificate() {
         if (enableSigningCertificate) {
-            if (UtilsLibrary.verifySigningCertificate(context, signature)) {
+            if (LibraryUtils.verifySigningCertificate(context, signature)) {
                 return true;
             }
         } else {
@@ -137,7 +141,7 @@ public class PiracyChecker {
 
     protected boolean verifyInstallerId() {
         if (enableInstallerId) {
-            if (UtilsLibrary.verifyInstallerId(context, installerIDs)) {
+            if (LibraryUtils.verifyInstallerId(context, installerIDs)) {
                 return true;
             }
         } else {
