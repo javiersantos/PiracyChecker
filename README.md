@@ -11,7 +11,7 @@
 <p align="center">An Android library that prevents your app from being pirated / cracked using Google Play Licensing (LVL), APK signature protection and more.</p>
 
 ## Disclaimer
-This library applies some techniques to help protect your app's users and attempt to thwart reverse engineers and attackers. BUT, this isn't guaranteed stop your app from getting pirated. There is no such thing as 100% security, and a determined and skilled attacker with enougth time could remove these checks from the code. The real objective here is to raise the bar out of reach of opportunist and automatic attackers.
+This library applies some techniques to help protect your app's users and attempt to thwart reverse engineers and attackers. BUT, this isn't guaranteed to stop your app from getting pirated. There is no such thing as 100% security, and a determined and skilled attacker with enough time, could remove these checks from the code. The real objective here is to raise the bar out of reach of opportunist and automatic attackers.
 
 Some of the techniques included in this library can be found [here](https://www.airpair.com/android/posts/adding-tampering-detection-to-your-android-app).
 
@@ -36,6 +36,11 @@ dependencies {
 ```
 
 ## Usage
+Add **CHECK_LICENSE** permission to your app's Manifest:
+```xml
+<uses-permission android:name="com.android.vending.CHECK_LICENSE"/>
+```
+
 ### Verify Google Play Licensing (LVL)
 Google Play offers a licensing service that lets you enforce licensing policies for applications that you publish on Google Play. With Google Play Licensing, your application can query Google Play to obtain the licensing status for the current user.
 
@@ -94,14 +99,20 @@ Use the builder and add following:
 	@Override
 	public void allow() {
 		// Do something when the user is allowed to use the app
-		
 	}
 	
 	@Override
-	public void dontAllow() {
-		// Do something when the user is not allowed to use the app
-		
+	public void dontAllow(PiracyCheckerError error) {
+		// You can either do something specific when the user is not allowed to use the app
+		// Or manage the error, using the 'error' parameter, yourself (Check errors at {@link PiracyCheckerError}).
 	}
+
+	@Override
+	public void onError(PiracyCheckerError error) {
+		// This method is not required to be implemented/overriden but...
+		// You can either do something specific when an error occurs while checking the license,
+		// Or manage the error, using the 'error' parameter, yourself (Check errors at {@link PiracyCheckerError}).
+    }
 ```
 
 ## ProGuard

@@ -16,6 +16,7 @@
 
 package com.google.android.vending.licensing;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -34,7 +35,7 @@ public class PreferenceObfuscator {
      * Constructor.
      *
      * @param sp A SharedPreferences instance provided by the system.
-     * @param o The Obfuscator to use when reading or writing data.
+     * @param o  The Obfuscator to use when reading or writing data.
      */
     public PreferenceObfuscator(SharedPreferences sp, Obfuscator o) {
         mPreferences = sp;
@@ -42,6 +43,7 @@ public class PreferenceObfuscator {
         mEditor = null;
     }
 
+    @SuppressLint("CommitPrefEdits")
     public void putString(String key, String value) {
         if (mEditor == null) {
             mEditor = mPreferences.edit();

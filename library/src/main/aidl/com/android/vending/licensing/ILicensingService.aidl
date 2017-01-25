@@ -14,20 +14,10 @@
  * limitations under the License.
  */
 
-package com.google.android.vending.licensing;
+package com.android.vending.licensing;
 
-/**
- * Indicates that an error occurred while validating the integrity of data managed by an {@link
- * Obfuscator}.}
- */
-public class ValidationException extends Exception {
-    private static final long serialVersionUID = 1L;
+import com.android.vending.licensing.ILicenseResultListener;
 
-    public ValidationException() {
-        super();
-    }
-
-    public ValidationException(String s) {
-        super(s);
-    }
+oneway interface ILicensingService {
+  void checkLicense(long nonce, String packageName, in ILicenseResultListener listener);
 }
