@@ -46,7 +46,7 @@ public class PiracyChecker {
     }
 
     public PiracyChecker(Context context, @StringRes int title, @StringRes int description) {
-        new PiracyChecker(context, context.getString(title), context.getString(description));
+        this(context, context.getString(title), context.getString(description));
     }
 
     public PiracyChecker enableGooglePlayLicensing(String licenseKeyBase64) {
