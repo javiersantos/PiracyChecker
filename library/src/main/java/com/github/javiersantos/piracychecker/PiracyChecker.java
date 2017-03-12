@@ -187,25 +187,13 @@ public class PiracyChecker {
 
                     @Override
                     public void dontAllow(int reason) {
-                        Log.w("PiracyChecker", "License invalid due to reason: " + reason);
                         doExtraVerification(verifyCallback, false);
                     }
 
                     @Override
                     public void applicationError(int errorCode) {
-                        // TODO: Check this, from my personal experience, the license is verified
-                        // TODO: without this permission.
-                        Log.w("PiracyChecker", "Error code: " + errorCode);
                         verifyCallback.onError(PiracyCheckerUtils.getCheckerErrorFromCode
                                 (errorCode));
-                        /*
-                        if (errorCode == ERROR_MISSING_PERMISSION) {
-                            doExtraVerification(verifyCallback, true);
-                        } else {
-                            verifyCallback.onError(PiracyCheckerUtils.getCheckerErrorFromCode
-                                    (errorCode));
-                        }
-                        */
                     }
                 });
             } else {
