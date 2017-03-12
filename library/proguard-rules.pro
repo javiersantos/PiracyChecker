@@ -16,11 +16,5 @@
 #   public *;
 #}
 
-# Apache and Google
--keep class com.google.**
--keep class autovalue.shaded.com.google.**
--dontwarn com.google.**
--dontwarn autovalue.shaded.com.google.**
-
 # LVL
 -keep public class com.android.vending.licensing.ILicensingService

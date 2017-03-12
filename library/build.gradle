@@ -5,6 +5,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
+        consumerProguardFiles 'proguard-rules.pro'
         minSdkVersion 9
         targetSdkVersion 25
         versionCode 3
