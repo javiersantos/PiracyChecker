@@ -42,7 +42,7 @@ Add **CHECK_LICENSE** permission to your app's Manifest:
 <uses-permission android:name="com.android.vending.CHECK_LICENSE"/>
 ```
 
-*(Note: this may not be really required and adding it allows LuckyPatcher to detect your app. Try yourself and decide)*
+*Note: this may not be really required and adding it allows LuckyPatcher to detect your app. Try yourself and decide.*
 
 ### Verify Google Play Licensing (LVL)
 Google Play offers a licensing service that lets you enforce licensing policies for applications that you publish on Google Play. With Google Play Licensing, your application can query Google Play to obtain the licensing status for the current user.
