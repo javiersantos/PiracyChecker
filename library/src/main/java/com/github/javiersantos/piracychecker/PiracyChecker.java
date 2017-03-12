@@ -39,7 +39,7 @@ public class PiracyChecker {
     protected boolean enableDebugCheck;
     protected boolean saveToSharedPreferences;
     protected SharedPreferences preferences;
-    protected String preferenceName = "valid_license";
+    protected String preferenceName;
     protected String licenseBase64;
     protected String signature;
     protected List<InstallerID> installerIDs;
@@ -102,10 +102,9 @@ public class PiracyChecker {
     }
 
     public PiracyChecker saveResultToSharedPreferences(SharedPreferences preferences,
-                                                       String preferenceName) {
+                                                       @NonNull String preferenceName) {
         this.saveToSharedPreferences = true;
-        if (preferenceName != null)
-            this.preferenceName = preferenceName;
+        this.preferenceName = preferenceName;
         if (preferences != null) {
             this.preferences = preferences;
         } else {
@@ -120,10 +119,9 @@ public class PiracyChecker {
     }
 
     public PiracyChecker saveResultToSharedPreferences(String preferencesName,
-                                                       String preferenceName) {
+                                                       @NonNull String preferenceName) {
         this.saveToSharedPreferences = true;
-        if (preferenceName != null)
-            this.preferenceName = preferenceName;
+        this.preferenceName = preferenceName;
         if (preferencesName != null) {
             this.preferences = context.getSharedPreferences(preferencesName, Context.MODE_PRIVATE);
         } else {
