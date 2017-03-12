@@ -190,11 +190,12 @@ new PiracyChecker(this)
 	.enableGooglePlayLicensing("BASE_64_LICENSE_KEY")
 	.enableSigningCertificate("YOUR_APK_SIGNATURE")
 	.enableLPFCheck(true)
+	.saveResultToSharedPreferences("my_app_preferences", "valid_license");
 	.start();
 ```
 
 ## License
-	Copyright 2016 Javier Santos
+	Copyright 2017 Javier Santos
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
