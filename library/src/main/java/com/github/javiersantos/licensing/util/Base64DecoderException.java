@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.android.vending.licensing.util;
+package com.github.javiersantos.licensing.util;
 
 /**
  * Exception thrown when encountering an invalid Base64 input character.

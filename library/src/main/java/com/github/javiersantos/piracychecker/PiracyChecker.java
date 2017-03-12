@@ -1,9 +1,9 @@
 package com.github.javiersantos.piracychecker;
 
-import com.google.android.vending.licensing.AESObfuscator;
-import com.google.android.vending.licensing.LicenseChecker;
-import com.google.android.vending.licensing.LicenseCheckerCallback;
-import com.google.android.vending.licensing.ServerManagedPolicy;
+import com.github.javiersantos.licensing.AESObfuscator;
+import com.github.javiersantos.licensing.LicenseChecker;
+import com.github.javiersantos.licensing.LicenseCheckerCallback;
+import com.github.javiersantos.licensing.ServerManagedPolicy;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

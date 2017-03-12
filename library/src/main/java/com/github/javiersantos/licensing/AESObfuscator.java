@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.google.android.vending.licensing;
+package com.github.javiersantos.licensing;
 
-import com.google.android.vending.licensing.util.Base64;
-import com.google.android.vending.licensing.util.Base64DecoderException;
+import com.github.javiersantos.licensing.util.Base64;
+import com.github.javiersantos.licensing.util.Base64DecoderException;
 
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
@@ -41,7 +41,7 @@ public class AESObfuscator implements Obfuscator {
     private static final String CIPHER_ALGORITHM = "AES/CBC/PKCS5Padding";
     private static final byte[] IV =
             {16, 74, 71, -80, 32, 101, -47, 72, 117, -14, 0, -29, 70, 65, -12, 74};
-    private static final String header = "com.google.android.vending.licensing.AESObfuscator-1|";
+    private static final String header = "com.github.javiersantos.licensing.AESObfuscator-1|";
 
     private Cipher mEncryptor;
     private Cipher mDecryptor;

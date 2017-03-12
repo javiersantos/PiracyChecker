@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.android.vending.licensing;
+package com.github.javiersantos.licensing;
 
 /**
  * Callback for the license checker library. <p> Upon checking with the Market server and conferring

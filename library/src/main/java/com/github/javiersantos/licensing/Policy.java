@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.android.vending.licensing;
+package com.github.javiersantos.licensing;
 
 /**
  * Policy used by {@link LicenseChecker} to determine whether a user should have access to the

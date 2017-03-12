@@ -1,5 +1,7 @@
+package com.github.javiersantos.licensing;
+
 /*
- * Copyright (C) 2010 The Android Open Source Project
+ * Copyright (C) 2012 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +16,7 @@
  * limitations under the License.
  */
 
-package com.google.android.vending.licensing;
-
-import com.google.android.vending.licensing.util.URIQueryDecoder;
+import com.github.javiersantos.licensing.util.URIQueryDecoder;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -26,6 +26,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.Vector;
 
 /**
  * Default policy. All policy decisions are based off of response data received from the licensing
@@ -36,11 +38,18 @@ import java.util.Map;
  * is checking with the licensing service. <p> Developers who need more fine grained control over
  * their application's licensing policy should implement a custom Policy.
  */
-public class ServerManagedPolicy implements Policy {
+public class APKExpansionPolicy implements Policy {
 
-    private static final String TAG = "ServerManagedPolicy";
+    /**
+     * The design of the protocol supports n files. Currently the market can only deliver two files.
+     * To accommodate this, we have these two constants, but the order is the only relevant thing
+     * here.
+     */
+    public static final int MAIN_FILE_URL_INDEX = 0;
+    public static final int PATCH_FILE_URL_INDEX = 1;
+    private static final String TAG = "APKExpansionPolicy";
     private static final String PREFS_FILE = "com.google.android.vending.licensing" +
-            ".ServerManagedPolicy";
+            ".APKExpansionPolicy";
     private static final String PREF_LAST_RESPONSE = "lastResponse";
     private static final String PREF_VALIDITY_TIMESTAMP = "validityTimestamp";
     private static final String PREF_RETRY_UNTIL = "retryUntil";
@@ -50,9 +59,7 @@ public class ServerManagedPolicy implements Policy {
     private static final String DEFAULT_RETRY_UNTIL = "0";
     private static final String DEFAULT_MAX_RETRIES = "0";
     private static final String DEFAULT_RETRY_COUNT = "0";
-
     private static final long MILLIS_PER_MINUTE = 60 * 1000;
-
     private long mValidityTimestamp;
     private long mRetryUntil;
     private long mMaxRetries;
@@ -60,12 +67,15 @@ public class ServerManagedPolicy implements Policy {
     private long mLastResponseTime = 0;
     private int mLastResponse;
     private PreferenceObfuscator mPreferences;
+    private Vector<String> mExpansionURLs = new Vector<>();
+    private Vector<String> mExpansionFileNames = new Vector<>();
+    private Vector<Long> mExpansionFileSizes = new Vector<>();
 
     /**
      * @param context    The context for the current application
      * @param obfuscator An obfuscator to be used with preferences.
      */
-    public ServerManagedPolicy(Context context, Obfuscator obfuscator) {
+    public APKExpansionPolicy(Context context, Obfuscator obfuscator) {
         // Import old values
         SharedPreferences sp = context.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
         mPreferences = new PreferenceObfuscator(sp, obfuscator);
@@ -79,6 +89,19 @@ public class ServerManagedPolicy implements Policy {
     }
 
     /**
+     * We call this to guarantee that we fetch a fresh policy from the server. This is to be used if
+     * the URL is invalid.
+     */
+    public void resetPolicy() {
+        mPreferences.putString(PREF_LAST_RESPONSE, Integer.toString(Policy.RETRY));
+        setRetryUntil(DEFAULT_RETRY_UNTIL);
+        setMaxRetries(DEFAULT_MAX_RETRIES);
+        setRetryCount(Long.parseLong(DEFAULT_RETRY_COUNT));
+        setValidityTimestamp(DEFAULT_VALIDITY_TIMESTAMP);
+        mPreferences.commit();
+    }
+
+    /**
      * Process a new response from the license server. <p> This data will be used for computing
      * future policy decisions. The following parameters are processed: <ul> <li>VT: the timestamp
      * that the client should consider the response valid until <li>GT: the timestamp that the
@@ -88,7 +111,8 @@ public class ServerManagedPolicy implements Policy {
      * @param response the result from validating the server response
      * @param rawData  the raw server response data
      */
-    public void processServerResponse(int response, ResponseData rawData) {
+    public void processServerResponse(int response,
+                                      ResponseData rawData) {
 
         // Update retry counter
         if (response != Policy.RETRY) {
@@ -101,9 +125,26 @@ public class ServerManagedPolicy implements Policy {
             // Update server policy data
             Map<String, String> extras = decodeExtras(rawData.extra);
             mLastResponse = response;
-            setValidityTimestamp(extras.get("VT"));
-            setRetryUntil(extras.get("GT"));
-            setMaxRetries(extras.get("GR"));
+            setValidityTimestamp(Long.toString(System.currentTimeMillis() + MILLIS_PER_MINUTE));
+            Set<String> keys = extras.keySet();
+            for (String key : keys) {
+                if (key.equals("VT")) {
+                    setValidityTimestamp(extras.get(key));
+                } else if (key.equals("GT")) {
+                    setRetryUntil(extras.get(key));
+                } else if (key.equals("GR")) {
+                    setMaxRetries(extras.get(key));
+                } else if (key.startsWith("FILE_URL")) {
+                    int index = Integer.parseInt(key.substring("FILE_URL".length())) - 1;
+                    setExpansionURL(index, extras.get(key));
+                } else if (key.startsWith("FILE_NAME")) {
+                    int index = Integer.parseInt(key.substring("FILE_NAME".length())) - 1;
+                    setExpansionFileName(index, extras.get(key));
+                } else if (key.startsWith("FILE_SIZE")) {
+                    int index = Integer.parseInt(key.substring("FILE_SIZE".length())) - 1;
+                    setExpansionFileSize(index, Long.parseLong(extras.get(key)));
+                }
+            }
         } else if (response == Policy.NOT_LICENSED) {
             // Clear out stale policy data
             setValidityTimestamp(DEFAULT_VALIDITY_TIMESTAMP);
@@ -157,7 +198,7 @@ public class ServerManagedPolicy implements Policy {
         try {
             lValidityTimestamp = Long.parseLong(validityTimestamp);
         } catch (NumberFormatException e) {
-            // No response or not parsable, expire in one minute.
+            // No response or not parseable, expire in one minute.
             Log.w(TAG, "License validity timestamp (VT) missing, caching for a minute");
             lValidityTimestamp = System.currentTimeMillis() + MILLIS_PER_MINUTE;
             validityTimestamp = Long.toString(lValidityTimestamp);
@@ -182,7 +223,7 @@ public class ServerManagedPolicy implements Policy {
         try {
             lRetryUntil = Long.parseLong(retryUntil);
         } catch (NumberFormatException e) {
-            // No response or not parsable, expire immediately
+            // No response or not parseable, expire immediately
             Log.w(TAG, "License retry timestamp (GT) missing, grace period disabled");
             retryUntil = "0";
             lRetryUntil = 0L;
@@ -207,7 +248,7 @@ public class ServerManagedPolicy implements Policy {
         try {
             lMaxRetries = Long.parseLong(maxRetries);
         } catch (NumberFormatException e) {
-            // No response or not parsable, expire immediately
+            // No response or not parseable, expire immediately
             Log.w(TAG, "Licence retry count (GR) missing, grace period disabled");
             maxRetries = "0";
             lMaxRetries = 0L;
@@ -218,23 +259,90 @@ public class ServerManagedPolicy implements Policy {
     }
 
     /**
-     * {@inheritDoc}
+     * Gets the count of expansion URLs. Since expansionURLs are not committed to preferences, this
+     * will return zero if there has been no LVL fetch in the current session.
      *
-     * This implementation allows access if either:<br> <ol> <li>a LICENSED response was received
-     * within the validity period <li>a RETRY response was received in the last minute, and we are
-     * under the RETRY count or in the RETRY period. </ol>
+     * @return the number of expansion URLs. (0,1,2)
+     */
+    public int getExpansionURLCount() {
+        return mExpansionURLs.size();
+    }
+
+    /**
+     * Gets the expansion URL. Since these URLs are not committed to preferences, this will always
+     * return null if there has not been an LVL fetch in the current session.
+     *
+     * @param index the index of the URL to fetch. This value will be either MAIN_FILE_URL_INDEX or
+     *              PATCH_FILE_URL_INDEX
+     */
+    public String getExpansionURL(int index) {
+        if (index < mExpansionURLs.size()) {
+            return mExpansionURLs.elementAt(index);
+        }
+        return null;
+    }
+
+    /**
+     * Sets the expansion URL. Expansion URL's are not committed to preferences, but are instead
+     * intended to be stored when the license response is processed by the front-end.
+     *
+     * @param index the index of the expansion URL. This value will be either MAIN_FILE_URL_INDEX or
+     *              PATCH_FILE_URL_INDEX
+     * @param URL   the URL to set
+     */
+    public void setExpansionURL(int index, String URL) {
+        if (index >= mExpansionURLs.size()) {
+            mExpansionURLs.setSize(index + 1);
+        }
+        mExpansionURLs.set(index, URL);
+    }
+
+    public String getExpansionFileName(int index) {
+        if (index < mExpansionFileNames.size()) {
+            return mExpansionFileNames.elementAt(index);
+        }
+        return null;
+    }
+
+    public void setExpansionFileName(int index, String name) {
+        if (index >= mExpansionFileNames.size()) {
+            mExpansionFileNames.setSize(index + 1);
+        }
+        mExpansionFileNames.set(index, name);
+    }
+
+    public long getExpansionFileSize(int index) {
+        if (index < mExpansionFileSizes.size()) {
+            return mExpansionFileSizes.elementAt(index);
+        }
+        return -1;
+    }
+
+    public void setExpansionFileSize(int index, long size) {
+        if (index >= mExpansionFileSizes.size()) {
+            mExpansionFileSizes.setSize(index + 1);
+        }
+        mExpansionFileSizes.set(index, size);
+    }
+
+    /**
+     * {@inheritDoc} This implementation allows access if either:<br> <ol> <li>a LICENSED response
+     * was received within the validity period <li>a RETRY response was received in the last minute,
+     * and we are under the RETRY count or in the RETRY period. </ol>
      */
     public boolean allowAccess() {
         long ts = System.currentTimeMillis();
         if (mLastResponse == Policy.LICENSED) {
-            // Check if the LICENSED response occurred within the validity timeout.
+            // Check if the LICENSED response occurred within the validity
+            // timeout.
             if (ts <= mValidityTimestamp) {
                 // Cached LICENSED response is still valid.
                 return true;
             }
         } else if (mLastResponse == Policy.RETRY &&
                 ts < mLastResponseTime + MILLIS_PER_MINUTE) {
-            // Only allow access if we are within the retry period or we haven't used up our
+            // Only allow access if we are within the retry period or we haven't
+            // used up our
             // max retries.
             return (ts <= mRetryUntil || mRetryCount <= mMaxRetries);
         }

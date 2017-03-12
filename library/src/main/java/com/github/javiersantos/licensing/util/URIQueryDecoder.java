@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.android.vending.licensing.util;
+package com.github.javiersantos.licensing.util;
 
 import android.util.Log;
 

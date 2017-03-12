@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.android.vending.licensing;
+package com.github.javiersantos.licensing;
 
 import android.text.TextUtils;
 

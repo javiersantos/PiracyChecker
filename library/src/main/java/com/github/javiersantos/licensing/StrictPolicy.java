@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.android.vending.licensing;
+package com.github.javiersantos.licensing;
 
 /**
  * Non-caching policy. All requests will be sent to the licensing service, and no local caching is

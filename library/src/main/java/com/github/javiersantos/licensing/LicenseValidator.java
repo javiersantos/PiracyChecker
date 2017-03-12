@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.google.android.vending.licensing;
+package com.github.javiersantos.licensing;
 
-import com.google.android.vending.licensing.util.Base64;
-import com.google.android.vending.licensing.util.Base64DecoderException;
+import com.github.javiersantos.licensing.util.Base64;
+import com.github.javiersantos.licensing.util.Base64DecoderException;
 
 import android.text.TextUtils;
 import android.util.Log;

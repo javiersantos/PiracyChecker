@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.android.vending.licensing;
+package com.github.javiersantos.licensing;
 
 /**
  * Allows the developer to limit the number of devices using a single license. <p> The LICENSED
