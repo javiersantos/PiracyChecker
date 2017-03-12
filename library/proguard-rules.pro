@@ -18,6 +18,6 @@
 
 # Lib
 -keep class com.github.javiersantos.**
--dontwarn class com.github.javiersantos.**
+-dontwarn com.github.javiersantos.**
 # LVL
 -keep public class com.android.vending.licensing.ILicensingService
