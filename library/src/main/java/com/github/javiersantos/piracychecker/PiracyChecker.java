@@ -101,13 +101,13 @@ public class PiracyChecker {
         return this;
     }
 
-    public PiracyChecker saveResultToSharedPreferences(String preferencesName,
+    public PiracyChecker saveResultToSharedPreferences(SharedPreferences preferences,
                                                        String preferenceName) {
         this.saveToSharedPreferences = true;
         if (preferenceName != null)
             this.preferenceName = preferenceName;
-        if (preferencesName != null) {
-            this.preferences = context.getSharedPreferences(preferencesName, Context.MODE_PRIVATE);
+        if (preferences != null) {
+            this.preferences = preferences;
         } else {
             try {
                 this.preferences = ((Activity) context).getPreferences(Context.MODE_PRIVATE);
@@ -119,13 +119,13 @@ public class PiracyChecker {
         return this;
     }
 
-    public PiracyChecker saveResultToSharedPreferences(SharedPreferences preferences,
+    public PiracyChecker saveResultToSharedPreferences(String preferencesName,
                                                        String preferenceName) {
         this.saveToSharedPreferences = true;
         if (preferenceName != null)
             this.preferenceName = preferenceName;
-        if (preferences != null) {
-            this.preferences = preferences;
+        if (preferencesName != null) {
+            this.preferences = context.getSharedPreferences(preferencesName, Context.MODE_PRIVATE);
         } else {
             try {
                 this.preferences = ((Activity) context).getPreferences(Context.MODE_PRIVATE);
