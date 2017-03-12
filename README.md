@@ -166,7 +166,7 @@ Use the builder and add following:
 	}
 
 	@Override
-	public void onError(PiracyCheckerError error) {
+	public void onError(@NonNull PiracyCheckerError error) {
 		// This method is not required to be implemented/overriden but...
 		// You can either do something specific when an error occurs while checking the license,
 		// Or manage the error, using the 'error' parameter, yourself (Check errors at {@link PiracyCheckerError}).
