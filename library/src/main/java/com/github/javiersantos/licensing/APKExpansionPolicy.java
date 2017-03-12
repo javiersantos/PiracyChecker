@@ -48,7 +48,7 @@ public class APKExpansionPolicy implements Policy {
     public static final int MAIN_FILE_URL_INDEX = 0;
     public static final int PATCH_FILE_URL_INDEX = 1;
     private static final String TAG = "APKExpansionPolicy";
-    private static final String PREFS_FILE = "com.google.android.vending.licensing" +
+    private static final String PREFS_FILE = "com.github.javiersantos.licensing" +
             ".APKExpansionPolicy";
     private static final String PREF_LAST_RESPONSE = "lastResponse";
     private static final String PREF_VALIDITY_TIMESTAMP = "validityTimestamp";

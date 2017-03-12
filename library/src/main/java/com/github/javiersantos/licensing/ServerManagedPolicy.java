@@ -39,7 +39,7 @@ import java.util.Map;
 public class ServerManagedPolicy implements Policy {
 
     private static final String TAG = "ServerManagedPolicy";
-    private static final String PREFS_FILE = "com.google.android.vending.licensing" +
+    private static final String PREFS_FILE = "com.github.javiersantos.licensing" +
             ".ServerManagedPolicy";
     private static final String PREF_LAST_RESPONSE = "lastResponse";
     private static final String PREF_VALIDITY_TIMESTAMP = "validityTimestamp";
