@@ -42,6 +42,7 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -49,7 +50,7 @@ import java.util.Queue;
 import java.util.Set;
 
 /**
- * Client library for Google Play license verifications. <p> The LicenseChecker is configured via a
+ * Client library for Google Play license verifications. <p> The LibraryChecker is configured via a
  * {@link Policy} which contains the logic to determine whether a user should have access to the
  * application. For example, the Policy can define a threshold for allowable number of server or
  * client failures before the library reports the user as not having access. <p> Must also provide
@@ -57,8 +58,8 @@ import java.util.Set;
  * obtainable from the publisher site.
  */
 @SuppressLint({"SimpleDateFormat", "HardwareIds"})
-public class LicenseChecker implements ServiceConnection {
-    private static final String TAG = "LicenseChecker";
+public class LibraryChecker implements ServiceConnection {
+    private static final String TAG = "LibraryChecker";
 
     private static final String KEY_FACTORY_ALGORITHM = "RSA";
 
@@ -71,8 +72,8 @@ public class LicenseChecker implements ServiceConnection {
     private final Policy mPolicy;
     private final String mPackageName;
     private final String mVersionCode;
-    private final Set<LicenseValidator> mChecksInProgress = new HashSet<>();
-    private final Queue<LicenseValidator> mPendingChecks = new LinkedList<>();
+    private final Set<LibraryValidator> mChecksInProgress = new HashSet<>();
+    private final Queue<LibraryValidator> mPendingChecks = new LinkedList<>();
     private ILicensingService mService;
     private PublicKey mPublicKey;
     /**
@@ -87,7 +88,7 @@ public class LicenseChecker implements ServiceConnection {
      * @param encodedPublicKey Base64-encoded RSA public key
      * @throws IllegalArgumentException if encodedPublicKey is invalid
      */
-    public LicenseChecker(Context context, Policy policy, String encodedPublicKey) {
+    public LibraryChecker(Context context, Policy policy, String encodedPublicKey) {
         mContext = context;
         mPolicy = policy;
         mPublicKey = generatePublicKey(encodedPublicKey);
@@ -144,14 +145,14 @@ public class LicenseChecker implements ServiceConnection {
      * recommend obfuscating the string that is passed into bindService using another method of your
      * own devising. <p> source string: "com.android.vending.licensing.ILicensingService" <p>
      */
-    public synchronized void checkAccess(LicenseCheckerCallback callback) {
+    public synchronized void checkAccess(LibraryCheckerCallback callback) {
         // If we have a valid recent LICENSED response, we can skip asking
         // Market.
         if (mPolicy.allowAccess()) {
             Log.i(TAG, "Using cached license response");
             callback.allow(Policy.LICENSED);
         } else {
-            LicenseValidator validator = new LicenseValidator(mPolicy, new NullDeviceLimiter(),
+            LibraryValidator validator = new LibraryValidator(mPolicy, new NullDeviceLimiter(),
                     callback, generateNonce(), mPackageName, mVersionCode);
 
             if (mService == null) {
@@ -194,7 +195,7 @@ public class LicenseChecker implements ServiceConnection {
                         handleServiceConnectionError(validator);
                     }
                 } catch (SecurityException e) {
-                    callback.applicationError(LicenseCheckerCallback.ERROR_MISSING_PERMISSION);
+                    callback.applicationError(LibraryCheckerCallback.ERROR_MISSING_PERMISSION);
                 } catch (Base64DecoderException e) {
                     e.printStackTrace();
                 }
@@ -206,7 +207,7 @@ public class LicenseChecker implements ServiceConnection {
     }
 
     private void runChecks() {
-        LicenseValidator validator;
+        LibraryValidator validator;
         while ((validator = mPendingChecks.poll()) != null) {
             try {
                 Log.i(TAG, "Calling checkLicense on service for " + validator.getPackageName());
@@ -221,7 +222,7 @@ public class LicenseChecker implements ServiceConnection {
         }
     }
 
-    private synchronized void finishCheck(LicenseValidator validator) {
+    private synchronized void finishCheck(LibraryValidator validator) {
         mChecksInProgress.remove(validator);
         if (mChecksInProgress.isEmpty()) {
             cleanupService();
@@ -245,7 +246,7 @@ public class LicenseChecker implements ServiceConnection {
      * Generates policy response for service connection errors, as a result of disconnections or
      * timeouts.
      */
-    private synchronized void handleServiceConnectionError(LicenseValidator validator) {
+    private synchronized void handleServiceConnectionError(LibraryValidator validator) {
         mPolicy.processServerResponse(Policy.RETRY, null);
 
         if (mPolicy.allowAccess()) {
@@ -293,10 +294,10 @@ public class LicenseChecker implements ServiceConnection {
         private static final int ERROR_CONTACTING_SERVER = 0x101;
         private static final int ERROR_INVALID_PACKAGE_NAME = 0x102;
         private static final int ERROR_NON_MATCHING_UID = 0x103;
-        private final LicenseValidator mValidator;
+        private final LibraryValidator mValidator;
         private Runnable mOnTimeout;
 
-        public ResultListener(LicenseValidator validator) {
+        public ResultListener(LibraryValidator validator) {
             mValidator = validator;
             mOnTimeout = new Runnable() {
                 public void run() {
@@ -318,7 +319,7 @@ public class LicenseChecker implements ServiceConnection {
                     // Make sure it hasn't already timed out.
                     if (mChecksInProgress.contains(mValidator)) {
                         clearTimeout();
-                        mValidator.verify(mPublicKey, responseCode, signedData, signature);
+                        mValidator.check(mPublicKey, responseCode, signedData, Calendar.getInstance(), signature);
                         finishCheck(mValidator);
                     }
                     if (DEBUG_LICENSE_ERROR) {

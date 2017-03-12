@@ -17,7 +17,7 @@
 package com.github.javiersantos.licensing;
 
 /**
- * Policy used by {@link LicenseChecker} to determine whether a user should have access to the
+ * Policy used by {@link LibraryChecker} to determine whether a user should have access to the
  * application.
  */
 public interface Policy {

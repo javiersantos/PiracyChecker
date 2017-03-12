@@ -26,7 +26,7 @@ package com.github.javiersantos.licensing;
  * the policy, while in most cases Policy.NOT_LICENSED will call dontAllow and Policy.LICENSED will
  * Allow.
  */
-public interface LicenseCheckerCallback {
+public interface LibraryCheckerCallback {
 
     /**
      * Application error codes.

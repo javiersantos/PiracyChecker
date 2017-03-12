@@ -27,12 +27,13 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
+import java.util.Calendar;
 
 /**
- * Contains data related to a licensing request and methods to verify and process the response.
+ * Contains data related to a licensing request and methods to check and process the response.
  */
-class LicenseValidator {
-    private static final String TAG = "LicenseValidator";
+class LibraryValidator {
+    private static final String TAG = "LibraryValidator";
 
     // Server response codes.
     private static final int LICENSED = 0x0;
@@ -47,13 +48,13 @@ class LicenseValidator {
     private static final int ERROR_NON_MATCHING_UID = 0x103;
     private static final String SIGNATURE_ALGORITHM = "SHA1withRSA";
     private final Policy mPolicy;
-    private final LicenseCheckerCallback mCallback;
+    private final LibraryCheckerCallback mCallback;
     private final int mNonce;
     private final String mPackageName;
     private final String mVersionCode;
     private final DeviceLimiter mDeviceLimiter;
 
-    LicenseValidator(Policy policy, DeviceLimiter deviceLimiter, LicenseCheckerCallback callback,
+    LibraryValidator(Policy policy, DeviceLimiter deviceLimiter, LibraryCheckerCallback callback,
                      int nonce, String packageName, String versionCode) {
         mPolicy = policy;
         mDeviceLimiter = deviceLimiter;
@@ -63,7 +64,7 @@ class LicenseValidator {
         mVersionCode = versionCode;
     }
 
-    public LicenseCheckerCallback getCallback() {
+    public LibraryCheckerCallback getCallback() {
         return mCallback;
     }
 
@@ -83,11 +84,14 @@ class LicenseValidator {
      * @param signedData   signed data from server
      * @param signature    server signature
      */
-    public void verify(PublicKey publicKey, int responseCode, String signedData, String signature) {
+    public void check(PublicKey publicKey, int responseCode, String signedData, Calendar calendar, String signature) {
         String userId = null;
         // Skip signature check for unsuccessful requests
         ResponseData data = null;
-        if (responseCode == LICENSED || responseCode == NOT_LICENSED ||
+
+        if (calendar == null) {
+            handleInvalidResponse();
+        } else if (responseCode == LICENSED || responseCode == NOT_LICENSED ||
                 responseCode == LICENSED_OLD_KEY) {
             // Verify signature.
             try {
@@ -111,7 +115,7 @@ class LicenseValidator {
                 // This can't happen on an Android compatible device.
                 throw new RuntimeException(e);
             } catch (InvalidKeyException e) {
-                handleApplicationError(LicenseCheckerCallback.ERROR_INVALID_PUBLIC_KEY);
+                handleApplicationError(LibraryCheckerCallback.ERROR_INVALID_PUBLIC_KEY);
                 return;
             } catch (Base64DecoderException e) {
                 Log.e(TAG, "Could not Base64-decode signature.");
@@ -183,13 +187,13 @@ class LicenseValidator {
                 handleResponse(Policy.RETRY, data);
                 break;
             case ERROR_INVALID_PACKAGE_NAME:
-                handleApplicationError(LicenseCheckerCallback.ERROR_INVALID_PACKAGE_NAME);
+                handleApplicationError(LibraryCheckerCallback.ERROR_INVALID_PACKAGE_NAME);
                 break;
             case ERROR_NON_MATCHING_UID:
-                handleApplicationError(LicenseCheckerCallback.ERROR_NON_MATCHING_UID);
+                handleApplicationError(LibraryCheckerCallback.ERROR_NON_MATCHING_UID);
                 break;
             case ERROR_NOT_MARKET_MANAGED:
-                handleApplicationError(LicenseCheckerCallback.ERROR_NOT_MARKET_MANAGED);
+                handleApplicationError(LibraryCheckerCallback.ERROR_NOT_MARKET_MANAGED);
                 break;
             default:
                 Log.e(TAG, "Unknown response code for license check.");

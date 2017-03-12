@@ -1,8 +1,8 @@
 package com.github.javiersantos.piracychecker;
 
 import com.github.javiersantos.licensing.AESObfuscator;
-import com.github.javiersantos.licensing.LicenseChecker;
-import com.github.javiersantos.licensing.LicenseCheckerCallback;
+import com.github.javiersantos.licensing.LibraryChecker;
+import com.github.javiersantos.licensing.LibraryCheckerCallback;
 import com.github.javiersantos.licensing.ServerManagedPolicy;
 
 import android.annotation.SuppressLint;
@@ -92,7 +92,7 @@ public class PiracyChecker {
     }
 
     protected void verify(final PiracyCheckerCallback verifyCallback) {
-        // Library will verify first the non-LVL methods since LVL is asynchronous and could take
+        // Library will check first the non-LVL methods since LVL is asynchronous and could take
         // some seconds to give a result
         if (!verifySigningCertificate()) {
             verifyCallback.dontAllow(PiracyCheckerError.SIGNATURE_NOT_VALID);
@@ -102,10 +102,10 @@ public class PiracyChecker {
             if (enableLVL) {
                 String deviceId = Settings.Secure.getString(context.getContentResolver(),
                         Settings.Secure.ANDROID_ID);
-                LicenseChecker licenseChecker = new LicenseChecker(context, new
+                LibraryChecker libraryChecker = new LibraryChecker(context, new
                         ServerManagedPolicy(context, new AESObfuscator(LibraryUtils.SALT, context
                         .getPackageName(), deviceId)), licenseBase64);
-                licenseChecker.checkAccess(new LicenseCheckerCallback() {
+                libraryChecker.checkAccess(new LibraryCheckerCallback() {
                     @Override
                     public void allow(int reason) {
                         verifyCallback.allow();
