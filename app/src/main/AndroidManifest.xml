@@ -3,7 +3,7 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.github.javiersantos.piracychecker.demo">
 
-    <uses-permission android:name="com.android.vending.CHECK_LICENSE"/>
+    <!-- <uses-permission android:name="com.android.vending.CHECK_LICENSE"/> -->
 
     <application
             android:allowBackup="true"
