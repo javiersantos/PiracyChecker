@@ -176,11 +176,7 @@ Use the builder and add following:
 
 ## ProGuard
 ```
--keep class com.google.**
--keep class autovalue.shaded.com.google.**
 -keep class com.github.javiersantos.**
--dontwarn com.google.**
--dontwarn autovalue.shaded.com.google.**
 -dontwarn com.github.javiersantos.**
 -keep public class com.android.vending.licensing.ILicensingService
 ```
