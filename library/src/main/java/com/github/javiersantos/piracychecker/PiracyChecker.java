@@ -8,6 +8,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.util.Log;
 
 import com.github.javiersantos.licensing.AESObfuscator;
 import com.github.javiersantos.licensing.LibraryChecker;
@@ -186,6 +187,7 @@ public class PiracyChecker {
 
                     @Override
                     public void dontAllow(int reason) {
+                        Log.w("PiracyChecker", "License invalid due to reason: " + reason);
                         doExtraVerification(verifyCallback, false);
                     }
 
@@ -193,16 +195,17 @@ public class PiracyChecker {
                     public void applicationError(int errorCode) {
                         // TODO: Check this, from my personal experience, the license is verified
                         // TODO: without this permission.
+                        Log.w("PiracyChecker", "Error code: " + errorCode);
+                        verifyCallback.onError(PiracyCheckerUtils.getCheckerErrorFromCode
+                                (errorCode));
+                        /*
                         if (errorCode == ERROR_MISSING_PERMISSION) {
-                            if (LibraryUtils.isConnectedToInternet(context)) {
-                                doExtraVerification(verifyCallback, true);
-                            } else {
-                                verifyCallback.onError(PiracyCheckerError.NO_CONNECTION_FOUND);
-                            }
+                            doExtraVerification(verifyCallback, true);
                         } else {
                             verifyCallback.onError(PiracyCheckerUtils.getCheckerErrorFromCode
                                     (errorCode));
                         }
+                        */
                     }
                 });
             } else {
