@@ -30,17 +30,17 @@ public interface Policy {
     /**
      * LICENSED means that the server returned back a valid license response
      */
-    int LICENSED = 0x0100;
+    int LICENSED = 0x0B8A;
     /**
      * NOT_LICENSED means that the server returned back a valid license response that indicated that
      * the user definitively is not licensed
      */
-    int NOT_LICENSED = 0x0231;
+    int NOT_LICENSED = 0x01B3;
     /**
      * RETRY means that the license response was unable to be determined --- perhaps as a result of
      * faulty networking
      */
-    int RETRY = 0x0123;
+    int RETRY = 0x0C48;
 
     /**
      * Provide results from contact with the license server. Retry counts are incremented if the
