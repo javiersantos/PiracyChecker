@@ -1,7 +1,9 @@
 package com.github.javiersantos.piracychecker;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +24,9 @@ import java.util.List;
 @SuppressLint("HardwareIds")
 public class PiracyChecker {
 
+    // TODO: Rename if needed
+    protected static final String LIBRARY_PREFERENCES_NAME = "license_check";
+
     protected Context context;
     protected String unlicensedDialogTitle;
     protected String unlicensedDialogDescription;
@@ -32,6 +37,9 @@ public class PiracyChecker {
     protected boolean enableStoresCheck;
     protected boolean enableEmulatorCheck;
     protected boolean enableDebugCheck;
+    protected boolean saveToSharedPreferences;
+    protected SharedPreferences preferences;
+    protected String preferenceName = "valid_license";
     protected String licenseBase64;
     protected String signature;
     protected List<InstallerID> installerIDs;
@@ -90,6 +98,42 @@ public class PiracyChecker {
 
     public PiracyChecker enableEmulatorCheck(boolean enable) {
         this.enableEmulatorCheck = enable;
+        return this;
+    }
+
+    public PiracyChecker saveResultToSharedPreferences(String preferencesName,
+                                                       String preferenceName) {
+        this.saveToSharedPreferences = true;
+        if (preferenceName != null)
+            this.preferenceName = preferenceName;
+        if (preferencesName != null) {
+            this.preferences = context.getSharedPreferences(preferencesName, Context.MODE_PRIVATE);
+        } else {
+            try {
+                this.preferences = ((Activity) context).getPreferences(Context.MODE_PRIVATE);
+            } catch (Exception e) {
+                this.preferences = context.getSharedPreferences(LIBRARY_PREFERENCES_NAME,
+                        Context.MODE_PRIVATE);
+            }
+        }
+        return this;
+    }
+
+    public PiracyChecker saveResultToSharedPreferences(SharedPreferences preferences,
+                                                       String preferenceName) {
+        this.saveToSharedPreferences = true;
+        if (preferenceName != null)
+            this.preferenceName = preferenceName;
+        if (preferences != null) {
+            this.preferences = preferences;
+        } else {
+            try {
+                this.preferences = ((Activity) context).getPreferences(Context.MODE_PRIVATE);
+            } catch (Exception e) {
+                this.preferences = context.getSharedPreferences(LIBRARY_PREFERENCES_NAME,
+                        Context.MODE_PRIVATE);
+            }
+        }
         return this;
     }
 
@@ -192,20 +236,32 @@ public class PiracyChecker {
         PirateApp app = LibraryUtils.getPirateApp(context, enableLPFCheck, enableStoresCheck);
         if (possibleSuccess) {
             if (enableDebugCheck && LibraryUtils.isDebug(context)) {
+                if (preferences != null && saveToSharedPreferences)
+                    preferences.edit().putBoolean(preferenceName, false).apply();
                 verifyCallback.dontAllow(PiracyCheckerError.USING_DEBUG_APP, null);
             } else if (enableEmulatorCheck && LibraryUtils.isInEmulator()) {
+                if (preferences != null && saveToSharedPreferences)
+                    preferences.edit().putBoolean(preferenceName, false).apply();
                 verifyCallback.dontAllow(PiracyCheckerError.USING_APP_IN_EMULATOR, null);
             } else if (app != null) {
+                if (preferences != null && saveToSharedPreferences)
+                    preferences.edit().putBoolean(preferenceName, false).apply();
                 verifyCallback.dontAllow(app.isLPF() ? PiracyCheckerError.PIRATE_APP_INSTALLED :
                         PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED, app);
             } else {
+                if (preferences != null && saveToSharedPreferences)
+                    preferences.edit().putBoolean(preferenceName, true).apply();
                 verifyCallback.allow();
             }
         } else {
             if (app != null) {
+                if (preferences != null && saveToSharedPreferences)
+                    preferences.edit().putBoolean(preferenceName, false).apply();
                 verifyCallback.dontAllow(app.isLPF() ? PiracyCheckerError.PIRATE_APP_INSTALLED :
                         PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED, app);
             } else {
+                if (preferences != null && saveToSharedPreferences)
+                    preferences.edit().putBoolean(preferenceName, true).apply();
                 verifyCallback.dontAllow(PiracyCheckerError.NOT_LICENSED, null);
             }
         }
