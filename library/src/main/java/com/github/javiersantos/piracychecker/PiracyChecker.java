@@ -1,18 +1,20 @@
 package com.github.javiersantos.piracychecker;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+
 import com.github.javiersantos.licensing.AESObfuscator;
 import com.github.javiersantos.licensing.LibraryChecker;
 import com.github.javiersantos.licensing.LibraryCheckerCallback;
 import com.github.javiersantos.licensing.ServerManagedPolicy;
-
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.provider.Settings;
-import android.support.annotation.StringRes;
-
 import com.github.javiersantos.piracychecker.enums.InstallerID;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerCallback;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerError;
+import com.github.javiersantos.piracychecker.enums.PirateApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,10 @@ public class PiracyChecker {
     protected boolean enableLVL;
     protected boolean enableSigningCertificate;
     protected boolean enableInstallerId;
+    protected boolean enableLPFCheck;
+    protected boolean enableStoresCheck;
+    protected boolean enableEmulatorCheck;
+    protected boolean enableDebugCheck;
     protected String licenseBase64;
     protected String signature;
     protected List<InstallerID> installerIDs;
@@ -67,6 +73,26 @@ public class PiracyChecker {
         return this;
     }
 
+    public PiracyChecker enableLPFCheck(boolean enable) {
+        this.enableLPFCheck = enable;
+        return this;
+    }
+
+    public PiracyChecker enableStoresCheck(boolean enable) {
+        this.enableStoresCheck = enable;
+        return this;
+    }
+
+    public PiracyChecker enableDebugCheck(boolean enable) {
+        this.enableDebugCheck = enable;
+        return this;
+    }
+
+    public PiracyChecker enableEmulatorCheck(boolean enable) {
+        this.enableEmulatorCheck = enable;
+        return this;
+    }
+
     public PiracyChecker callback(PiracyCheckerCallback callback) {
         this.callback = callback;
         return this;
@@ -82,9 +108,14 @@ public class PiracyChecker {
                 }
 
                 @Override
-                public void dontAllow(PiracyCheckerError error) {
+                public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
+                    String dialogContent = unlicensedDialogDescription;
+                    if (app != null) {
+                        dialogContent = context.getString(R.string.pirate_app_found, app
+                                .getName());
+                    }
                     LibraryUtils.buildUnlicensedDialog(context, unlicensedDialogTitle,
-                            unlicensedDialogDescription).show();
+                            dialogContent).show();
                 }
             };
             verify(callback);
@@ -95,9 +126,9 @@ public class PiracyChecker {
         // Library will check first the non-LVL methods since LVL is asynchronous and could take
         // some seconds to give a result
         if (!verifySigningCertificate()) {
-            verifyCallback.dontAllow(PiracyCheckerError.SIGNATURE_NOT_VALID);
+            verifyCallback.dontAllow(PiracyCheckerError.SIGNATURE_NOT_VALID, null);
         } else if (!verifyInstallerId()) {
-            verifyCallback.dontAllow(PiracyCheckerError.INVALID_INSTALLER_ID);
+            verifyCallback.dontAllow(PiracyCheckerError.INVALID_INSTALLER_ID, null);
         } else {
             if (enableLVL) {
                 String deviceId = Settings.Secure.getString(context.getContentResolver(),
@@ -108,18 +139,24 @@ public class PiracyChecker {
                 libraryChecker.checkAccess(new LibraryCheckerCallback() {
                     @Override
                     public void allow(int reason) {
-                        verifyCallback.allow();
+                        doExtraVerification(verifyCallback, true);
                     }
 
                     @Override
                     public void dontAllow(int reason) {
-                        verifyCallback.dontAllow(PiracyCheckerError.NOT_LICENSED);
+                        doExtraVerification(verifyCallback, false);
                     }
 
                     @Override
                     public void applicationError(int errorCode) {
-                        verifyCallback.onError(PiracyCheckerUtils.getCheckerErrorFromCode
-                                (errorCode));
+                        // TODO: Check this, from my personal experience, the license is verified
+                        // TODO: without this permission.
+                        if (errorCode == ERROR_MISSING_PERMISSION) {
+                            doExtraVerification(verifyCallback, true);
+                        } else {
+                            verifyCallback.onError(PiracyCheckerUtils.getCheckerErrorFromCode
+                                    (errorCode));
+                        }
                     }
                 });
             } else {
@@ -148,6 +185,30 @@ public class PiracyChecker {
             return true;
         }
         return false;
+    }
+
+    protected void doExtraVerification(final PiracyCheckerCallback verifyCallback, boolean
+            possibleSuccess) {
+        PirateApp app = LibraryUtils.getPirateApp(context, enableLPFCheck, enableStoresCheck);
+        if (possibleSuccess) {
+            if (enableDebugCheck && LibraryUtils.isDebug(context)) {
+                verifyCallback.dontAllow(PiracyCheckerError.USING_DEBUG_APP, null);
+            } else if (enableEmulatorCheck && LibraryUtils.isInEmulator()) {
+                verifyCallback.dontAllow(PiracyCheckerError.USING_APP_IN_EMULATOR, null);
+            } else if (app != null) {
+                verifyCallback.dontAllow(app.isLPF() ? PiracyCheckerError.PIRATE_APP_INSTALLED :
+                        PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED, app);
+            } else {
+                verifyCallback.allow();
+            }
+        } else {
+            if (app != null) {
+                verifyCallback.dontAllow(app.isLPF() ? PiracyCheckerError.PIRATE_APP_INSTALLED :
+                        PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED, app);
+            } else {
+                verifyCallback.dontAllow(PiracyCheckerError.NOT_LICENSED, null);
+            }
+        }
     }
 
 }
