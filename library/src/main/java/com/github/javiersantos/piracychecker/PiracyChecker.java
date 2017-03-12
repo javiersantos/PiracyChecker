@@ -193,9 +193,12 @@ public class PiracyChecker {
                     public void applicationError(int errorCode) {
                         // TODO: Check this, from my personal experience, the license is verified
                         // TODO: without this permission.
-                        if ((errorCode == ERROR_MISSING_PERMISSION) &&
-                                LibraryUtils.isConnectedToInternet(context)) {
-                            doExtraVerification(verifyCallback, true);
+                        if (errorCode == ERROR_MISSING_PERMISSION) {
+                            if (LibraryUtils.isConnectedToInternet(context)) {
+                                doExtraVerification(verifyCallback, true);
+                            } else {
+                                verifyCallback.onError(PiracyCheckerError.NO_CONNECTION_FOUND);
+                            }
                         } else {
                             verifyCallback.onError(PiracyCheckerUtils.getCheckerErrorFromCode
                                     (errorCode));
