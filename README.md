@@ -125,23 +125,20 @@ new PiracyChecker(this)
 
 There are two ways to do this:
 
-1. Define the `SharedPreferences` and the name of the preference where you want to save the result.
-
+Define the `SharedPreferences` and the name of the preference where you want to save the result.
 ```Java
 new PiracyChecker(this)
 	.saveResultToSharedPreferences(preferences, "valid_license");
 	.start();
 ```
 
-2. Define the `SharedPreferences` name and the name of the preference where you want to save the result.
-
+Define the `SharedPreferences` name and the name of the preference where you want to save the result.
 ```Java
 new PiracyChecker(this)
 	.saveResultToSharedPreferences("my_app_preferences", "valid_license");
 	.start();
 ```
 
-----
 
 ## Customizations
 Adding a callback to the builder allows you to customize what will happen when the license has been checked and manage the license check errors if the user is not allowed to use the app. Keep in mind that when using this method **you must be aware of blocking the app from unauthorized users**.
@@ -181,8 +178,10 @@ Use the builder and add following:
 ```
 -keep class com.google.**
 -keep class autovalue.shaded.com.google.**
+-keep class com.github.javiersantos.**
 -dontwarn com.google.**
 -dontwarn autovalue.shaded.com.google.**
+-dontwarn com.github.javiersantos.**
 -keep public class com.android.vending.licensing.ILicensingService
 ```
 
