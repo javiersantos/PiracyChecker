@@ -243,15 +243,29 @@ public class PiracyChecker {
     }
 
     protected boolean verifySigningCertificate() {
-        return !enableSigningCertificate && LibraryUtils.verifySigningCertificate(context, signature);
+        if (enableSigningCertificate) {
+            if (LibraryUtils.verifySigningCertificate(context, signature))
+                return true;
+        } else
+            return true;
+        return false;
     }
 
     protected boolean verifyInstallerId() {
-        return !enableInstallerId && LibraryUtils.verifyInstallerId(context, installerIDs);
+        if (enableInstallerId) {
+            if (LibraryUtils.verifyInstallerId(context, installerIDs))
+                return true;
+        } else
+            return true;
+        return false;
     }
 
     protected boolean verifyUnauthorizedApp() {
-        return !blockUnauthorized && preferences.getBoolean(preferenceBlockUnauthorized, false);
+        if (blockUnauthorized) {
+            if (!preferences.getBoolean(preferenceBlockUnauthorized, false))
+                return true;
+        }
+        return false;
     }
 
     protected void doExtraVerification(final PiracyCheckerCallback verifyCallback, boolean
