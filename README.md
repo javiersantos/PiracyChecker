@@ -31,7 +31,7 @@ And add the library to your module **build.gradle**:
 
 ```Javascript
 dependencies {
-    compile 'com.github.javiersantos:PiracyChecker:0.0.3'
+    compile 'com.github.javiersantos:PiracyChecker:1.0'
 }
 ```
 
@@ -245,6 +245,7 @@ new PiracyChecker(this)
 	.enableSigningCertificate("YOUR_APK_SIGNATURE")
 	.enableUnauthorizedAppsCheck()
 	.saveResultToSharedPreferences("my_app_preferences", "valid_license");
+	...
 	.start();
 ```
 
