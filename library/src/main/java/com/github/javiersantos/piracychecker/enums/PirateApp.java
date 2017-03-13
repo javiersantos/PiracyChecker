@@ -21,7 +21,7 @@ public class PirateApp {
         return pack;
     }
 
-    public boolean isLPF() {
+    public boolean isUnauthorized() {
         return (name.equalsIgnoreCase("Lucky Patcher") || name.equalsIgnoreCase("Freedom") ||
                 name.equalsIgnoreCase("CreeHack"));
     }

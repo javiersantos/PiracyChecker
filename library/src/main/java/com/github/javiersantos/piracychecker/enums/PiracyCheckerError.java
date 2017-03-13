@@ -7,9 +7,10 @@ public enum PiracyCheckerError {
     USING_DEBUG_APP("This is a debug build."),
     USING_APP_IN_EMULATOR("This app is being used in an emulator."),
     PIRATE_APP_INSTALLED("At least one pirate app has been detected on device."),
+    BLOCK_PIRATE_APP("At least one pirate app has been detected and the app must be reinstalled when all unauthorized apps are uninstalled.."),
     THIRD_PARTY_STORE_INSTALLED("At least one third-party store has been detected on device."),
+
     // Other errors
-    NO_CONNECTION_FOUND("Error contacting licensing server."),
     INVALID_PACKAGE_NAME("Application package name is invalid."),
     NON_MATCHING_UID("Application UID doesn\'t match."),
     NOT_MARKET_MANAGED("Not market managed error."),

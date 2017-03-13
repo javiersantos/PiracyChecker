@@ -37,8 +37,10 @@ public class PiracyChecker {
     protected boolean enableEmulatorCheck;
     protected boolean enableDebugCheck;
     protected boolean saveToSharedPreferences;
+    protected boolean blockUnauthorized;
     protected SharedPreferences preferences;
-    protected String preferenceName;
+    protected String preferenceSaveResult;
+    protected String preferenceBlockUnauthorized;
     protected String licenseBase64;
     protected String signature;
     protected List<InstallerID> installerIDs;
@@ -84,7 +86,23 @@ public class PiracyChecker {
         this.enableUnauthorizedAppsCheck = true;
         return this;
     }
-    
+
+    public PiracyChecker blockIfUnauthorizedAppDetected(SharedPreferences preferences,
+                                                        @NonNull String preferenceName) {
+        this.blockUnauthorized = true;
+        this.preferenceBlockUnauthorized = preferenceName;
+        saveToSharedPreferences(preferences);
+        return this;
+    }
+
+    public PiracyChecker blockIfUnauthorizedAppDetected(String preferencesName,
+                                                        @NonNull String preferenceName) {
+        this.blockUnauthorized = true;
+        this.preferenceBlockUnauthorized = preferenceName;
+        saveToSharedPreferences(preferencesName);
+        return this;
+    }
+
     public PiracyChecker enableStoresCheck() {
         this.enableStoresCheck = true;
         return this;
@@ -103,7 +121,20 @@ public class PiracyChecker {
     public PiracyChecker saveResultToSharedPreferences(SharedPreferences preferences,
                                                        @NonNull String preferenceName) {
         this.saveToSharedPreferences = true;
-        this.preferenceName = preferenceName;
+        this.preferenceSaveResult = preferenceName;
+        saveToSharedPreferences(preferences);
+        return this;
+    }
+
+    public PiracyChecker saveResultToSharedPreferences(String preferencesName,
+                                                       @NonNull String preferenceName) {
+        this.saveToSharedPreferences = true;
+        this.preferenceSaveResult = preferenceName;
+        saveToSharedPreferences(preferencesName);
+        return this;
+    }
+
+    private void saveToSharedPreferences(SharedPreferences preferences) {
         if (preferences != null) {
             this.preferences = preferences;
         } else {
@@ -114,13 +145,9 @@ public class PiracyChecker {
                         Context.MODE_PRIVATE);
             }
         }
-        return this;
     }
 
-    public PiracyChecker saveResultToSharedPreferences(String preferencesName,
-                                                       @NonNull String preferenceName) {
-        this.saveToSharedPreferences = true;
-        this.preferenceName = preferenceName;
+    private void saveToSharedPreferences(String preferencesName) {
         if (preferencesName != null) {
             this.preferences = context.getSharedPreferences(preferencesName, Context.MODE_PRIVATE);
         } else {
@@ -131,7 +158,6 @@ public class PiracyChecker {
                         Context.MODE_PRIVATE);
             }
         }
-        return this;
     }
 
     public PiracyChecker callback(PiracyCheckerCallback callback) {
@@ -152,8 +178,10 @@ public class PiracyChecker {
                 public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
                     String dialogContent = unlicensedDialogDescription;
                     if (app != null) {
-                        dialogContent = context.getString(R.string.pirate_app_found, app
+                        dialogContent = context.getString(R.string.unauthorized_app_found, app
                                 .getName());
+                    } else if (error.equals(PiracyCheckerError.BLOCK_PIRATE_APP)) {
+                        dialogContent = context.getString(R.string.unauthorized_app_blocked);
                     }
                     LibraryUtils.buildUnlicensedDialog(context, unlicensedDialogTitle,
                             dialogContent).show();
@@ -170,6 +198,8 @@ public class PiracyChecker {
             verifyCallback.dontAllow(PiracyCheckerError.SIGNATURE_NOT_VALID, null);
         } else if (!verifyInstallerId()) {
             verifyCallback.dontAllow(PiracyCheckerError.INVALID_INSTALLER_ID, null);
+        } else if (!verifyUnauthorizedApp()) {
+            verifyCallback.dontAllow(PiracyCheckerError.BLOCK_PIRATE_APP, null);
         } else {
             if (enableLVL) {
                 String deviceId = Settings.Secure.getString(context.getContentResolver(),
@@ -201,25 +231,15 @@ public class PiracyChecker {
     }
 
     protected boolean verifySigningCertificate() {
-        if (enableSigningCertificate) {
-            if (LibraryUtils.verifySigningCertificate(context, signature)) {
-                return true;
-            }
-        } else {
-            return true;
-        }
-        return false;
+        return !enableSigningCertificate && LibraryUtils.verifySigningCertificate(context, signature);
     }
 
     protected boolean verifyInstallerId() {
-        if (enableInstallerId) {
-            if (LibraryUtils.verifyInstallerId(context, installerIDs)) {
-                return true;
-            }
-        } else {
-            return true;
-        }
-        return false;
+        return !enableInstallerId && LibraryUtils.verifyInstallerId(context, installerIDs);
+    }
+
+    protected boolean verifyUnauthorizedApp() {
+        return !blockUnauthorized && preferences.getBoolean(preferenceBlockUnauthorized, false);
     }
 
     protected void doExtraVerification(final PiracyCheckerCallback verifyCallback, boolean
@@ -228,31 +248,35 @@ public class PiracyChecker {
         if (possibleSuccess) {
             if (enableDebugCheck && LibraryUtils.isDebug(context)) {
                 if (preferences != null && saveToSharedPreferences)
-                    preferences.edit().putBoolean(preferenceName, false).apply();
+                    preferences.edit().putBoolean(preferenceSaveResult, false).apply();
                 verifyCallback.dontAllow(PiracyCheckerError.USING_DEBUG_APP, null);
             } else if (enableEmulatorCheck && LibraryUtils.isInEmulator()) {
                 if (preferences != null && saveToSharedPreferences)
-                    preferences.edit().putBoolean(preferenceName, false).apply();
+                    preferences.edit().putBoolean(preferenceSaveResult, false).apply();
                 verifyCallback.dontAllow(PiracyCheckerError.USING_APP_IN_EMULATOR, null);
             } else if (app != null) {
                 if (preferences != null && saveToSharedPreferences)
-                    preferences.edit().putBoolean(preferenceName, false).apply();
-                verifyCallback.dontAllow(app.isLPF() ? PiracyCheckerError.PIRATE_APP_INSTALLED :
+                    preferences.edit().putBoolean(preferenceSaveResult, false).apply();
+                if (preferences != null && blockUnauthorized && app.isUnauthorized())
+                    preferences.edit().putBoolean(preferenceBlockUnauthorized, true).apply();
+                verifyCallback.dontAllow(app.isUnauthorized() ? PiracyCheckerError.PIRATE_APP_INSTALLED :
                         PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED, app);
             } else {
                 if (preferences != null && saveToSharedPreferences)
-                    preferences.edit().putBoolean(preferenceName, true).apply();
+                    preferences.edit().putBoolean(preferenceSaveResult, true).apply();
                 verifyCallback.allow();
             }
         } else {
             if (app != null) {
                 if (preferences != null && saveToSharedPreferences)
-                    preferences.edit().putBoolean(preferenceName, false).apply();
-                verifyCallback.dontAllow(app.isLPF() ? PiracyCheckerError.PIRATE_APP_INSTALLED :
+                    preferences.edit().putBoolean(preferenceSaveResult, false).apply();
+                if (preferences != null && blockUnauthorized && app.isUnauthorized())
+                    preferences.edit().putBoolean(preferenceBlockUnauthorized, true).apply();
+                verifyCallback.dontAllow(app.isUnauthorized() ? PiracyCheckerError.PIRATE_APP_INSTALLED :
                         PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED, app);
             } else {
                 if (preferences != null && saveToSharedPreferences)
-                    preferences.edit().putBoolean(preferenceName, true).apply();
+                    preferences.edit().putBoolean(preferenceSaveResult, true).apply();
                 verifyCallback.dontAllow(PiracyCheckerError.NOT_LICENSED, null);
             }
         }

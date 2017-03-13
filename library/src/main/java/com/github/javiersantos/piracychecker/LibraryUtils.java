@@ -5,11 +5,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 
@@ -82,7 +84,7 @@ class LibraryUtils {
     static PirateApp getPirateApp(Context context, boolean lpf, boolean stores) {
         if (!lpf && !stores) return null;
         for (PirateApp app : PiracyCheckerUtils.getApps()) {
-            if ((lpf && app.isLPF()) || (stores && !app.isLPF())) {
+            if ((lpf && app.isUnauthorized()) || (stores && !app.isUnauthorized())) {
                 StringBuilder builder = new StringBuilder();
                 for (String s : app.getPack()) {
                     builder.append(s);
