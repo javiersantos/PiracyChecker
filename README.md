@@ -90,7 +90,7 @@ It will check for: Lucky Patcher, Freedom and CreeHack.
 
 ```Java
 new PiracyChecker(this)
-	.enableLPFCheck(true)
+	.enableUnauthorizedAppsCheck(true)
 	.start();
 ```
 
@@ -178,7 +178,7 @@ Sure. You can use as many validation methods in the builder as you want. For exa
 new PiracyChecker(this)
 	.enableGooglePlayLicensing("BASE_64_LICENSE_KEY")
 	.enableSigningCertificate("YOUR_APK_SIGNATURE")
-	.enableLPFCheck(true)
+	.enableUnauthorizedAppsCheck(true)
 	.saveResultToSharedPreferences("my_app_preferences", "valid_license");
 	.start();
 ```

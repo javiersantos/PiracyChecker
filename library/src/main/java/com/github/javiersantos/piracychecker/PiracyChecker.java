@@ -8,7 +8,6 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.util.Log;
 
 import com.github.javiersantos.licensing.AESObfuscator;
 import com.github.javiersantos.licensing.LibraryChecker;
@@ -25,7 +24,6 @@ import java.util.List;
 @SuppressLint("HardwareIds")
 public class PiracyChecker {
 
-    // TODO: Rename if needed
     protected static final String LIBRARY_PREFERENCES_NAME = "license_check";
 
     protected Context context;
@@ -34,7 +32,7 @@ public class PiracyChecker {
     protected boolean enableLVL;
     protected boolean enableSigningCertificate;
     protected boolean enableInstallerId;
-    protected boolean enableLPFCheck;
+    protected boolean enableUnauthorizedAppsCheck;
     protected boolean enableStoresCheck;
     protected boolean enableEmulatorCheck;
     protected boolean enableDebugCheck;
@@ -82,11 +80,11 @@ public class PiracyChecker {
         return this;
     }
 
-    public PiracyChecker enableLPFCheck(boolean enable) {
-        this.enableLPFCheck = enable;
+    public PiracyChecker enableUnauthorizedAppsCheck(boolean enable) {
+        this.enableUnauthorizedAppsCheck = enable;
         return this;
     }
-
+    
     public PiracyChecker enableStoresCheck(boolean enable) {
         this.enableStoresCheck = enable;
         return this;
@@ -197,7 +195,7 @@ public class PiracyChecker {
                     }
                 });
             } else {
-                verifyCallback.allow();
+                doExtraVerification(verifyCallback, true);
             }
         }
     }
@@ -226,7 +224,7 @@ public class PiracyChecker {
 
     protected void doExtraVerification(final PiracyCheckerCallback verifyCallback, boolean
             possibleSuccess) {
-        PirateApp app = LibraryUtils.getPirateApp(context, enableLPFCheck, enableStoresCheck);
+        PirateApp app = LibraryUtils.getPirateApp(context, enableUnauthorizedAppsCheck, enableStoresCheck);
         if (possibleSuccess) {
             if (enableDebugCheck && LibraryUtils.isDebug(context)) {
                 if (preferences != null && saveToSharedPreferences)
