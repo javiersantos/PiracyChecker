@@ -3,6 +3,7 @@ package com.github.javiersantos.piracychecker;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -13,6 +14,8 @@ import com.github.javiersantos.licensing.AESObfuscator;
 import com.github.javiersantos.licensing.LibraryChecker;
 import com.github.javiersantos.licensing.LibraryCheckerCallback;
 import com.github.javiersantos.licensing.ServerManagedPolicy;
+import com.github.javiersantos.piracychecker.activities.LicenseActivity;
+import com.github.javiersantos.piracychecker.enums.Display;
 import com.github.javiersantos.piracychecker.enums.InstallerID;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerCallback;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerError;
@@ -29,6 +32,7 @@ public class PiracyChecker {
     protected Context context;
     protected String unlicensedDialogTitle;
     protected String unlicensedDialogDescription;
+    protected Display display;
     protected boolean enableLVL;
     protected boolean enableSigningCertificate;
     protected boolean enableInstallerId;
@@ -47,16 +51,14 @@ public class PiracyChecker {
     protected PiracyCheckerCallback callback;
 
     public PiracyChecker(Context context) {
-        this.context = context;
-        this.unlicensedDialogTitle = context.getString(R.string.app_unlicensed);
-        this.unlicensedDialogDescription = context.getString(R.string.app_unlicensed_description);
-        this.installerIDs = new ArrayList<>();
+        this(context, context.getString(R.string.app_unlicensed), context.getString(R.string.app_unlicensed_description));
     }
 
     public PiracyChecker(Context context, String title, String description) {
         this.context = context;
         this.unlicensedDialogTitle = title;
         this.unlicensedDialogDescription = description;
+        this.display = Display.DIALOG;
         this.installerIDs = new ArrayList<>();
     }
 
@@ -160,6 +162,11 @@ public class PiracyChecker {
         }
     }
 
+    public PiracyChecker display(Display display) {
+        this.display = display;
+        return this;
+    }
+
     public PiracyChecker callback(PiracyCheckerCallback callback) {
         this.callback = callback;
         return this;
@@ -177,14 +184,19 @@ public class PiracyChecker {
                 @Override
                 public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
                     String dialogContent = unlicensedDialogDescription;
-                    if (app != null) {
-                        dialogContent = context.getString(R.string.unauthorized_app_found, app
-                                .getName());
-                    } else if (error.equals(PiracyCheckerError.BLOCK_PIRATE_APP)) {
+                    if (app != null)
+                        dialogContent = context.getString(R.string.unauthorized_app_found, app.getName());
+                    else if (error.equals(PiracyCheckerError.BLOCK_PIRATE_APP))
                         dialogContent = context.getString(R.string.unauthorized_app_blocked);
+
+                    if (display == Display.DIALOG)
+                        LibraryUtils.buildUnlicensedDialog(context, unlicensedDialogTitle, dialogContent).show();
+                    else {
+                        Intent intent = new Intent(context, LicenseActivity.class);
+                        intent.putExtra("piracy_checker", dialogContent);
+                        context.startActivity(intent);
+                        ((Activity)context).finish();
                     }
-                    LibraryUtils.buildUnlicensedDialog(context, unlicensedDialogTitle,
-                            dialogContent).show();
                 }
             };
             verify(callback);

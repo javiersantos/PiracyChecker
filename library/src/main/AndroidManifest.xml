@@ -2,4 +2,10 @@
           package="com.github.javiersantos.piracychecker">
 
     <uses-permission android:name="com.android.vending.CHECK_LICENSE"/>
+
+    <application>
+        <activity
+            android:name=".activities.LicenseActivity"/>
+    </application>
+
 </manifest>
