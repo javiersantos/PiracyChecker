@@ -264,7 +264,8 @@ public class PiracyChecker {
         if (blockUnauthorized) {
             if (!preferences.getBoolean(preferenceBlockUnauthorized, false))
                 return true;
-        }
+        } else
+            return true;
         return false;
     }
 
