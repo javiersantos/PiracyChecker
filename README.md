@@ -129,8 +129,9 @@ new PiracyChecker(this)
 	.start();
 ```
 
-### Verify the use of third-pary store apps
+### Verify the use of third-party store apps
 If you want to check if user has third-party store apps installed, you can use this code.
+
 It will check for: Aptoide, BlackMart, Mobogenie, 1Mobile, GetApk, GetJar and SlideMe.
 
 ```Java
