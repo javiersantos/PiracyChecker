@@ -276,7 +276,7 @@ public class PiracyChecker {
                         PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED, app);
             } else {
                 if (preferences != null && saveToSharedPreferences)
-                    preferences.edit().putBoolean(preferenceSaveResult, true).apply();
+                    preferences.edit().putBoolean(preferenceSaveResult, false).apply();
                 verifyCallback.dontAllow(PiracyCheckerError.NOT_LICENSED, null);
             }
         }
