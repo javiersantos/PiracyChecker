@@ -170,13 +170,6 @@ Use the builder and add following:
 })
 ```
 
-## ProGuard
-```
--keep class com.github.javiersantos.**
--dontwarn com.github.javiersantos.**
--keep public class com.android.vending.licensing.ILicensingService
-```
-
 ## FAQs
 #### Can I protect my app using more than one validation method?
 Sure. You can use as many validation methods in the builder as you want. For example:
