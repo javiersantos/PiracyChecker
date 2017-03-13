@@ -25,8 +25,8 @@ import java.util.List;
 @SuppressLint("PackageManagerGetSignatures")
 class LibraryUtils {
     static final byte[] SALT = new byte[]{
-            -46, 65, 30, -128, -103, -57, 74, -64, 51, 88, -95, -45, 77, -117, -36, -113, -11, 32,
-            -64, 89
+            -85, -55, 27, 58, -83, 27, -34, -45, 101, -98, 12, 37, 13, -17, 95, -28, -62, -32,
+            -32, 33
     };
 
     static AlertDialog buildUnlicensedDialog(Context context, String title, String content) {
