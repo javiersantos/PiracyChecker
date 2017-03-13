@@ -38,7 +38,7 @@ dependencies {
 ## Recommendations
 * Always enable ProGuard in your production release. Always, without exceptions.
 * PiracyChecker should be included in your `onCreate` method in order to check for a valid license as soon as possible.
-* It's recommended to show a new Activity instead of a Dialog when the license is not valid. This way you make sure that the main activity of the app is finished. Just 
+* It's recommended to show a new Activity instead of a Dialog when the license is not valid. This way you make sure that the main activity of the app is finished. See "[Display results in a Dialog or a new Activity](https://github.com/javiersantos/PiracyChecker#display-results-in-a-dialog-or-a-new-activity)".  
 * Don't forget to enable ProGuard ;)
 
 ## Usage
@@ -162,7 +162,7 @@ new PiracyChecker(this)
 
 ## Customizations
 
-### Display results in a Dialog or a new Activitty
+### Display results in a Dialog or a new Activity
 
 It's recommended to show a new Activity instead of a Dialog when the license is not valid. This way you make sure that the main activity of the app is finished.
 
