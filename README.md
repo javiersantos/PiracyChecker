@@ -35,6 +35,12 @@ dependencies {
 }
 ```
 
+## Recommendations
+* Always enable ProGuard in your production release. Always, without exceptions.
+* PiracyChecker should be included in your `onCreate` method in order to check for a valid license as soon as possible.
+* It's recommended to show a new Activity instead of a Dialog when the license is not valid. This way you make sure that the main activity of the app is finished. Just 
+* Don't forget to enable ProGuard ;)
+
 ## Usage
 
 ### Verify Google Play Licensing (LVL)
@@ -47,6 +53,7 @@ For more information check out the [Google Developers page](https://developer.an
 ```Java
 new PiracyChecker(this)
 	.enableGooglePlayLicensing("BASE_64_LICENSE_KEY")
+	...
 	.start();
 ```
 
@@ -60,6 +67,7 @@ The app signature will be broken if the .apk is altered in any way — unsigned 
 ```Java
 new PiracyChecker(this)
 	.enableSigningCertificate("478yYkKAQF+KST8y4ATKvHkYibo=") // The original APK signature for the PRODUCTION version
+	...
 	.start();
 ```
 
@@ -79,18 +87,21 @@ Supported stores: Google Play, Amazon App Store.
 new PiracyChecker(this)
 	.enableInstallerId(InstallerID.GOOGLE_PLAY)
 	.enableInstallerId(InstallerID.AMAZON_APP_STORE)
+	...
 	.start();
 ```
 
 **BE CAREFUL!!** This is a really restrictive technique since it will block your app from being installed using another market or directly installing the .apk on the device. It isn't recommended for most cases.
 
-### Verify the use of certain pirate apps
+### Verify the use of certain pirate/unathorized apps
 If you want to check if user has pirate apps installed, you can use this code.
+
 It will check for: Lucky Patcher, Freedom and CreeHack.
 
 ```Java
 new PiracyChecker(this)
 	.enableUnauthorizedAppsCheck()
+	...
 	.start();
 ```
 
@@ -100,43 +111,71 @@ It will check for: Aptoide, BlackMart, Mobogenie, 1Mobile, GetApk, GetJar and Sl
 ```Java
 new PiracyChecker(this)
 	.enableStoresCheck()
+	...
 	.start();
 ```
 
-### Verify if app is a debug build.
+### Verify if app is a debug build
+If your app is running on an emulator outside the development process, it gives an indication that someone other than you is trying to analyze the app.
+
 ```Java
 new PiracyChecker(this)
 	.enableDebugCheck()
+	...
 	.start();
 ```
 
 ### Verify if app is being run in an emulator
+Outside of development, it's unlikely that your app should be running on an emulator, and releasing apps with debuggable enabled is discouraged as it allows connected computers to access and debug the app via the Android Debug Bridge.
+
 ```Java
 new PiracyChecker(this)
 	.enableEmulatorCheck()
+	...
 	.start();
 ```
 
 ### Save the result of the license check in `SharedPreferences`
 
+Saving the result of the license check is useful for checking the license status without calling `.start()` multiple times.
+
 There are two ways to do this:
 
 Define the `SharedPreferences` and the name of the preference where you want to save the result.
+
 ```Java
 new PiracyChecker(this)
-	.saveResultToSharedPreferences(preferences, "valid_license");
+	.saveResultToSharedPreferences(preferences, "valid_license")
+	...
 	.start();
 ```
 
 Define the `SharedPreferences` name and the name of the preference where you want to save the result.
+
 ```Java
 new PiracyChecker(this)
-	.saveResultToSharedPreferences("my_app_preferences", "valid_license");
+	.saveResultToSharedPreferences("my_app_preferences", "valid_license")
+	...
 	.start();
 ```
 
 
 ## Customizations
+
+### Display results in a Dialog or a new Activitty
+
+It's recommended to show a new Activity instead of a Dialog when the license is not valid. This way you make sure that the main activity of the app is finished.
+
+By default a non-cancelable Dialog will be displayed.
+
+```Java
+new PiracyChecker(this)
+	.display(Display.ACTIVITY)
+	...
+	.start();
+```
+
+### Using custom callbacks
 Adding a callback to the builder allows you to customize what will happen when the license has been checked and manage the license check errors if the user is not allowed to use the app. Keep in mind that when using this method **you must be aware of blocking the app from unauthorized users**.
 
 By default, the library will display a non-cancelable dialog if the user is not allowed to use the app, otherwise nothing will happen.
