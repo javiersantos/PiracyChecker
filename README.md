@@ -36,10 +36,6 @@ dependencies {
 ```
 
 ## Usage
-Add **CHECK_LICENSE** permission to your app's Manifest:
-```xml
-<uses-permission android:name="com.android.vending.CHECK_LICENSE"/>
-```
 
 ### Verify Google Play Licensing (LVL)
 Google Play offers a licensing service that lets you enforce licensing policies for applications that you publish on Google Play. With Google Play Licensing, your application can query Google Play to obtain the licensing status for the current user.
@@ -88,6 +84,58 @@ new PiracyChecker(this)
 
 **BE CAREFUL!!** This is a really restrictive technique since it will block your app from being installed using another market or directly installing the .apk on the device. It isn't recommended for most cases.
 
+### Verify the use of certain pirate apps
+If you want to check if user has pirate apps installed, you can use this code.
+It will check for: Lucky Patcher, Freedom and CreeHack.
+
+```Java
+new PiracyChecker(this)
+	.enableLPFCheck(true)
+	.start();
+```
+
+If you want to check if user has third-party store apps installed, you can use this code.
+It will check for: Aptoide, BlackMart, Mobogenie, 1Mobile, GetApk, GetJar and SlideMe.
+
+```Java
+new PiracyChecker(this)
+	.enableStoresCheck(true)
+	.start();
+```
+
+### Verify if app is a debug build.
+```Java
+new PiracyChecker(this)
+	.enableDebugCheck(true)
+	.start();
+```
+
+### Verify if app is being run in an emulator
+```Java
+new PiracyChecker(this)
+	.enableEmulatorCheck(true)
+	.start();
+```
+
+### Save the result of the license check in `SharedPreferences`
+
+There are two ways to do this:
+
+Define the `SharedPreferences` and the name of the preference where you want to save the result.
+```Java
+new PiracyChecker(this)
+	.saveResultToSharedPreferences(preferences, "valid_license");
+	.start();
+```
+
+Define the `SharedPreferences` name and the name of the preference where you want to save the result.
+```Java
+new PiracyChecker(this)
+	.saveResultToSharedPreferences("my_app_preferences", "valid_license");
+	.start();
+```
+
+
 ## Customizations
 Adding a callback to the builder allows you to customize what will happen when the license has been checked and manage the license check errors if the user is not allowed to use the app. Keep in mind that when using this method **you must be aware of blocking the app from unauthorized users**.
 
@@ -103,13 +151,18 @@ Use the builder and add following:
 	}
 	
 	@Override
-	public void dontAllow(PiracyCheckerError error) {
+	public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
 		// You can either do something specific when the user is not allowed to use the app
 		// Or manage the error, using the 'error' parameter, yourself (Check errors at {@link PiracyCheckerError}).
+		
+		// Additionally, if you enabled the check of pirate apps and/or third-party stores, the 'app' param
+		// is the app that has been detected on device. App can be null, and when null, it means no pirate app or store was found,
+		// or you disabled the check for those apps.
+		// This allows you to let users know the possible reasons why license is been invalid.
 	}
 
 	@Override
-	public void onError(PiracyCheckerError error) {
+	public void onError(@NonNull PiracyCheckerError error) {
 		// This method is not required to be implemented/overriden but...
 		// You can either do something specific when an error occurs while checking the license,
 		// Or manage the error, using the 'error' parameter, yourself (Check errors at {@link PiracyCheckerError}).
@@ -119,10 +172,8 @@ Use the builder and add following:
 
 ## ProGuard
 ```
--keep class com.google.**
--keep class autovalue.shaded.com.google.**
--dontwarn com.google.**
--dontwarn autovalue.shaded.com.google.**
+-keep class com.github.javiersantos.**
+-dontwarn com.github.javiersantos.**
 -keep public class com.android.vending.licensing.ILicensingService
 ```
 
@@ -134,11 +185,13 @@ Sure. You can use as many validation methods in the builder as you want. For exa
 new PiracyChecker(this)
 	.enableGooglePlayLicensing("BASE_64_LICENSE_KEY")
 	.enableSigningCertificate("YOUR_APK_SIGNATURE")
+	.enableLPFCheck(true)
+	.saveResultToSharedPreferences("my_app_preferences", "valid_license");
 	.start();
 ```
 
 ## License
-	Copyright 2016 Javier Santos
+	Copyright 2017 Javier Santos
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.

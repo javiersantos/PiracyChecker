@@ -1,5 +1,8 @@
 package com.github.javiersantos.piracychecker.enums;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 public abstract class PiracyCheckerCallback {
 
     /**
@@ -13,8 +16,11 @@ public abstract class PiracyCheckerCallback {
      *
      * @param error PiracyCheckerError.NOT_LICENSED, PiracyCheckerError.SIGNATURE_NOT_VALID or
      *              PiracyCheckerError.INVALID_INSTALLER_ID
+     * @param app   The {@link PirateApp} that has been detected on device. Returns null in no app
+     *              was found.
      */
-    public abstract void dontAllow(PiracyCheckerError error);
+    public abstract void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app);
+
 
     /**
      * Called if an error with the license check occurs. Check errors at {@link
@@ -25,7 +31,7 @@ public abstract class PiracyCheckerCallback {
      *              PiracyCheckerError.INVALID_PUBLIC_KEY, PiracyCheckerError.MISSING_PERMISSION or
      *              PiracyCheckerError.UNKNOWN
      */
-    public void onError(PiracyCheckerError error) {
+    public void onError(@NonNull PiracyCheckerError error) {
     }
 
 }

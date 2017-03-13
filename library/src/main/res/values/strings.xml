@@ -1,5 +1,6 @@
 <resources>
     <string name="app_unlicensed">This app is not licensed</string>
     <string name="app_unlicensed_description">This application is not licensed nor valid. Please download the app from a trusted source.</string>
+    <string name="pirate_app_found">License is invalid because we have found you have %1$s app installed on your device.</string>
     <string name="app_unlicensed_close">Close</string>
 </resources>

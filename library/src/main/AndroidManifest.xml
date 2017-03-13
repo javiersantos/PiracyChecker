@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.javiersantos.piracychecker" >
-	<uses-permission android:name="com.android.vending.CHECK_LICENSE"/>
+          package="com.github.javiersantos.piracychecker">
+
+    <uses-permission android:name="com.android.vending.CHECK_LICENSE"/>
 </manifest>
