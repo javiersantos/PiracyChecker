@@ -90,7 +90,7 @@ It will check for: Lucky Patcher, Freedom and CreeHack.
 
 ```Java
 new PiracyChecker(this)
-	.enableUnauthorizedAppsCheck(true)
+	.enableUnauthorizedAppsCheck()
 	.start();
 ```
 
@@ -99,21 +99,21 @@ It will check for: Aptoide, BlackMart, Mobogenie, 1Mobile, GetApk, GetJar and Sl
 
 ```Java
 new PiracyChecker(this)
-	.enableStoresCheck(true)
+	.enableStoresCheck()
 	.start();
 ```
 
 ### Verify if app is a debug build.
 ```Java
 new PiracyChecker(this)
-	.enableDebugCheck(true)
+	.enableDebugCheck()
 	.start();
 ```
 
 ### Verify if app is being run in an emulator
 ```Java
 new PiracyChecker(this)
-	.enableEmulatorCheck(true)
+	.enableEmulatorCheck()
 	.start();
 ```
 
@@ -178,7 +178,7 @@ Sure. You can use as many validation methods in the builder as you want. For exa
 new PiracyChecker(this)
 	.enableGooglePlayLicensing("BASE_64_LICENSE_KEY")
 	.enableSigningCertificate("YOUR_APK_SIGNATURE")
-	.enableUnauthorizedAppsCheck(true)
+	.enableUnauthorizedAppsCheck()
 	.saveResultToSharedPreferences("my_app_preferences", "valid_license");
 	.start();
 ```

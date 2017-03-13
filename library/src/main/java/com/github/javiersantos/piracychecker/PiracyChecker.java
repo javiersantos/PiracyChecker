@@ -80,23 +80,23 @@ public class PiracyChecker {
         return this;
     }
 
-    public PiracyChecker enableUnauthorizedAppsCheck(boolean enable) {
-        this.enableUnauthorizedAppsCheck = enable;
+    public PiracyChecker enableUnauthorizedAppsCheck() {
+        this.enableUnauthorizedAppsCheck = true;
         return this;
     }
     
-    public PiracyChecker enableStoresCheck(boolean enable) {
-        this.enableStoresCheck = enable;
+    public PiracyChecker enableStoresCheck() {
+        this.enableStoresCheck = true;
         return this;
     }
 
-    public PiracyChecker enableDebugCheck(boolean enable) {
-        this.enableDebugCheck = enable;
+    public PiracyChecker enableDebugCheck() {
+        this.enableDebugCheck = true;
         return this;
     }
 
-    public PiracyChecker enableEmulatorCheck(boolean enable) {
-        this.enableEmulatorCheck = enable;
+    public PiracyChecker enableEmulatorCheck() {
+        this.enableEmulatorCheck = true;
         return this;
     }
 
