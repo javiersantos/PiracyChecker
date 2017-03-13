@@ -114,7 +114,7 @@ Define the `SharedPreferences` and the name of the preference where you want to 
 ```Java
 new PiracyChecker(this)
 	.enableUnauthorizedAppsCheck()
-	.blockIfUnauthorizedAppDetected(preferences, "valid_license")
+	.blockIfUnauthorizedAppDetected(preferences, "app_unauthorized") // Change "app_unauthorized" with your own value
 	...
 	.start();
 ```
@@ -124,7 +124,7 @@ Define the `SharedPreferences` name and the name of the preference where you wan
 ```Java
 new PiracyChecker(this)
 	.enableUnauthorizedAppsCheck()
-	.blockIfUnauthorizedAppDetected("my_app_preferences", "valid_license")
+	.blockIfUnauthorizedAppDetected("my_app_preferences", "app_unauthorized") // Change "app_unauthorized" with your own value
 	...
 	.start();
 ```
@@ -171,7 +171,7 @@ Define the `SharedPreferences` and the name of the preference where you want to 
 
 ```Java
 new PiracyChecker(this)
-	.saveResultToSharedPreferences(preferences, "valid_license")
+	.saveResultToSharedPreferences(preferences, "valid_license") // Change "valid_license" with your own value
 	...
 	.start();
 ```
@@ -180,7 +180,7 @@ Define the `SharedPreferences` name and the name of the preference where you wan
 
 ```Java
 new PiracyChecker(this)
-	.saveResultToSharedPreferences("my_app_preferences", "valid_license")
+	.saveResultToSharedPreferences("my_app_preferences", "valid_license") // Change "valid_license" with your own value
 	...
 	.start();
 ```
