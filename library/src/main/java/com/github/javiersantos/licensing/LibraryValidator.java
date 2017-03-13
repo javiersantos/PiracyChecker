@@ -16,11 +16,11 @@
 
 package com.github.javiersantos.licensing;
 
-import com.github.javiersantos.licensing.util.Base64;
-import com.github.javiersantos.licensing.util.Base64DecoderException;
-
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.github.javiersantos.licensing.util.Base64;
+import com.github.javiersantos.licensing.util.Base64DecoderException;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;

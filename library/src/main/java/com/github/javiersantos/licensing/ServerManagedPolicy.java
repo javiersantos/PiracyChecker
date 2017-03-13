@@ -16,11 +16,11 @@
 
 package com.github.javiersantos.licensing;
 
-import com.github.javiersantos.licensing.util.URIQueryDecoder;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+
+import com.github.javiersantos.licensing.util.URIQueryDecoder;
 
 import java.net.URI;
 import java.net.URISyntaxException;

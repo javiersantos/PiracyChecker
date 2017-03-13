@@ -16,9 +16,6 @@
 
 package com.github.javiersantos.licensing;
 
-import com.github.javiersantos.licensing.util.Base64;
-import com.github.javiersantos.licensing.util.Base64DecoderException;
-
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
@@ -34,6 +31,8 @@ import android.util.Log;
 
 import com.android.vending.licensing.ILicenseResultListener;
 import com.android.vending.licensing.ILicensingService;
+import com.github.javiersantos.licensing.util.Base64;
+import com.github.javiersantos.licensing.util.Base64DecoderException;
 
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
