@@ -93,7 +93,7 @@ new PiracyChecker(this)
 
 **BE CAREFUL!!** This is a really restrictive technique since it will block your app from being installed using another market or directly installing the .apk on the device. It isn't recommended for most cases.
 
-### Verify the use of certain pirate/unathorized apps
+### Verify the use of pirate apps
 If you want to check if user has pirate apps installed, you can use this code.
 
 It will check for: Lucky Patcher, Freedom and CreeHack.
@@ -105,6 +105,31 @@ new PiracyChecker(this)
 	.start();
 ```
 
+You can block the app even when this pirate apps has been uninstalled. This prevents the app from being patched and then uninstall the pirate app in order to continue using your app. The library will save a `SharedPreference` value to know when a pirate app has been detected.
+
+There are two ways to do this:
+
+Define the `SharedPreferences` and the name of the preference where you want to save the result.
+
+```Java
+new PiracyChecker(this)
+	.enableUnauthorizedAppsCheck()
+	.blockIfUnauthorizedAppDetected(preferences, "valid_license")
+	...
+	.start();
+```
+
+Define the `SharedPreferences` name and the name of the preference where you want to save the result.
+
+```Java
+new PiracyChecker(this)
+	.enableUnauthorizedAppsCheck()
+	.blockIfUnauthorizedAppDetected("my_app_preferences", "valid_license")
+	...
+	.start();
+```
+
+### Verify the use of third-pary store apps
 If you want to check if user has third-party store apps installed, you can use this code.
 It will check for: Aptoide, BlackMart, Mobogenie, 1Mobile, GetApk, GetJar and SlideMe.
 
