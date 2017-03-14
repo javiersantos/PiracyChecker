@@ -260,7 +260,7 @@ public class PiracyChecker {
 
                     @Override
                     public void applicationError(int errorCode) {
-                        verifyCallback.onError(PiracyCheckerUtils.getCheckerErrorFromCode
+                        verifyCallback.onError(PiracyCheckerError.getCheckerErrorFromCode
                                 (errorCode));
                     }
                 });
