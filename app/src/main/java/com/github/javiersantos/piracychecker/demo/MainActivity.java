@@ -59,12 +59,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Show APK signature
+        Log.e("Signature", PiracyCheckerUtils.getAPKSignature(this));
+
     }
 
     public void verifySignature(View view) {
         new PiracyChecker(this)
                 .display(piracyCheckerDisplay)
-                .enableSigningCertificate("478yYkKAQF+KST8y4ATKvHkYibo=")
+                .enableSigningCertificate("478yYkKAQF+KST8y4ATKvHkYibo=") // Wrong signature
+                //.enableSigningCertificate("VHZs2aiTBiap/F+AYhYeppy0aF0=") // Right signature
                 .start();
     }
 
