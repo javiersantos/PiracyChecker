@@ -89,16 +89,16 @@ public class PiracyChecker {
         return this;
     }
 
-    public PiracyChecker blockIfUnauthorizedAppDetected(SharedPreferences preferences,
-                                                        @NonNull String preferenceName) {
+    public PiracyChecker blockIfUnauthorizedAppUninstalled(SharedPreferences preferences,
+                                                           @NonNull String preferenceName) {
         this.blockUnauthorized = true;
         this.preferenceBlockUnauthorized = preferenceName;
         saveToSharedPreferences(preferences);
         return this;
     }
 
-    public PiracyChecker blockIfUnauthorizedAppDetected(String preferencesName,
-                                                        @NonNull String preferenceName) {
+    public PiracyChecker blockIfUnauthorizedAppUninstalled(String preferencesName,
+                                                           @NonNull String preferenceName) {
         this.blockUnauthorized = true;
         this.preferenceBlockUnauthorized = preferenceName;
         saveToSharedPreferences(preferencesName);

@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         new PiracyChecker(this)
                 .display(piracyCheckerDisplay)
                 .enableUnauthorizedAppsCheck()
-                //.blockIfUnauthorizedAppDetected("license_checker", "block")
+                //.blockIfUnauthorizedAppUninstalled("license_checker", "block")
                 .start();
     }
 
