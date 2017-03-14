@@ -81,12 +81,13 @@ Log.e("SIGNATURE", PiracyCheckerUtils.getAPKSignature(this));
 ### Verify the installer
 If you only plan to distribute the app on a particular store this technique will block from installing the app using any another store.
 
-Supported stores: Google Play, Amazon App Store.
+Supported stores: Google Play, Amazon App Store and Samsung Galaxy Apps.
 
 ```Java
 new PiracyChecker(this)
 	.enableInstallerId(InstallerID.GOOGLE_PLAY)
 	.enableInstallerId(InstallerID.AMAZON_APP_STORE)
+	.enableInstallerId(InstallerID.GALAXY_APPS)
 	...
 	.start();
 ```
