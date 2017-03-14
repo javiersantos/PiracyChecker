@@ -5,7 +5,8 @@
 
     <application>
         <activity
-            android:name=".activities.LicenseActivity"/>
+            android:name=".activities.LicenseActivity"
+            android:theme="@style/PiracyCheckerStyle" />
     </application>
 
 </manifest>

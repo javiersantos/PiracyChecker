@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.provider.Settings;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
 
 import com.github.javiersantos.licensing.AESObfuscator;
 import com.github.javiersantos.licensing.LibraryChecker;
@@ -33,6 +35,8 @@ public class PiracyChecker {
     protected String unlicensedDialogTitle;
     protected String unlicensedDialogDescription;
     protected Display display;
+    protected int colorPrimary;
+    protected int colorPrimaryDark;
     protected boolean enableLVL;
     protected boolean enableSigningCertificate;
     protected boolean enableInstallerId;
@@ -60,6 +64,8 @@ public class PiracyChecker {
         this.unlicensedDialogDescription = description;
         this.display = Display.DIALOG;
         this.installerIDs = new ArrayList<>();
+        this.colorPrimary = ContextCompat.getColor(context, R.color.colorPrimary);
+        this.colorPrimaryDark = ContextCompat.getColor(context, R.color.colorPrimaryDark);
     }
 
     public PiracyChecker(Context context, @StringRes int title, @StringRes int description) {
@@ -181,6 +187,12 @@ public class PiracyChecker {
         return this;
     }
 
+    public PiracyChecker withActivityColor(@ColorRes int colorPrimary, @ColorRes int colorPrimaryDark) {
+        this.colorPrimary = colorPrimary;
+        this.colorPrimaryDark = colorPrimaryDark;
+        return this;
+    }
+
     public PiracyChecker callback(PiracyCheckerCallback callback) {
         this.callback = callback;
         return this;
@@ -206,8 +218,10 @@ public class PiracyChecker {
                     if (display == Display.DIALOG)
                         LibraryUtils.buildUnlicensedDialog(context, unlicensedDialogTitle, dialogContent).show();
                     else {
-                        Intent intent = new Intent(context, LicenseActivity.class);
-                        intent.putExtra("piracy_checker", dialogContent);
+                        Intent intent = new Intent(context, LicenseActivity.class)
+                                .putExtra("content", dialogContent)
+                                .putExtra("colorPrimary", colorPrimary)
+                                .putExtra("colorPrimaryDark", colorPrimaryDark);
                         context.startActivity(intent);
                         ((Activity)context).finish();
                     }

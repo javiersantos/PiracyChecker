@@ -1,12 +1,18 @@
 package com.github.javiersantos.piracychecker.activities;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.github.javiersantos.piracychecker.R;
 
 public class LicenseActivity extends AppCompatActivity {
+    private String description;
+    private int colorPrimary;
+    private int colorPrimaryDark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,13 +20,36 @@ public class LicenseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_license);
 
         getIntentData();
+        setActivityStyle();
+        setActivityData();
     }
 
     private void getIntentData() {
-        TextView activityDescription = (TextView) findViewById(R.id.piracy_checker_description);
         if (getIntent() != null) {
-            activityDescription.setText(getIntent().getStringExtra("piracy_checker"));
+            description = getIntent().getStringExtra("content");
+            colorPrimary = getIntent().getIntExtra("colorPrimary", ContextCompat.getColor(this, R.color.colorPrimary));
+            colorPrimaryDark = getIntent().getIntExtra("colorPrimaryDark", ContextCompat.getColor(this, R.color.colorPrimaryDark));
         }
+    }
+
+    private void setActivityStyle() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            toolbar.setTitle(ActivityUtils.getAppName(this));
+            toolbar.setBackgroundColor(colorPrimary);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(colorPrimaryDark);
+        }
+    }
+
+    private void setActivityData() {
+        TextView activityDescription = (TextView) findViewById(R.id.piracy_checker_description);
+
+        activityDescription.setText(description);
     }
 
 }
