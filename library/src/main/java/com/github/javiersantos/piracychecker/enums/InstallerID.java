@@ -12,7 +12,7 @@ public enum InstallerID {
 
     private final String text;
 
-    private InstallerID(final String text) {
+    InstallerID(final String text) {
         this.text = text;
     }
 

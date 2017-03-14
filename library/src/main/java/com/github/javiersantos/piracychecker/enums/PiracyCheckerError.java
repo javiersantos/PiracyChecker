@@ -22,7 +22,7 @@ public enum PiracyCheckerError {
 
     private final String text;
 
-    private PiracyCheckerError(final String text) {
+    PiracyCheckerError(final String text) {
         this.text = text;
     }
 
