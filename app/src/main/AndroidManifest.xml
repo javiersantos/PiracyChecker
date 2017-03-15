@@ -23,9 +23,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-                android:name=".AboutActivity"
-                android:label="@string/action_about"/>
     </application>
 
 </manifest>
