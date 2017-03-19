@@ -31,7 +31,7 @@ And add the library to your module **build.gradle**:
 
 ```Javascript
 dependencies {
-    compile 'com.github.javiersantos:PiracyChecker:1.0.1'
+    compile 'com.github.javiersantos:PiracyChecker:1.0.2'
 }
 ```
 
@@ -58,6 +58,8 @@ new PiracyChecker(this)
 ```
 
 In order to retrieve your BASE64 license key your app must be uploaded to the [Google Play Developer Console](https://play.google.com/apps/publish/). Then access to your app -> Services and APIs.
+
+When using Google Play Licensing your should call `.destroy()` in the `onDestroy()` method of your Activity to avoid multiple instances of the service running. Have a look to the Wiki for a [sample Activity](https://github.com/javiersantos/PiracyChecker/wiki/Using-Google-Play-Licensing-(LVL)) with `.destroy()`.
 
 ### Verify your app's signing certificate (signature)
 In a nutshell, developers must sign applications with their private key/certificate (contained in a .keystore file) before the app can be installed on user devices. The signing certificate must stay consistent throughout the life of the app, and typically have an expiry date of 25 years in the future.
@@ -115,7 +117,7 @@ Define the `SharedPreferences` and the name of the preference where you want to 
 ```Java
 new PiracyChecker(this)
 	.enableUnauthorizedAppsCheck()
-	.blockIfUnauthorizedAppDetected(preferences, "app_unauthorized") // Change "app_unauthorized" with your own value
+	.blockIfUnauthorizedAppUninstalled(preferences, "app_unauthorized") // Change "app_unauthorized" with your own value
 	...
 	.start();
 ```
@@ -125,7 +127,7 @@ Define the `SharedPreferences` name and the name of the preference where you wan
 ```Java
 new PiracyChecker(this)
 	.enableUnauthorizedAppsCheck()
-	.blockIfUnauthorizedAppDetected("license_preferences", "app_unauthorized") // Change "license_preferences" and "app_unauthorized" with your own value
+	.blockIfUnauthorizedAppUninstalled("license_preferences", "app_unauthorized") // Change "license_preferences" and "app_unauthorized" with your own value
 	...
 	.start();
 ```
@@ -201,6 +203,8 @@ new PiracyChecker(this)
 	...
 	.start();
 ```
+
+By default, the displayed Activity will use the library colors. To apply a custom primary and primary dark color use `.withActivityColor(R.color.colorPrimary, R.color.colorPrimaryDark)`.
 
 ### Using custom callbacks
 Adding a callback to the builder allows you to customize what will happen when the license has been checked and manage the license check errors if the user is not allowed to use the app. Keep in mind that when using this method **you must be aware of blocking the app from unauthorized users**.
