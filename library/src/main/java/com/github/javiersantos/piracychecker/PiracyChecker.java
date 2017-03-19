@@ -209,6 +209,10 @@ public class PiracyChecker {
 
                 @Override
                 public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
+                    if (context instanceof Activity && ((Activity) context).isFinishing()) {
+                        return;
+                    }
+
                     String dialogContent = unlicensedDialogDescription;
                     if (app != null)
                         dialogContent = context.getString(R.string.unauthorized_app_found, app.getName());
