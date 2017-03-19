@@ -31,6 +31,7 @@ public class PiracyChecker {
 
     protected static final String LIBRARY_PREFERENCES_NAME = "license_check";
 
+    // Library configuration/customizations
     protected Context context;
     protected String unlicensedDialogTitle;
     protected String unlicensedDialogDescription;
@@ -53,6 +54,10 @@ public class PiracyChecker {
     protected String signature;
     protected List<InstallerID> installerIDs;
     protected PiracyCheckerCallback callback;
+
+    // LVL
+    protected LibraryChecker libraryLVLChecker;
+
 
     public PiracyChecker(Context context) {
         this(context, context.getString(R.string.app_unlicensed), context.getString(R.string.app_unlicensed_description));
@@ -198,6 +203,12 @@ public class PiracyChecker {
         return this;
     }
 
+    public void destroy() {
+        if (libraryLVLChecker != null) {
+            libraryLVLChecker.onDestroy();
+        }
+    }
+
     public void start() {
         if (callback != null) {
             verify(callback);
@@ -248,10 +259,10 @@ public class PiracyChecker {
             if (enableLVL) {
                 String deviceId = Settings.Secure.getString(context.getContentResolver(),
                         Settings.Secure.ANDROID_ID);
-                LibraryChecker libraryChecker = new LibraryChecker(context, new
+                libraryLVLChecker = new LibraryChecker(context, new
                         ServerManagedPolicy(context, new AESObfuscator(LibraryUtils.SALT, context
                         .getPackageName(), deviceId)), licenseBase64);
-                libraryChecker.checkAccess(new LibraryCheckerCallback() {
+                libraryLVLChecker.checkAccess(new LibraryCheckerCallback() {
                     @Override
                     public void allow(int reason) {
                         doExtraVerification(verifyCallback, true);
