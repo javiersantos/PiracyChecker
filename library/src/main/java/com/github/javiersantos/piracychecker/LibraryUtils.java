@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.pm.Signature;
+import android.opengl.GLES20;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -33,6 +34,7 @@ class LibraryUtils {
     };
 
     static AlertDialog buildUnlicensedDialog(Context context, String title, String content) {
+        if (!(context instanceof Activity)) return null;
         final Activity activity = (Activity) context;
         return new AlertDialog.Builder(context)
                 .setCancelable(false)
@@ -54,8 +56,8 @@ class LibraryUtils {
     static String getCurrentSignature(Context context) {
         String res = "";
         try {
-            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context
-                    .getPackageName(), PackageManager.GET_SIGNATURES);
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(
+                    context.getPackageName(), PackageManager.GET_SIGNATURES);
             for (Signature signature : packageInfo.signatures) {
                 MessageDigest messageDigest = MessageDigest.getInstance("SHA");
                 messageDigest.update(signature.toByteArray());
@@ -72,8 +74,8 @@ class LibraryUtils {
 
     static boolean verifyInstallerId(Context context, List<InstallerID> installerID) {
         List<String> validInstallers = new ArrayList<>();
-        final String installer = context.getPackageManager().getInstallerPackageName(context
-                .getPackageName());
+        final String installer = context.getPackageManager().getInstallerPackageName(
+                context.getPackageName());
 
         for (InstallerID id : installerID) {
             validInstallers.addAll(id.toIDs());
@@ -202,7 +204,8 @@ class LibraryUtils {
             ratingCheckEmulator++;
         }
 
-        if (Build.FINGERPRINT.contains("generic/sdk/generic") ||
+        if (Build.FINGERPRINT.contains("generic") ||
+                Build.FINGERPRINT.contains("generic/sdk/generic") ||
                 Build.FINGERPRINT.contains("generic_x86/sdk_x86/generic_x86") ||
                 Build.FINGERPRINT.contains("Andy") ||
                 Build.FINGERPRINT.contains("ttVM_Hdragon") ||
@@ -214,7 +217,7 @@ class LibraryUtils {
         }
 
         try {
-            String opengl = android.opengl.GLES20.glGetString(android.opengl.GLES20.GL_RENDERER);
+            String opengl = GLES20.glGetString(GLES20.GL_RENDERER);
             if (opengl != null) {
                 if (opengl.contains("Bluestacks") || opengl.contains("Translator"))
                     ratingCheckEmulator += 10;
@@ -223,13 +226,11 @@ class LibraryUtils {
         }
 
         try {
-            File sharedFolder = new File(Environment
-                    .getExternalStorageDirectory().toString()
+            File sharedFolder = new File(Environment.getExternalStorageDirectory().toString()
                     + File.separatorChar
                     + "windows"
                     + File.separatorChar
                     + "BstSharedFolder");
-
             if (sharedFolder.exists())
                 ratingCheckEmulator += 10;
         } catch (Exception ignored) {
