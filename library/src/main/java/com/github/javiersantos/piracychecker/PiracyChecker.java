@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import com.github.javiersantos.licensing.AESObfuscator;
 import com.github.javiersantos.licensing.LibraryChecker;
@@ -253,7 +254,12 @@ public class PiracyChecker {
                         dismissDialog();
                         dialog = LibraryUtils.buildUnlicensedDialog(context, unlicensedDialogTitle,
                                 dialogContent);
-                        dialog.show();
+                        if (dialog != null) {
+                            dialog.show();
+                        } else {
+                            Log.e("PiracyChecker", "Unlicensed dialog was not built properly. " +
+                                    "Make sure your context is an instance of Activity");
+                        }
                     } else {
                         Intent intent = new Intent(context, LicenseActivity.class)
                                 .putExtra("content", dialogContent)
