@@ -121,7 +121,8 @@ class LibraryUtils {
                                     return app;
                                 }
                             }
-                        } catch (Exception ignored) {}
+                        } catch (Exception ignored) {
+                        }
                     }
                 }
             }
@@ -130,14 +131,15 @@ class LibraryUtils {
     }
 
     /**
-     * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
-     * the License. You may obtain a copy of the License at
+     * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+     * except in compliance with the License. You may obtain a copy of the License at
      *
-     *     http://www.apache.org/licenses/LICENSE-2.0
+     * http://www.apache.org/licenses/LICENSE-2.0
      *
-     * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
-     * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
-     * specific language governing permissions and limitations under the License.
+     * Unless required by applicable law or agreed to in writing, software distributed under the
+     * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+     * either express or implied. See the License for the specific language governing permissions
+     * and limitations under the License.
      *
      * Copyright (C) 2013, Vladislav Gingo Skoumal (http://www.skoumal.net)
      */
@@ -161,7 +163,7 @@ class LibraryUtils {
                 Build.MANUFACTURER.contains("Andy") ||
                 Build.MANUFACTURER.contains("MIT") ||
                 Build.MANUFACTURER.contains("nox") ||
-                Build.MANUFACTURER.contains("TiantianVM")){
+                Build.MANUFACTURER.contains("TiantianVM")) {
             ratingCheckEmulator++;
         }
 
@@ -217,7 +219,8 @@ class LibraryUtils {
                 if (opengl.contains("Bluestacks") || opengl.contains("Translator"))
                     ratingCheckEmulator += 10;
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         try {
             File sharedFolder = new File(Environment
@@ -229,7 +232,8 @@ class LibraryUtils {
 
             if (sharedFolder.exists())
                 ratingCheckEmulator += 10;
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         return ratingCheckEmulator > 3;
     }
@@ -281,6 +285,8 @@ class LibraryUtils {
                 "a", "r", ".", "r", "e", "w", "a", "r", "d", "s"}));
         apps.add(new PirateApp("SlideMe", new String[]{"c", "o", "m", ".", "s", "l", "i", "d",
                 "e", "m", "e", ".", "s", "a", "m", ".", "m", "a", "n", "a", "g", "e", "r"}));
+        apps.add(new PirateApp("ACMarket", new String[]{"n", "e", "t", ".", "a", "p", "p", "c",
+                "a", "k", "e"}));
         return apps;
     }
 
