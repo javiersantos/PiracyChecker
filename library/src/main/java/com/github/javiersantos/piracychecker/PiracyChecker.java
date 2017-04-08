@@ -45,6 +45,7 @@ public class PiracyChecker {
     protected boolean enableUnauthorizedAppsCheck;
     protected boolean enableStoresCheck;
     protected boolean enableEmulatorCheck;
+    protected boolean enableDeepEmulatorCheck;
     protected boolean enableDebugCheck;
     protected boolean saveToSharedPreferences;
     protected boolean blockUnauthorized;
@@ -142,8 +143,9 @@ public class PiracyChecker {
         return this;
     }
 
-    public PiracyChecker enableEmulatorCheck() {
+    public PiracyChecker enableEmulatorCheck(boolean deepCheck) {
         this.enableEmulatorCheck = true;
+        this.enableDeepEmulatorCheck = deepCheck;
         return this;
     }
 
@@ -328,7 +330,7 @@ public class PiracyChecker {
                 if (preferences != null && saveToSharedPreferences)
                     preferences.edit().putBoolean(preferenceSaveResult, false).apply();
                 verifyCallback.dontAllow(PiracyCheckerError.USING_DEBUG_APP, null);
-            } else if (enableEmulatorCheck && LibraryUtils.isInEmulator()) {
+            } else if (enableEmulatorCheck && LibraryUtils.isInEmulator(enableDeepEmulatorCheck)) {
                 if (preferences != null && saveToSharedPreferences)
                     preferences.edit().putBoolean(preferenceSaveResult, false).apply();
                 verifyCallback.dontAllow(PiracyCheckerError.USING_APP_IN_EMULATOR, null);

@@ -23,7 +23,7 @@ public class PirateApp {
 
     public boolean isUnauthorized() {
         return (name.equalsIgnoreCase("Lucky Patcher") || name.equalsIgnoreCase("Freedom") ||
-                name.equalsIgnoreCase("CreeHack"));
+                name.equalsIgnoreCase("Uret Patcher") || name.equalsIgnoreCase("CreeHack"));
     }
 
 }

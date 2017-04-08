@@ -145,7 +145,7 @@ class LibraryUtils {
      *
      * Copyright (C) 2013, Vladislav Gingo Skoumal (http://www.skoumal.net)
      */
-    static boolean isInEmulator() {
+    static boolean isInEmulator(boolean deepCheck) {
         int ratingCheckEmulator = 0;
 
         if (Build.PRODUCT.contains("sdk") ||
@@ -216,24 +216,26 @@ class LibraryUtils {
             ratingCheckEmulator++;
         }
 
-        try {
-            String opengl = GLES20.glGetString(GLES20.GL_RENDERER);
-            if (opengl != null) {
-                if (opengl.contains("Bluestacks") || opengl.contains("Translator"))
-                    ratingCheckEmulator += 10;
+        if (deepCheck) {
+            try {
+                String opengl = GLES20.glGetString(GLES20.GL_RENDERER);
+                if (opengl != null) {
+                    if (opengl.contains("Bluestacks") || opengl.contains("Translator"))
+                        ratingCheckEmulator += 10;
+                }
+            } catch (Exception ignored) {
             }
-        } catch (Exception ignored) {
-        }
 
-        try {
-            File sharedFolder = new File(Environment.getExternalStorageDirectory().toString()
-                    + File.separatorChar
-                    + "windows"
-                    + File.separatorChar
-                    + "BstSharedFolder");
-            if (sharedFolder.exists())
-                ratingCheckEmulator += 10;
-        } catch (Exception ignored) {
+            try {
+                File sharedFolder = new File(Environment.getExternalStorageDirectory().toString()
+                        + File.separatorChar
+                        + "windows"
+                        + File.separatorChar
+                        + "BstSharedFolder");
+                if (sharedFolder.exists())
+                    ratingCheckEmulator += 10;
+            } catch (Exception ignored) {
+            }
         }
 
         return ratingCheckEmulator > 3;
@@ -295,7 +297,7 @@ class LibraryUtils {
         final PackageManager mgr = ctx.getPackageManager();
         List<ResolveInfo> list = mgr.queryIntentActivities(intent,
                 PackageManager.MATCH_DEFAULT_ONLY);
-        return list.size() > 0;
+        return list != null && list.size() > 0;
     }
 
     private static boolean hasPermissions(Context context) {
