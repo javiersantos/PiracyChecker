@@ -39,6 +39,7 @@ public class PiracyChecker {
     protected Display display;
     protected int colorPrimary;
     protected int colorPrimaryDark;
+    protected boolean withLightStatusBar;
     protected boolean enableLVL;
     protected boolean enableSigningCertificate;
     protected boolean enableInstallerId;
@@ -196,10 +197,18 @@ public class PiracyChecker {
         return this;
     }
 
+    @Deprecated
     public PiracyChecker withActivityColor(@ColorRes int colorPrimary,
                                            @ColorRes int colorPrimaryDark) {
+        return withActivityColors(colorPrimary, colorPrimaryDark, false);
+    }
+
+    public PiracyChecker withActivityColors(@ColorRes int colorPrimary,
+                                            @ColorRes int colorPrimaryDark,
+                                            boolean withLightStatusBar) {
         this.colorPrimary = colorPrimary;
         this.colorPrimaryDark = colorPrimaryDark;
+        this.withLightStatusBar = withLightStatusBar;
         return this;
     }
 
@@ -244,7 +253,8 @@ public class PiracyChecker {
                         Intent intent = new Intent(context, LicenseActivity.class)
                                 .putExtra("content", dialogContent)
                                 .putExtra("colorPrimary", colorPrimary)
-                                .putExtra("colorPrimaryDark", colorPrimaryDark);
+                                .putExtra("colorPrimaryDark", colorPrimaryDark)
+                                .putExtra("withLightStatusBar", withLightStatusBar);
                         context.startActivity(intent);
                         ((Activity) context).finish();
                     }

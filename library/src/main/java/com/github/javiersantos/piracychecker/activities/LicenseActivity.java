@@ -13,6 +13,7 @@ public class LicenseActivity extends AppCompatActivity {
     private String description;
     private int colorPrimary;
     private int colorPrimaryDark;
+    private boolean withLightStatusBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +28,11 @@ public class LicenseActivity extends AppCompatActivity {
     private void getIntentData() {
         if (getIntent() != null) {
             description = getIntent().getStringExtra("content");
-            colorPrimary = getIntent().getIntExtra("colorPrimary", ContextCompat.getColor(this, R.color.colorPrimary));
-            colorPrimaryDark = getIntent().getIntExtra("colorPrimaryDark", ContextCompat.getColor(this, R.color.colorPrimaryDark));
+            colorPrimary = getIntent().getIntExtra("colorPrimary",
+                    ContextCompat.getColor(this, R.color.colorPrimary));
+            colorPrimaryDark = getIntent().getIntExtra("colorPrimaryDark",
+                    ContextCompat.getColor(this, R.color.colorPrimaryDark));
+            withLightStatusBar = getIntent().getBooleanExtra("withLightStatusBar", false);
         }
     }
 
@@ -44,11 +48,12 @@ public class LicenseActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(colorPrimaryDark);
         }
+
+        ActivityUtils.setupLightStatusBar(getWindow().getDecorView(), withLightStatusBar);
     }
 
     private void setActivityData() {
         TextView activityDescription = (TextView) findViewById(R.id.piracy_checker_description);
-
         activityDescription.setText(description);
     }
 
