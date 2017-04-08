@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_unlicensed">This app is not licensed</string>
     <string name="app_unlicensed_description">This application is not licensed nor valid. Please download the app from a trusted source.</string>
     <string name="app_unlicensed_close">Close</string>
