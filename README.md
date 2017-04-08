@@ -209,7 +209,7 @@ new PiracyChecker(this)
 
 By default, the displayed Activity will use the library colors. To apply a custom primary and primary dark color, and to define if the activity should show normal or light status bar, use:
 ```java
-	.withActivityColor(R.color.colorPrimary, R.color.colorPrimaryDark, withLightStatusBar);
+	.withActivityColors(R.color.colorPrimary, R.color.colorPrimaryDark, withLightStatusBar);
 ```
 
 ### Using custom callbacks
