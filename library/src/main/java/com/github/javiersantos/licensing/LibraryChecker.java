@@ -221,6 +221,21 @@ public class LibraryChecker implements ServiceConnection {
         }
     }
 
+    public synchronized void finishAllChecks() {
+        for (LibraryValidator validator : mChecksInProgress) {
+            try {
+                finishCheck(validator);
+            } catch (Exception ignored) {
+            }
+        }
+        for (LibraryValidator validator : mPendingChecks) {
+            try {
+                mPendingChecks.remove(validator);
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
     private synchronized void finishCheck(LibraryValidator validator) {
         mChecksInProgress.remove(validator);
         if (mChecksInProgress.isEmpty()) {
@@ -263,8 +278,7 @@ public class LibraryChecker implements ServiceConnection {
             try {
                 mContext.unbindService(this);
             } catch (IllegalArgumentException e) {
-                // Somehow we've already been unbound. This is a non-fatal
-                // error.
+                // Somehow we've already been unbound. This is a non-fatal error.
                 Log.e(TAG, "Unable to unbind from licensing service (already unbound)");
             }
             mService = null;
@@ -318,7 +332,8 @@ public class LibraryChecker implements ServiceConnection {
                     // Make sure it hasn't already timed out.
                     if (mChecksInProgress.contains(mValidator)) {
                         clearTimeout();
-                        mValidator.check(mPublicKey, responseCode, signedData, Calendar.getInstance(), signature);
+                        mValidator.check(mPublicKey, responseCode, signedData,
+                                Calendar.getInstance(), signature);
                         finishCheck(mValidator);
                     }
                     if (DEBUG_LICENSE_ERROR) {

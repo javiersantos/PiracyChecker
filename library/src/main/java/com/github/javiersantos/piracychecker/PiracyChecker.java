@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 
 import com.github.javiersantos.licensing.AESObfuscator;
 import com.github.javiersantos.licensing.LibraryChecker;
@@ -57,6 +58,8 @@ public class PiracyChecker {
 
     // LVL
     protected LibraryChecker libraryLVLChecker;
+    // Dialog
+    protected AlertDialog dialog;
 
 
     public PiracyChecker(Context context) {
@@ -204,9 +207,8 @@ public class PiracyChecker {
     }
 
     public void destroy() {
-        if (libraryLVLChecker != null) {
-            libraryLVLChecker.onDestroy();
-        }
+        dismissDialog();
+        destroyLVLChecker();
     }
 
     public void start() {
@@ -231,10 +233,12 @@ public class PiracyChecker {
                     else if (error.equals(PiracyCheckerError.BLOCK_PIRATE_APP))
                         dialogContent = context.getString(R.string.unauthorized_app_blocked);
 
-                    if (display == Display.DIALOG)
-                        LibraryUtils.buildUnlicensedDialog(context, unlicensedDialogTitle,
-                                dialogContent).show();
-                    else {
+                    if (display == Display.DIALOG) {
+                        dismissDialog();
+                        dialog = LibraryUtils.buildUnlicensedDialog(context, unlicensedDialogTitle,
+                                dialogContent);
+                        dialog.show();
+                    } else {
                         Intent intent = new Intent(context, LicenseActivity.class)
                                 .putExtra("content", dialogContent)
                                 .putExtra("colorPrimary", colorPrimary)
@@ -261,6 +265,7 @@ public class PiracyChecker {
             if (enableLVL) {
                 String deviceId = Settings.Secure.getString(context.getContentResolver(),
                         Settings.Secure.ANDROID_ID);
+                destroyLVLChecker();
                 libraryLVLChecker = new LibraryChecker(context,
                         new ServerManagedPolicy(context, new AESObfuscator(LibraryUtils.SALT,
                                 context.getPackageName(), deviceId)), licenseBase64);
@@ -354,6 +359,21 @@ public class PiracyChecker {
                     preferences.edit().putBoolean(preferenceSaveResult, false).apply();
                 verifyCallback.dontAllow(PiracyCheckerError.NOT_LICENSED, null);
             }
+        }
+    }
+
+    private void dismissDialog() {
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
+    }
+
+    private void destroyLVLChecker() {
+        if (libraryLVLChecker != null) {
+            libraryLVLChecker.finishAllChecks();
+            libraryLVLChecker.onDestroy();
+            libraryLVLChecker = null;
         }
     }
 
