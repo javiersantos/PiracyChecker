@@ -43,7 +43,7 @@ public class PiracyChecker {
     protected int colorPrimaryDark;
     protected boolean withLightStatusBar;
     @LayoutRes
-    protected int layoutXML;
+    protected int layoutXML = -1;
     protected boolean enableLVL;
     protected boolean enableSigningCertificate;
     protected boolean enableInstallerId;
@@ -66,7 +66,6 @@ public class PiracyChecker {
     protected LibraryChecker libraryLVLChecker;
     // Dialog
     protected AlertDialog dialog;
-
 
     public PiracyChecker(Context context) {
         this(context, context.getString(R.string.app_unlicensed),
@@ -237,9 +236,7 @@ public class PiracyChecker {
     }
 
     public void start() {
-        if (callback != null) {
-            verify(callback);
-        } else {
+        if (callback == null) {
             this.callback = new PiracyCheckerCallback() {
                 @Override
                 public void allow() {
@@ -276,12 +273,14 @@ public class PiracyChecker {
                                 .putExtra("withLightStatusBar", withLightStatusBar)
                                 .putExtra("layoutXML", layoutXML);
                         context.startActivity(intent);
-                        ((Activity) context).finish();
+                        if (context instanceof Activity) {
+                            ((Activity) context).finish();
+                        }
                     }
                 }
             };
-            verify(callback);
         }
+        verify(callback);
     }
 
     private void verify(final PiracyCheckerCallback verifyCallback) {
