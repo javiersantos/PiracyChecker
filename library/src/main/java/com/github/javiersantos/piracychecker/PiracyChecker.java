@@ -144,6 +144,11 @@ public class PiracyChecker {
         return this;
     }
 
+    @Deprecated
+    public PiracyChecker enableEmulatorCheck() {
+        return enableEmulatorCheck(false);
+    }
+
     public PiracyChecker enableEmulatorCheck(boolean deepCheck) {
         this.enableEmulatorCheck = true;
         this.enableDeepEmulatorCheck = deepCheck;
