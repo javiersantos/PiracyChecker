@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.support.annotation.ColorRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -41,6 +42,8 @@ public class PiracyChecker {
     protected int colorPrimary;
     protected int colorPrimaryDark;
     protected boolean withLightStatusBar;
+    @LayoutRes
+    protected int layoutXML;
     protected boolean enableLVL;
     protected boolean enableSigningCertificate;
     protected boolean enableInstallerId;
@@ -218,6 +221,11 @@ public class PiracyChecker {
         return this;
     }
 
+    public PiracyChecker withActivityLayout(@LayoutRes int layout) {
+        this.layoutXML = layout;
+        return this;
+    }
+
     public PiracyChecker callback(PiracyCheckerCallback callback) {
         this.callback = callback;
         return this;
@@ -265,7 +273,8 @@ public class PiracyChecker {
                                 .putExtra("content", dialogContent)
                                 .putExtra("colorPrimary", colorPrimary)
                                 .putExtra("colorPrimaryDark", colorPrimaryDark)
-                                .putExtra("withLightStatusBar", withLightStatusBar);
+                                .putExtra("withLightStatusBar", withLightStatusBar)
+                                .putExtra("layoutXML", layoutXML);
                         context.startActivity(intent);
                         ((Activity) context).finish();
                     }

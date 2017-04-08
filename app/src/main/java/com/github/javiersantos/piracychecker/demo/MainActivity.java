@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toGithub(View view) {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/javiersantos/PiracyChecker")));
+        startActivity(new Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://github.com/javiersantos/PiracyChecker")));
     }
 
     public void verifySignature(View view) {
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     public void verifyEmulator(View view) {
         new PiracyChecker(this)
                 .display(piracyCheckerDisplay)
-                .enableEmulatorCheck()
+                .enableEmulatorCheck(true)
                 .start();
     }
 
