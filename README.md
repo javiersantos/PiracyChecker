@@ -99,7 +99,7 @@ new PiracyChecker(this)
 ### Verify the use of pirate apps
 If you want to check if user has pirate apps installed, you can use this code.
 
-It will check for: Lucky Patcher, Freedom and CreeHack.
+It will check for: Lucky Patcher, Uret Patcher, Freedom and CreeHack.
 
 ```Java
 new PiracyChecker(this)
@@ -135,7 +135,7 @@ new PiracyChecker(this)
 ### Verify the use of third-party store apps
 If you want to check if user has third-party store apps installed, you can use this code.
 
-It will check for: Aptoide, BlackMart, Mobogenie, 1Mobile, GetApk, GetJar and SlideMe.
+It will check for: Aptoide, BlackMart, Mobogenie, 1Mobile, GetApk, GetJar, SlideMe and ACMarket.
 
 ```Java
 new PiracyChecker(this)
@@ -158,11 +158,14 @@ new PiracyChecker(this)
 Outside of development, it's unlikely that your app should be running on an emulator, and releasing apps with debuggable enabled is discouraged as it allows connected computers to access and debug the app via the Android Debug Bridge.
 
 ```Java
+boolean deep = false;
 new PiracyChecker(this)
-	.enableEmulatorCheck()
+	.enableEmulatorCheck(deep)
 	...
 	.start();
 ```
+
+**Note:** the deep boolean with make the library do extra checks to detect if device is an emulator or not. It could lead to some weird crashes, so be wise when using it.
 
 ### Save the result of the license check in `SharedPreferences`
 
@@ -204,7 +207,15 @@ new PiracyChecker(this)
 	.start();
 ```
 
-By default, the displayed Activity will use the library colors. To apply a custom primary and primary dark color use `.withActivityColor(R.color.colorPrimary, R.color.colorPrimaryDark)`.
+By default, the displayed Activity will use the library colors. To apply a custom primary and primary dark color, and to define if the activity should show normal or light status bar, use:
+```java
+	.withActivityColors(R.color.colorPrimary, R.color.colorPrimaryDark, withLightStatusBar)
+```
+
+You can also define a custom layout xml for this activity content, using:
+```java
+	.withActivityLayout(R.layout.my_custom_layout)
+```
 
 ### Using custom callbacks
 Adding a callback to the builder allows you to customize what will happen when the license has been checked and manage the license check errors if the user is not allowed to use the app. Keep in mind that when using this method **you must be aware of blocking the app from unauthorized users**.

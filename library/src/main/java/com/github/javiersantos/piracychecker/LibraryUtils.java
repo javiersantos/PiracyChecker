@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.pm.Signature;
+import android.opengl.GLES20;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -33,6 +34,7 @@ class LibraryUtils {
     };
 
     static AlertDialog buildUnlicensedDialog(Context context, String title, String content) {
+        if (!(context instanceof Activity)) return null;
         final Activity activity = (Activity) context;
         return new AlertDialog.Builder(context)
                 .setCancelable(false)
@@ -54,8 +56,8 @@ class LibraryUtils {
     static String getCurrentSignature(Context context) {
         String res = "";
         try {
-            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context
-                    .getPackageName(), PackageManager.GET_SIGNATURES);
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(
+                    context.getPackageName(), PackageManager.GET_SIGNATURES);
             for (Signature signature : packageInfo.signatures) {
                 MessageDigest messageDigest = MessageDigest.getInstance("SHA");
                 messageDigest.update(signature.toByteArray());
@@ -72,8 +74,8 @@ class LibraryUtils {
 
     static boolean verifyInstallerId(Context context, List<InstallerID> installerID) {
         List<String> validInstallers = new ArrayList<>();
-        final String installer = context.getPackageManager().getInstallerPackageName(context
-                .getPackageName());
+        final String installer = context.getPackageManager().getInstallerPackageName(
+                context.getPackageName());
 
         for (InstallerID id : installerID) {
             validInstallers.addAll(id.toIDs());
@@ -121,7 +123,8 @@ class LibraryUtils {
                                     return app;
                                 }
                             }
-                        } catch (Exception ignored) {}
+                        } catch (Exception ignored) {
+                        }
                     }
                 }
             }
@@ -130,18 +133,19 @@ class LibraryUtils {
     }
 
     /**
-     * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
-     * the License. You may obtain a copy of the License at
+     * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+     * except in compliance with the License. You may obtain a copy of the License at
      *
-     *     http://www.apache.org/licenses/LICENSE-2.0
+     * http://www.apache.org/licenses/LICENSE-2.0
      *
-     * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
-     * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
-     * specific language governing permissions and limitations under the License.
+     * Unless required by applicable law or agreed to in writing, software distributed under the
+     * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+     * either express or implied. See the License for the specific language governing permissions
+     * and limitations under the License.
      *
      * Copyright (C) 2013, Vladislav Gingo Skoumal (http://www.skoumal.net)
      */
-    static boolean isInEmulator() {
+    static boolean isInEmulator(boolean deepCheck) {
         int ratingCheckEmulator = 0;
 
         if (Build.PRODUCT.contains("sdk") ||
@@ -161,7 +165,7 @@ class LibraryUtils {
                 Build.MANUFACTURER.contains("Andy") ||
                 Build.MANUFACTURER.contains("MIT") ||
                 Build.MANUFACTURER.contains("nox") ||
-                Build.MANUFACTURER.contains("TiantianVM")){
+                Build.MANUFACTURER.contains("TiantianVM")) {
             ratingCheckEmulator++;
         }
 
@@ -200,7 +204,8 @@ class LibraryUtils {
             ratingCheckEmulator++;
         }
 
-        if (Build.FINGERPRINT.contains("generic/sdk/generic") ||
+        if (Build.FINGERPRINT.contains("generic") ||
+                Build.FINGERPRINT.contains("generic/sdk/generic") ||
                 Build.FINGERPRINT.contains("generic_x86/sdk_x86/generic_x86") ||
                 Build.FINGERPRINT.contains("Andy") ||
                 Build.FINGERPRINT.contains("ttVM_Hdragon") ||
@@ -211,25 +216,27 @@ class LibraryUtils {
             ratingCheckEmulator++;
         }
 
-        try {
-            String opengl = android.opengl.GLES20.glGetString(android.opengl.GLES20.GL_RENDERER);
-            if (opengl != null) {
-                if (opengl.contains("Bluestacks") || opengl.contains("Translator"))
-                    ratingCheckEmulator += 10;
+        if (deepCheck) {
+            try {
+                String opengl = GLES20.glGetString(GLES20.GL_RENDERER);
+                if (opengl != null) {
+                    if (opengl.contains("Bluestacks") || opengl.contains("Translator"))
+                        ratingCheckEmulator += 10;
+                }
+            } catch (Exception ignored) {
             }
-        } catch (Exception ignored) {}
 
-        try {
-            File sharedFolder = new File(Environment
-                    .getExternalStorageDirectory().toString()
-                    + File.separatorChar
-                    + "windows"
-                    + File.separatorChar
-                    + "BstSharedFolder");
-
-            if (sharedFolder.exists())
-                ratingCheckEmulator += 10;
-        } catch (Exception ignored) {}
+            try {
+                File sharedFolder = new File(Environment.getExternalStorageDirectory().toString()
+                        + File.separatorChar
+                        + "windows"
+                        + File.separatorChar
+                        + "BstSharedFolder");
+                if (sharedFolder.exists())
+                    ratingCheckEmulator += 10;
+            } catch (Exception ignored) {
+            }
+        }
 
         return ratingCheckEmulator > 3;
     }
@@ -281,6 +288,8 @@ class LibraryUtils {
                 "a", "r", ".", "r", "e", "w", "a", "r", "d", "s"}));
         apps.add(new PirateApp("SlideMe", new String[]{"c", "o", "m", ".", "s", "l", "i", "d",
                 "e", "m", "e", ".", "s", "a", "m", ".", "m", "a", "n", "a", "g", "e", "r"}));
+        apps.add(new PirateApp("ACMarket", new String[]{"n", "e", "t", ".", "a", "p", "p", "c",
+                "a", "k", "e"}));
         return apps;
     }
 
@@ -288,7 +297,7 @@ class LibraryUtils {
         final PackageManager mgr = ctx.getPackageManager();
         List<ResolveInfo> list = mgr.queryIntentActivities(intent,
                 PackageManager.MATCH_DEFAULT_ONLY);
-        return list.size() > 0;
+        return list != null && list.size() > 0;
     }
 
     private static boolean hasPermissions(Context context) {
