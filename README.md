@@ -31,7 +31,7 @@ And add the library to your module **build.gradle**:
 
 ```Javascript
 dependencies {
-    compile 'com.github.javiersantos:PiracyChecker:1.0.2'
+    compile 'com.github.javiersantos:PiracyChecker:1.1'
 }
 ```
 
@@ -209,12 +209,12 @@ new PiracyChecker(this)
 
 By default, the displayed Activity will use the library colors. To apply a custom primary and primary dark color, and to define if the activity should show normal or light status bar, use:
 ```java
-	.withActivityColors(R.color.colorPrimary, R.color.colorPrimaryDark, withLightStatusBar)
+.withActivityColors(R.color.colorPrimary, R.color.colorPrimaryDark, withLightStatusBar)
 ```
 
 You can also define a custom layout xml for this activity content, using:
 ```java
-	.withActivityLayout(R.layout.my_custom_layout)
+.withActivityLayout(R.layout.my_custom_layout)
 ```
 
 ### Using custom callbacks
