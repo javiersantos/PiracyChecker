@@ -11,7 +11,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
@@ -39,11 +38,10 @@ public class PiracyChecker {
     protected String unlicensedDialogTitle;
     protected String unlicensedDialogDescription;
     protected Display display;
-    protected int colorPrimary;
-    protected int colorPrimaryDark;
+    @ColorRes protected int colorPrimary;
+    @ColorRes protected int colorPrimaryDark;
     protected boolean withLightStatusBar;
-    @LayoutRes
-    protected int layoutXML = -1;
+    @LayoutRes protected int layoutXML = -1;
     protected boolean enableLVL;
     protected boolean enableSigningCertificate;
     protected boolean enableInstallerId;
@@ -78,8 +76,8 @@ public class PiracyChecker {
         this.unlicensedDialogDescription = description;
         this.display = Display.DIALOG;
         this.installerIDs = new ArrayList<>();
-        this.colorPrimary = ContextCompat.getColor(context, R.color.colorPrimary);
-        this.colorPrimaryDark = ContextCompat.getColor(context, R.color.colorPrimaryDark);
+        this.colorPrimary = R.color.colorPrimary;
+        this.colorPrimaryDark = R.color.colorPrimaryDark;
     }
 
     public PiracyChecker(Context context, @StringRes int title, @StringRes int description) {

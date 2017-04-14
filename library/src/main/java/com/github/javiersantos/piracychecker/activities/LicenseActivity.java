@@ -2,6 +2,7 @@ package com.github.javiersantos.piracychecker.activities;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.support.annotation.LayoutRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -12,11 +13,10 @@ import com.github.javiersantos.piracychecker.R;
 
 public class LicenseActivity extends AppCompatActivity {
     private String description;
-    private int colorPrimary;
-    private int colorPrimaryDark;
+    @ColorRes private int colorPrimary;
+    @ColorRes private int colorPrimaryDark;
     private boolean withLightStatusBar;
-    @LayoutRes
-    private int layoutXML;
+    @LayoutRes private int layoutXML;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class LicenseActivity extends AppCompatActivity {
     private void setActivityStyle() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
-            toolbar.setBackgroundColor(colorPrimary);
+            toolbar.setBackgroundColor(ContextCompat.getColor(this, colorPrimary));
             setSupportActionBar(toolbar);
 
             if (getSupportActionBar() != null) {
@@ -51,7 +51,7 @@ public class LicenseActivity extends AppCompatActivity {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(colorPrimaryDark);
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, colorPrimaryDark));
         }
 
         ActivityUtils.setupLightStatusBar(getWindow().getDecorView(), withLightStatusBar);
