@@ -7,6 +7,9 @@ import android.support.annotation.LayoutRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.github.javiersantos.piracychecker.R;
@@ -21,8 +24,8 @@ public class LicenseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_license);
         getIntentData();
-        setContentView(layoutXML != -1 ? layoutXML : R.layout.activity_license);
         setActivityStyle();
         setActivityData();
     }
@@ -58,8 +61,18 @@ public class LicenseActivity extends AppCompatActivity {
     }
 
     private void setActivityData() {
-        TextView activityDescription = (TextView) findViewById(R.id.piracy_checker_description);
-        activityDescription.setText(description);
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.mainContainer);
+
+        LayoutInflater factory = LayoutInflater.from(this);
+        View inflateView;
+        if (layoutXML == -1) {
+            inflateView = factory.inflate(R.layout.activity_license_default, null);
+            TextView activityDescription = (TextView) inflateView.findViewById(R.id.piracy_checker_description);
+            activityDescription.setText(description);
+        } else
+            inflateView = factory.inflate(layoutXML, null);
+
+        frameLayout.addView(inflateView);
     }
 
 }
