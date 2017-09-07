@@ -261,6 +261,10 @@ class LibraryUtils {
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "a", "n", "d",
                 "r", "o", "i", "d", ".", "v", "e", "n", "d", "i", "n", "g", ".", "b", "i", "l",
                 "l", "i", "n", "g", ".", "I", "n", "A", "p", "p", "B", "i", "l", "l", "i", "n",
+                "g", "S", "e", "r", "v", "i", "c", "e", ".", "C", "L", "O", "N"}));
+        apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "a", "n", "d",
+                "r", "o", "i", "d", ".", "v", "e", "n", "d", "i", "n", "g", ".", "b", "i", "l",
+                "l", "i", "n", "g", ".", "I", "n", "A", "p", "p", "B", "i", "l", "l", "i", "n",
                 "g", "S", "e", "r", "v", "i", "c", "e", ".", "L", "O", "C", "K"}));
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "a", "n", "d",
                 "r", "o", "i", "d", ".", "v", "e", "n", "d", "i", "n", "g", ".", "b", "i", "l",
