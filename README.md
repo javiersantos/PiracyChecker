@@ -19,7 +19,7 @@ Some of the techniques included in this library can be found [here](https://www.
 ## How to include
 Add the repository to your project **build.gradle**:
 
-```Javascript
+```Gradle
 repositories {
     maven {
         url "https://jitpack.io"
@@ -29,7 +29,7 @@ repositories {
 
 And add the library to your module **build.gradle**:
 
-```Javascript
+```Gradle
 dependencies {
     compile 'com.github.javiersantos:PiracyChecker:1.1'
 }
