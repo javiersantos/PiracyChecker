@@ -9,6 +9,13 @@
  - Device Manufacturer: `LG`
  - Device Name: `Nexus 5X`
 
+###### Builder
+```Java
+new PiracyChecker(this)
+   ...
+   .start();
+```
+
 ###### Reproduction Steps
 
 1.
