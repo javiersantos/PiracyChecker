@@ -31,7 +31,7 @@ And add the library to your module **build.gradle**:
 
 ```Gradle
 dependencies {
-    compile 'com.github.javiersantos:PiracyChecker:1.1'
+    implementation 'com.github.javiersantos:PiracyChecker:1.1'
 }
 ```
 
@@ -143,6 +143,17 @@ new PiracyChecker(this)
 	...
 	.start();
 ```
+
+### Enable deep pirate and third-party store apps check
+If you want to check if these kind of apps left some files that could make your app work as pirated still, you can enable its check as follows:
+```Java
+new PiracyChecker(this)
+	.enableFoldersCheck()
+	...
+	.start();
+```
+
+**BE CAREFUL!** This means, that some times, the app will be recognized as pirated even after those apps were uninstalled.
 
 ### Verify if app is a debug build
 If your app is running on an emulator outside the development process, it gives an indication that someone other than you is trying to analyze the app.
