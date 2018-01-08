@@ -148,12 +148,12 @@ new PiracyChecker(this)
 If you want to check if these kind of apps left some files that could make your app work as pirated still, you can enable its check as follows:
 ```Java
 new PiracyChecker(this)
-	.enableFoldersCheck()
+	.enableFoldersCheck(true)
 	...
 	.start();
 ```
 
-**BE CAREFUL!** This means, that some times, the app will be recognized as pirated even after those apps were uninstalled.
+**BE CAREFUL!** This means, that some times, the app will be recognized as pirated even after those pirate and third-party store apps were uninstalled. Set it to false if you don't like this behaviour/approach.
 
 ### Verify if app is a debug build
 If your app is running on an emulator outside the development process, it gives an indication that someone other than you is trying to analyze the app.
