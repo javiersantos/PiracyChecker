@@ -2,7 +2,7 @@
 <h4 align="center">Android Library</h4>
 
 <p align="center">
-  <a target="_blank" href="https://android-arsenal.com/api?level=9"><img src="https://img.shields.io/badge/API-9%2B-orange.svg"></a>
+  <a target="_blank" href="https://android-arsenal.com/api?level=14"><img src="https://img.shields.io/badge/API-14%2B-orange.svg"></a>
   <a target="_blank" href="https://travis-ci.org/javiersantos/PiracyChecker"><img src="https://travis-ci.org/javiersantos/PiracyChecker.svg?branch=master"></a>
   <a target="_blank" href="http://android-arsenal.com/details/1/3641"><img src="https://img.shields.io/badge/Android%20Arsenal-PiracyChecker-blue.svg"></a>
   <a target="_blank" href="https://www.paypal.me/javiersantos" title="Donate using PayPal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" /></a>
@@ -277,7 +277,7 @@ new PiracyChecker(this)
 ```
 
 ## License
-	Copyright 2017 Javier Santos
+	Copyright 2018 Javier Santos
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
