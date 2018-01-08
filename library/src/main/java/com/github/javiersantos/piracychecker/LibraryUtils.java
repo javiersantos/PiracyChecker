@@ -107,6 +107,15 @@ class LibraryUtils {
                     } catch (Exception ignored2) {
                         try {
                             if (hasPermissions(context)) {
+                                File appsContainer = new File("/data/app/");
+                                boolean containsFolder = false;
+                                if (appsContainer.exists()) {
+                                    for (File f : appsContainer.listFiles()) {
+                                        if (f.getName().startsWith(pack))
+                                            containsFolder = true;
+                                    }
+                                }
+
                                 File file1 = new File("/data/app/" + pack + "-1/base.apk");
                                 File file2 = new File("/data/app/" + pack + "-2/base.apk");
                                 File file3 = new File("/data/app/" + pack + ".apk");
@@ -125,7 +134,8 @@ class LibraryUtils {
                                             file6.exists() || file7.exists() || file8.exists();
                                 }
 
-                                if (file1.exists() || file2.exists() || file3.exists() ||
+                                if (containsFolder ||
+                                        file1.exists() || file2.exists() || file3.exists() ||
                                         file4.exists() || file5.exists() || foldersExist) {
                                     return app;
                                 }

@@ -283,6 +283,7 @@ public class PiracyChecker {
                         if (context instanceof Activity) {
                             ((Activity) context).finish();
                         }
+                        destroy();
                     }
                 }
             };
