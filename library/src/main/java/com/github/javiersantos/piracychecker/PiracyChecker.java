@@ -52,6 +52,7 @@ public class PiracyChecker {
     protected boolean enableEmulatorCheck;
     protected boolean enableDeepEmulatorCheck;
     protected boolean enableDebugCheck;
+    protected boolean enableFoldersCheck;
     protected boolean saveToSharedPreferences;
     protected boolean blockUnauthorized;
     protected SharedPreferences preferences;
@@ -155,6 +156,11 @@ public class PiracyChecker {
     public PiracyChecker enableEmulatorCheck(boolean deepCheck) {
         this.enableEmulatorCheck = true;
         this.enableDeepEmulatorCheck = deepCheck;
+        return this;
+    }
+
+    public PiracyChecker enableFoldersCheck(boolean foldersCheck) {
+        this.enableFoldersCheck = foldersCheck;
         return this;
     }
 
@@ -360,7 +366,7 @@ public class PiracyChecker {
     private void doExtraVerification(PiracyCheckerCallback verifyCallback,
                                      boolean possibleSuccess) {
         PirateApp app = LibraryUtils.getPirateApp(context, enableUnauthorizedAppsCheck,
-                                                  enableStoresCheck);
+                                                  enableStoresCheck, enableFoldersCheck);
         if (possibleSuccess) {
             if (enableDebugCheck && LibraryUtils.isDebug(context)) {
                 if (preferences != null && saveToSharedPreferences)

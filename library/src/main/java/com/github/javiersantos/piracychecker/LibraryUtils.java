@@ -85,7 +85,7 @@ class LibraryUtils {
     }
 
     @SuppressLint("SdCardPath")
-    static PirateApp getPirateApp(Context context, boolean lpf, boolean stores) {
+    static PirateApp getPirateApp(Context context, boolean lpf, boolean stores, boolean folders) {
         if (!lpf && !stores) return null;
         for (PirateApp app : getApps()) {
             if ((lpf && app.isUnauthorized()) || (stores && !app.isUnauthorized())) {
@@ -111,15 +111,22 @@ class LibraryUtils {
                                 File file2 = new File("/data/app/" + pack + "-2/base.apk");
                                 File file3 = new File("/data/app/" + pack + ".apk");
                                 File file4 = new File("/data/data/" + pack + ".apk");
-                                File file5 = new File("/data/data/" + pack);
-                                File file6 = new File(context.getFilesDir().getPath() + pack +
-                                                              ".apk");
-                                File file7 = new File(context.getFilesDir().getPath() + pack);
-                                File file8 = new File(Environment.getExternalStorageDirectory() +
-                                                              "/Android/data/" + pack);
+                                File file5 =
+                                        new File(context.getFilesDir().getPath() + pack + ".apk");
+
+                                boolean foldersExist = false;
+                                if (folders) {
+                                    File file6 = new File("/data/data/" + pack);
+                                    File file7 = new File(context.getFilesDir().getPath() + pack);
+                                    File file8 =
+                                            new File(Environment.getExternalStorageDirectory() +
+                                                             "/Android/data/" + pack);
+                                    foldersExist =
+                                            file6.exists() || file7.exists() || file8.exists();
+                                }
+
                                 if (file1.exists() || file2.exists() || file3.exists() ||
-                                        file4.exists() || file5.exists() || file6.exists() ||
-                                        file7.exists() || file8.exists()) {
+                                        file4.exists() || file5.exists() || foldersExist) {
                                     return app;
                                 }
                             }
@@ -339,7 +346,8 @@ class LibraryUtils {
             return Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN ||
                     !shouldAskPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) ||
                     (!(ActivityCompat.shouldShowRequestPermissionRationale((Activity) context,
-                                                                           Manifest.permission.READ_EXTERNAL_STORAGE)));
+                                                                           Manifest.permission
+                                                                                   .READ_EXTERNAL_STORAGE)));
         } catch (Exception e) {
             return false;
         }
