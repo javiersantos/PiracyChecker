@@ -7,7 +7,9 @@ public enum PiracyCheckerError {
     USING_DEBUG_APP("This is a debug build."),
     USING_APP_IN_EMULATOR("This app is being used in an emulator."),
     PIRATE_APP_INSTALLED("At least one pirate app has been detected on device."),
-    BLOCK_PIRATE_APP("At least one pirate app has been detected and the app must be reinstalled when all unauthorized apps are uninstalled.."),
+    BLOCK_PIRATE_APP(
+            "At least one pirate app has been detected and the app must be reinstalled when all " +
+                    "unauthorized apps are uninstalled.."),
     THIRD_PARTY_STORE_INSTALLED("At least one third-party store has been detected on device."),
 
     // Other errors
@@ -17,7 +19,7 @@ public enum PiracyCheckerError {
     CHECK_IN_PROGRESS("License check is in progress."),
     INVALID_PUBLIC_KEY("Application public key is invalid."),
     MISSING_PERMISSION("Application misses the \'com.android.vending.CHECK_LICENSE\' " +
-            "permission."),
+                               "permission."),
     UNKNOWN("Unknown error.");
 
     private final String text;

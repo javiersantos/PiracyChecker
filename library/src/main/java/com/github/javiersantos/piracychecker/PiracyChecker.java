@@ -37,10 +37,13 @@ public class PiracyChecker {
     protected String unlicensedDialogTitle;
     protected String unlicensedDialogDescription;
     protected Display display;
-    @ColorRes protected int colorPrimary;
-    @ColorRes protected int colorPrimaryDark;
+    @ColorRes
+    protected int colorPrimary;
+    @ColorRes
+    protected int colorPrimaryDark;
     protected boolean withLightStatusBar;
-    @LayoutRes protected int layoutXML = -1;
+    @LayoutRes
+    protected int layoutXML = -1;
     protected boolean enableLVL;
     protected boolean enableSigningCertificate;
     protected boolean enableInstallerId;
@@ -66,7 +69,7 @@ public class PiracyChecker {
 
     public PiracyChecker(Context context) {
         this(context, context.getString(R.string.app_unlicensed),
-                context.getString(R.string.app_unlicensed_description));
+             context.getString(R.string.app_unlicensed_description));
     }
 
     public PiracyChecker(Context context, String title, String description) {
@@ -179,7 +182,7 @@ public class PiracyChecker {
                 this.preferences = ((Activity) context).getPreferences(Context.MODE_PRIVATE);
             } catch (Exception e) {
                 this.preferences = context.getSharedPreferences(LIBRARY_PREFERENCES_NAME,
-                        Context.MODE_PRIVATE);
+                                                                Context.MODE_PRIVATE);
             }
         }
     }
@@ -192,7 +195,7 @@ public class PiracyChecker {
                 this.preferences = ((Activity) context).getPreferences(Context.MODE_PRIVATE);
             } catch (Exception e) {
                 this.preferences = context.getSharedPreferences(LIBRARY_PREFERENCES_NAME,
-                        Context.MODE_PRIVATE);
+                                                                Context.MODE_PRIVATE);
             }
         }
     }
@@ -230,6 +233,7 @@ public class PiracyChecker {
     public void destroy() {
         dismissDialog();
         destroyLVLChecker();
+        context = null;
     }
 
     public void start() {
@@ -248,14 +252,14 @@ public class PiracyChecker {
                     String dialogContent = unlicensedDialogDescription;
                     if (app != null)
                         dialogContent = context.getString(R.string.unauthorized_app_found,
-                                app.getName());
+                                                          app.getName());
                     else if (error.equals(PiracyCheckerError.BLOCK_PIRATE_APP))
                         dialogContent = context.getString(R.string.unauthorized_app_blocked);
 
                     if (display == Display.DIALOG) {
                         dismissDialog();
                         dialog = PiracyCheckerDialog.newInstance(unlicensedDialogTitle,
-                                dialogContent);
+                                                                 dialogContent);
                         if (dialog != null) {
                             dialog.show(context);
                         } else {
@@ -292,11 +296,17 @@ public class PiracyChecker {
         } else {
             if (enableLVL) {
                 String deviceId = Settings.Secure.getString(context.getContentResolver(),
-                        Settings.Secure.ANDROID_ID);
+                                                            Settings.Secure.ANDROID_ID);
                 destroyLVLChecker();
-                libraryLVLChecker = new LibraryChecker(context,
-                        new ServerManagedPolicy(context, new AESObfuscator(LibraryUtils.SALT,
-                                context.getPackageName(), deviceId)), licenseBase64);
+                libraryLVLChecker =
+                        new LibraryChecker(
+                                context,
+                                new ServerManagedPolicy(context,
+                                                        new AESObfuscator(
+                                                                LibraryUtils.SALT,
+                                                                context.getPackageName(),
+                                                                deviceId)),
+                                licenseBase64);
                 libraryLVLChecker.checkAccess(new LibraryCheckerCallback() {
                     @Override
                     public void allow(int reason) {
@@ -350,7 +360,7 @@ public class PiracyChecker {
     private void doExtraVerification(PiracyCheckerCallback verifyCallback,
                                      boolean possibleSuccess) {
         PirateApp app = LibraryUtils.getPirateApp(context, enableUnauthorizedAppsCheck,
-                enableStoresCheck);
+                                                  enableStoresCheck);
         if (possibleSuccess) {
             if (enableDebugCheck && LibraryUtils.isDebug(context)) {
                 if (preferences != null && saveToSharedPreferences)
@@ -366,8 +376,8 @@ public class PiracyChecker {
                 if (preferences != null && blockUnauthorized && app.isUnauthorized())
                     preferences.edit().putBoolean(preferenceBlockUnauthorized, true).apply();
                 verifyCallback.dontAllow(app.isUnauthorized()
-                        ? PiracyCheckerError.PIRATE_APP_INSTALLED
-                        : PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED, app);
+                                         ? PiracyCheckerError.PIRATE_APP_INSTALLED
+                                         : PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED, app);
             } else {
                 if (preferences != null && saveToSharedPreferences)
                     preferences.edit().putBoolean(preferenceSaveResult, true).apply();
@@ -380,8 +390,8 @@ public class PiracyChecker {
                 if (preferences != null && blockUnauthorized && app.isUnauthorized())
                     preferences.edit().putBoolean(preferenceBlockUnauthorized, true).apply();
                 verifyCallback.dontAllow(app.isUnauthorized()
-                        ? PiracyCheckerError.PIRATE_APP_INSTALLED
-                        : PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED, app);
+                                         ? PiracyCheckerError.PIRATE_APP_INSTALLED
+                                         : PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED, app);
             } else {
                 if (preferences != null && saveToSharedPreferences)
                     preferences.edit().putBoolean(preferenceSaveResult, false).apply();
@@ -404,5 +414,4 @@ public class PiracyChecker {
             libraryLVLChecker = null;
         }
     }
-
 }

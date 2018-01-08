@@ -113,10 +113,10 @@ class LibraryUtils {
                                 File file4 = new File("/data/data/" + pack + ".apk");
                                 File file5 = new File("/data/data/" + pack);
                                 File file6 = new File(context.getFilesDir().getPath() + pack +
-                                        ".apk");
+                                                              ".apk");
                                 File file7 = new File(context.getFilesDir().getPath() + pack);
                                 File file8 = new File(Environment.getExternalStorageDirectory() +
-                                        "/Android/data/" + pack);
+                                                              "/Android/data/" + pack);
                                 if (file1.exists() || file2.exists() || file3.exists() ||
                                         file4.exists() || file5.exists() || file6.exists() ||
                                         file7.exists() || file8.exists()) {
@@ -135,14 +135,14 @@ class LibraryUtils {
     /**
      * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
      * except in compliance with the License. You may obtain a copy of the License at
-     *
+     * <p>
      * http://www.apache.org/licenses/LICENSE-2.0
-     *
+     * <p>
      * Unless required by applicable law or agreed to in writing, software distributed under the
      * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
      * either express or implied. See the License for the specific language governing permissions
      * and limitations under the License.
-     *
+     * <p>
      * Copyright (C) 2013, Vladislav Gingo Skoumal (http://www.skoumal.net)
      */
     static boolean isInEmulator(boolean deepCheck) {
@@ -228,10 +228,10 @@ class LibraryUtils {
 
             try {
                 File sharedFolder = new File(Environment.getExternalStorageDirectory().toString()
-                        + File.separatorChar
-                        + "windows"
-                        + File.separatorChar
-                        + "BstSharedFolder");
+                                                     + File.separatorChar
+                                                     + "windows"
+                                                     + File.separatorChar
+                                                     + "BstSharedFolder");
                 if (sharedFolder.exists())
                     ratingCheckEmulator += 10;
             } catch (Exception ignored) {
@@ -248,59 +248,89 @@ class LibraryUtils {
     private static ArrayList<PirateApp> getApps() {
         ArrayList<PirateApp> apps = new ArrayList<>();
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "c", "h", "e",
-                "l", "p", "u", "s", ".", "l", "a", "c", "k", "y", "p", "a", "t", "c", "h"}));
+                                                             "l", "p", "u", "s", ".", "l", "a", "c",
+                                                             "k", "y", "p", "a", "t", "c", "h"}));
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "d", "i", "m",
-                "o", "n", "v", "i", "d", "e", "o", ".", "l", "u", "c", "k", "y", "p", "a", "t",
-                "c", "h", "e", "r"}));
+                                                             "o", "n", "v", "i", "d", "e", "o", ".",
+                                                             "l", "u", "c", "k", "y", "p", "a", "t",
+                                                             "c", "h", "e", "r"}));
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "f", "o", "r",
-                "p", "d", "a", ".", "l", "p"}));
+                                                             "p", "d", "a", ".", "l", "p"}));
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "a", "n", "d",
-                "r", "o", "i", "d", ".", "v", "e", "n", "d", "i", "n", "g", ".", "b", "i", "l",
-                "l", "i", "n", "g", ".", "I", "n", "A", "p", "p", "B", "i", "l", "l", "i", "n",
-                "g", "S", "e", "r", "v", "i", "c", "e", ".", "L", "U", "C", "K"}));
+                                                             "r", "o", "i", "d", ".", "v", "e", "n",
+                                                             "d", "i", "n", "g", ".", "b", "i", "l",
+                                                             "l", "i", "n", "g", ".", "I", "n", "A",
+                                                             "p", "p", "B", "i", "l", "l", "i", "n",
+                                                             "g", "S", "e", "r", "v", "i", "c", "e",
+                                                             ".", "L", "U", "C", "K"}));
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "a", "n", "d",
-                "r", "o", "i", "d", ".", "v", "e", "n", "d", "i", "n", "g", ".", "b", "i", "l",
-                "l", "i", "n", "g", ".", "I", "n", "A", "p", "p", "B", "i", "l", "l", "i", "n",
-                "g", "S", "e", "r", "v", "i", "c", "e", ".", "C", "L", "O", "N"}));
+                                                             "r", "o", "i", "d", ".", "v", "e", "n",
+                                                             "d", "i", "n", "g", ".", "b", "i", "l",
+                                                             "l", "i", "n", "g", ".", "I", "n", "A",
+                                                             "p", "p", "B", "i", "l", "l", "i", "n",
+                                                             "g", "S", "e", "r", "v", "i", "c", "e",
+                                                             ".", "L", "O", "C", "K"}));
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "a", "n", "d",
-                "r", "o", "i", "d", ".", "v", "e", "n", "d", "i", "n", "g", ".", "b", "i", "l",
-                "l", "i", "n", "g", ".", "I", "n", "A", "p", "p", "B", "i", "l", "l", "i", "n",
-                "g", "S", "e", "r", "v", "i", "c", "e", ".", "L", "O", "C", "K"}));
+                                                             "r", "o", "i", "d", ".", "v", "e", "n",
+                                                             "d", "i", "n", "g", ".", "b", "i", "l",
+                                                             "l", "i", "n", "g", ".", "I", "n", "A",
+                                                             "p", "p", "B", "i", "l", "l", "i", "n",
+                                                             "g", "S", "e", "r", "v", "i", "c", "e",
+                                                             ".", "L", "A", "C", "K"}));
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "a", "n", "d",
-                "r", "o", "i", "d", ".", "v", "e", "n", "d", "i", "n", "g", ".", "b", "i", "l",
-                "l", "i", "n", "g", ".", "I", "n", "A", "p", "p", "B", "i", "l", "l", "i", "n",
-                "g", "S", "e", "r", "v", "i", "c", "e", ".", "L", "A", "C", "K"}));
+                                                             "r", "o", "i", "d", ".", "v", "e", "n",
+                                                             "d", "i", "n", "g", ".", "b", "i", "l",
+                                                             "l", "i", "n", "g", ".", "I", "n", "A",
+                                                             "p", "p", "B", "i", "l", "l", "i", "n",
+                                                             "g", "S", "e", "r", "v", "i", "c", "e",
+                                                             ".", "C", "L", "O", "N"}));
+        apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "a", "n", "d",
+                                                             "r", "o", "i", "d", ".", "v", "e", "n",
+                                                             "d", "i", "n", "g", ".", "b", "i", "l",
+                                                             "l", "i", "n", "g", ".", "I", "n", "A",
+                                                             "p", "p", "B", "i", "l", "l", "i", "n",
+                                                             "g", "S", "e", "r", "v", "i", "c", "e",
+                                                             ".", "C", "R", "A", "C"}));
         apps.add(new PirateApp("Uret Patcher", new String[]{"u", "r", "e", "t", ".", "j", "a",
-                "s", "i", "2", "1", "6", "9", ".", "p", "a", "t", "c", "h", "e", "r"}));
+                                                            "s", "i", "2", "1", "6", "9", ".", "p",
+                                                            "a", "t", "c", "h", "e", "r"}));
         apps.add(new PirateApp("Freedom", new String[]{"c", "c", ".", "m", "a", "d", "k", "i",
-                "t", "e", ".", "f", "r", "e", "e", "d", "o", "m"}));
+                                                       "t", "e", ".", "f", "r", "e", "e", "d", "o",
+                                                       "m"}));
         apps.add(new PirateApp("Freedom", new String[]{"c", "c", ".", "c", "z", ".", "m", "a",
-                "d", "k", "i", "t", "e", ".", "f", "r", "e", "e", "d", "o", "m"}));
+                                                       "d", "k", "i", "t", "e", ".", "f", "r", "e",
+                                                       "e", "d", "o", "m"}));
         apps.add(new PirateApp("CreeHack", new String[]{"o", "r", "g", ".", "c", "r", "e", "e",
-                "p", "l", "a", "y", "s", ".", "h", "a", "c", "k"}));
+                                                        "p", "l", "a", "y", "s", ".", "h", "a", "c",
+                                                        "k"}));
         apps.add(new PirateApp("Aptoide", new String[]{"c", "m", ".", "a", "p", "t", "o", "i",
-                "d", "e", ".", "p", "t"}));
+                                                       "d", "e", ".", "p", "t"}));
         apps.add(new PirateApp("BlackMart", new String[]{"o", "r", "g", ".", "b", "l", "a", "c",
-                "k", "m", "a", "r", "t", ".", "m", "a", "r", "k", "e", "t"}));
+                                                         "k", "m", "a", "r", "t", ".", "m", "a",
+                                                         "r", "k", "e", "t"}));
         apps.add(new PirateApp("Mobogenie", new String[]{"c", "o", "m", ".", "m", "o", "b", "o",
-                "g", "e", "n", "i", "e"}));
+                                                         "g", "e", "n", "i", "e"}));
         apps.add(new PirateApp("1Mobile", new String[]{"m", "e", ".", "o", "n", "e", "m", "o",
-                "b", "i", "l", "e", ".", "a", "n", "d", "r", "o", "i", "d"}));
+                                                       "b", "i", "l", "e", ".", "a", "n", "d", "r",
+                                                       "o", "i", "d"}));
         apps.add(new PirateApp("GetApk", new String[]{"c", "o", "m", ".", "r", "e", "p", "o",
-                "d", "r", "o", "i", "d", ".", "a", "p", "p"}));
+                                                      "d", "r", "o", "i", "d", ".", "a", "p",
+                                                      "p"}));
         apps.add(new PirateApp("GetJar", new String[]{"c", "o", "m", ".", "g", "e", "t", "j",
-                "a", "r", ".", "r", "e", "w", "a", "r", "d", "s"}));
+                                                      "a", "r", ".", "r", "e", "w", "a", "r", "d",
+                                                      "s"}));
         apps.add(new PirateApp("SlideMe", new String[]{"c", "o", "m", ".", "s", "l", "i", "d",
-                "e", "m", "e", ".", "s", "a", "m", ".", "m", "a", "n", "a", "g", "e", "r"}));
+                                                       "e", "m", "e", ".", "s", "a", "m", ".", "m",
+                                                       "a", "n", "a", "g", "e", "r"}));
         apps.add(new PirateApp("ACMarket", new String[]{"n", "e", "t", ".", "a", "p", "p", "c",
-                "a", "k", "e"}));
+                                                        "a", "k", "e"}));
         return apps;
     }
 
     private static boolean isIntentAvailable(Context ctx, Intent intent) {
         final PackageManager mgr = ctx.getPackageManager();
         List<ResolveInfo> list = mgr.queryIntentActivities(intent,
-                PackageManager.MATCH_DEFAULT_ONLY);
+                                                           PackageManager.MATCH_DEFAULT_ONLY);
         return list != null && list.size() > 0;
     }
 
@@ -309,7 +339,7 @@ class LibraryUtils {
             return Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN ||
                     !shouldAskPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) ||
                     (!(ActivityCompat.shouldShowRequestPermissionRationale((Activity) context,
-                            Manifest.permission.READ_EXTERNAL_STORAGE)));
+                                                                           Manifest.permission.READ_EXTERNAL_STORAGE)));
         } catch (Exception e) {
             return false;
         }

@@ -11,7 +11,8 @@ public class PiracyCheckerDialog extends DialogFragment {
     private static PiracyCheckerDialog dialog;
     private static String mTitle, mContent;
 
-    public PiracyCheckerDialog() {}
+    public PiracyCheckerDialog() {
+    }
 
     public static PiracyCheckerDialog newInstance(String dialogTitle, String dialogContent) {
         dialog = new PiracyCheckerDialog();
@@ -22,7 +23,7 @@ public class PiracyCheckerDialog extends DialogFragment {
     }
 
     protected void show(Context context) {
-        dialog.show(((Activity)context).getFragmentManager(), "[LICENSE_DIALOG]");
+        dialog.show(((Activity) context).getFragmentManager(), "[LICENSE_DIALOG]");
     }
 
     @NonNull
@@ -30,7 +31,7 @@ public class PiracyCheckerDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         setCancelable(false);
         return LibraryUtils.buildUnlicensedDialog(getActivity(), mTitle,
-            mContent);
+                                                  mContent);
     }
 
 }

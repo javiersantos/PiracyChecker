@@ -41,17 +41,19 @@ public interface LibraryCheckerCallback {
     /**
      * Allow use. App should proceed as normal.
      *
-     * @param reason Policy.LICENSED or Policy.RETRY typically. (although in theory the policy can
-     *               return Policy.NOT_LICENSED here as well)
+     * @param reason
+     *         Policy.LICENSED or Policy.RETRY typically. (although in theory the policy can return
+     *         Policy.NOT_LICENSED here as well)
      */
     void allow(int reason);
 
     /**
      * Don't allow use. App should inform user and take appropriate action.
      *
-     * @param reason Policy.NOT_LICENSED or Policy.RETRY. (although in theory the policy can return
-     *               Policy.LICENSED here as well --- perhaps the call to the LVL took too long, for
-     *               example)
+     * @param reason
+     *         Policy.NOT_LICENSED or Policy.RETRY. (although in theory the policy can return
+     *         Policy.LICENSED here as well --- perhaps the call to the LVL took too long, for
+     *         example)
      */
     void dontAllow(int reason);
 
