@@ -156,7 +156,7 @@ new PiracyChecker(this)
 **BE CAREFUL!** This means, that some times, the app will be recognized as pirated even after those pirate and third-party store apps were uninstalled. Set it to false if you don't like this behaviour/approach.
 
 ### Verify if app is a debug build
-If your app is running on an emulator outside the development process, it gives an indication that someone other than you is trying to analyze the app.
+Allowing apps to be debugged when installed on an Android device is something that, as developers, we only enable during the development process. Therefore, if debugging occurs on a live build of your app, it's likely that someone other than you is trying to analyze the app.
 
 ```Java
 new PiracyChecker(this)
@@ -166,7 +166,7 @@ new PiracyChecker(this)
 ```
 
 ### Verify if app is being run in an emulator
-Outside of development, it's unlikely that your app should be running on an emulator, and releasing apps with debuggable enabled is discouraged as it allows connected computers to access and debug the app via the Android Debug Bridge.
+If your app is running on an emulator outside the development process, it gives an indication that someone other than you is trying to analyze the app.
 
 ```Java
 boolean deep = false;
