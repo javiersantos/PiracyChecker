@@ -9,16 +9,16 @@ public class PirateApp {
         this.pack = pack;
     }
 
-    public void setPack(String[] pack) {
-        this.pack = pack;
-    }
-
     public String getName() {
         return name;
     }
 
     public String[] getPack() {
         return pack;
+    }
+
+    public void setPack(String[] pack) {
+        this.pack = pack;
     }
 
     public boolean isUnauthorized() {

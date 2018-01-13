@@ -2,7 +2,7 @@
 <h4 align="center">Android Library</h4>
 
 <p align="center">
-  <a target="_blank" href="https://android-arsenal.com/api?level=9"><img src="https://img.shields.io/badge/API-9%2B-orange.svg"></a>
+  <a target="_blank" href="https://android-arsenal.com/api?level=14"><img src="https://img.shields.io/badge/API-14%2B-orange.svg"></a>
   <a target="_blank" href="https://travis-ci.org/javiersantos/PiracyChecker"><img src="https://travis-ci.org/javiersantos/PiracyChecker.svg?branch=master"></a>
   <a target="_blank" href="http://android-arsenal.com/details/1/3641"><img src="https://img.shields.io/badge/Android%20Arsenal-PiracyChecker-blue.svg"></a>
   <a target="_blank" href="https://www.paypal.me/javiersantos" title="Donate using PayPal"><img src="https://img.shields.io/badge/paypal-donate-yellow.svg" /></a>
@@ -31,7 +31,7 @@ And add the library to your module **build.gradle**:
 
 ```Gradle
 dependencies {
-    compile 'com.github.javiersantos:PiracyChecker:1.1'
+    implementation 'com.github.javiersantos:PiracyChecker:1.2'
 }
 ```
 
@@ -143,6 +143,17 @@ new PiracyChecker(this)
 	...
 	.start();
 ```
+
+### Enable deep pirate and third-party store apps check
+If you want to check if these kind of apps left some files that could make your app work as pirated still, you can enable its check as follows:
+```Java
+new PiracyChecker(this)
+	.enableFoldersCheck(true)
+	...
+	.start();
+```
+
+**BE CAREFUL!** This means, that some times, the app will be recognized as pirated even after those pirate and third-party store apps were uninstalled. Set it to false if you don't like this behaviour/approach.
 
 ### Verify if app is a debug build
 If your app is running on an emulator outside the development process, it gives an indication that someone other than you is trying to analyze the app.
@@ -266,7 +277,7 @@ new PiracyChecker(this)
 ```
 
 ## License
-	Copyright 2017 Javier Santos
+	Copyright 2018 Javier Santos
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.

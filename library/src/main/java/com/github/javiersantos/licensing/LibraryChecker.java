@@ -82,10 +82,15 @@ public class LibraryChecker implements ServiceConnection {
     private Handler mHandler;
 
     /**
-     * @param context          a Context
-     * @param policy           implementation of Policy
-     * @param encodedPublicKey Base64-encoded RSA public key
-     * @throws IllegalArgumentException if encodedPublicKey is invalid
+     * @param context
+     *         a Context
+     * @param policy
+     *         implementation of Policy
+     * @param encodedPublicKey
+     *         Base64-encoded RSA public key
+     *
+     * @throws IllegalArgumentException
+     *         if encodedPublicKey is invalid
      */
     public LibraryChecker(Context context, Policy policy, String encodedPublicKey) {
         mContext = context;
@@ -101,8 +106,11 @@ public class LibraryChecker implements ServiceConnection {
     /**
      * Generates a PublicKey instance from a string containing the Base64-encoded public key.
      *
-     * @param encodedPublicKey Base64-encoded public key
-     * @throws IllegalArgumentException if encodedPublicKey is invalid
+     * @param encodedPublicKey
+     *         Base64-encoded public key
+     *
+     * @throws IllegalArgumentException
+     *         if encodedPublicKey is invalid
      */
     private static PublicKey generatePublicKey(String encodedPublicKey) {
         try {
@@ -125,7 +133,9 @@ public class LibraryChecker implements ServiceConnection {
     /**
      * Get version code for the application package name.
      *
-     * @param packageName application package name
+     * @param packageName
+     *         application package name
+     *
      * @return the version code or empty string if package not found
      */
     private static String getVersionCode(Context context, String packageName) {
@@ -152,7 +162,8 @@ public class LibraryChecker implements ServiceConnection {
             callback.allow(Policy.LICENSED);
         } else {
             LibraryValidator validator = new LibraryValidator(mPolicy, new NullDeviceLimiter(),
-                    callback, generateNonce(), mPackageName, mVersionCode);
+                                                              callback, generateNonce(),
+                                                              mPackageName, mVersionCode);
 
             if (mService == null) {
                 Log.i(TAG, "Binding to licensing service.");
@@ -303,7 +314,7 @@ public class LibraryChecker implements ServiceConnection {
         return RANDOM.nextInt();
     }
 
-    private class ResultListener extends ILicenseResultListener.Stub {
+    public class ResultListener extends ILicenseResultListener.Stub {
         private static final int ERROR_CONTACTING_SERVER = 0x101;
         private static final int ERROR_INVALID_PACKAGE_NAME = 0x102;
         private static final int ERROR_NON_MATCHING_UID = 0x103;
@@ -333,7 +344,7 @@ public class LibraryChecker implements ServiceConnection {
                     if (mChecksInProgress.contains(mValidator)) {
                         clearTimeout();
                         mValidator.check(mPublicKey, responseCode, signedData,
-                                Calendar.getInstance(), signature);
+                                         Calendar.getInstance(), signature);
                         finishCheck(mValidator);
                     }
                     if (DEBUG_LICENSE_ERROR) {
@@ -358,7 +369,7 @@ public class LibraryChecker implements ServiceConnection {
 
                         if (logResponse) {
                             String android_id = Secure.getString(mContext.getContentResolver(),
-                                    Secure.ANDROID_ID);
+                                                                 Secure.ANDROID_ID);
                             Date date = new Date();
                             Log.d(TAG, "Server Failure: " + stringError);
                             Log.d(TAG, "Android ID: " + android_id);

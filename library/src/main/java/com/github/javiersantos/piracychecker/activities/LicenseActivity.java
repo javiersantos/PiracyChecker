@@ -16,10 +16,13 @@ import com.github.javiersantos.piracychecker.R;
 
 public class LicenseActivity extends AppCompatActivity {
     private String description;
-    @ColorRes private int colorPrimary;
-    @ColorRes private int colorPrimaryDark;
+    @ColorRes
+    private int colorPrimary;
+    @ColorRes
+    private int colorPrimaryDark;
     private boolean withLightStatusBar;
-    @LayoutRes private int layoutXML;
+    @LayoutRes
+    private int layoutXML;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +37,11 @@ public class LicenseActivity extends AppCompatActivity {
         if (getIntent() != null) {
             description = getIntent().getStringExtra("content");
             colorPrimary = getIntent().getIntExtra("colorPrimary",
-                    ContextCompat.getColor(this, R.color.colorPrimary));
+                                                   ContextCompat
+                                                           .getColor(this, R.color.colorPrimary));
             colorPrimaryDark = getIntent().getIntExtra("colorPrimaryDark",
-                    ContextCompat.getColor(this, R.color.colorPrimaryDark));
+                                                       ContextCompat.getColor(this,
+                                                                              R.color.colorPrimaryDark));
             withLightStatusBar = getIntent().getBooleanExtra("withLightStatusBar", false);
             layoutXML = getIntent().getIntExtra("layoutXML", -1);
         }
@@ -67,7 +72,8 @@ public class LicenseActivity extends AppCompatActivity {
         View inflateView;
         if (layoutXML == -1) {
             inflateView = factory.inflate(R.layout.activity_license_default, null);
-            TextView activityDescription = (TextView) inflateView.findViewById(R.id.piracy_checker_description);
+            TextView activityDescription =
+                    (TextView) inflateView.findViewById(R.id.piracy_checker_description);
             activityDescription.setText(description);
         } else
             inflateView = factory.inflate(layoutXML, null);

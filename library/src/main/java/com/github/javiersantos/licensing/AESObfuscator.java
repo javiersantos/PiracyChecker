@@ -47,10 +47,12 @@ public class AESObfuscator implements Obfuscator {
     private Cipher mDecryptor;
 
     /**
-     * @param salt          an array of random bytes to use for each (un)obfuscation
-     * @param applicationId application identifier, e.g. the package name
-     * @param deviceId      device identifier. Use as many sources as possible to create this unique
-     *                      identifier.
+     * @param salt
+     *         an array of random bytes to use for each (un)obfuscation
+     * @param applicationId
+     *         application identifier, e.g. the package name
+     * @param deviceId
+     *         device identifier. Use as many sources as possible to create this unique identifier.
      */
     public AESObfuscator(byte[] salt, String applicationId, String deviceId) {
         try {
@@ -92,7 +94,7 @@ public class AESObfuscator implements Obfuscator {
             int headerIndex = result.indexOf(header + key);
             if (headerIndex != 0) {
                 throw new ValidationException("Header not found (invalid data or key)" + ":" +
-                        obfuscated);
+                                                      obfuscated);
             }
             return result.substring(header.length() + key.length(), result.length());
         } catch (Base64DecoderException | IllegalBlockSizeException | BadPaddingException e) {
