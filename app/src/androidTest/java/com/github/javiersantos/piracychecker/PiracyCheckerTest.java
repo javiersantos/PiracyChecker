@@ -43,7 +43,7 @@ public class PiracyCheckerTest {
 
                             @Override
                             public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                assertTrue("PiracyChecker FAILED: The signing certificate is valid.", false);
+                                assertTrue(error.toString() + " - Current signature: " + LibraryUtils.getCurrentSignature(InstrumentationRegistry.getTargetContext()), false);
                                 signal.countDown();
                             }
                         })
@@ -129,7 +129,7 @@ public class PiracyCheckerTest {
 
                             @Override
                             public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                assertTrue("PiracyChecker FAILED: No unauthorized apps are installed.", false);
+                                assertTrue(error.toString(), false);
                                 signal.countDown();
                             }
                         })
@@ -157,7 +157,7 @@ public class PiracyCheckerTest {
 
                             @Override
                             public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                assertTrue("PiracyChecker FAILED: No third-party stores are installed.", false);
+                                assertTrue(error.toString(), false);
                                 signal.countDown();
                             }
                         })
@@ -185,7 +185,7 @@ public class PiracyCheckerTest {
 
                             @Override
                             public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                assertTrue("PiracyChecker FAILED: Some unauthorized files have been found.", false);
+                                assertTrue(error.toString(), false);
                                 signal.countDown();
                             }
                         })
