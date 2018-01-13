@@ -1,23 +1,40 @@
 language: android
-jdk: oraclejdk8
 
 android:
   components:
+    # Uncomment the lines below if you want to
+    # use the latest revision of Android SDK Tools
+    - platform-tools
+    - tools
+
+    # The BuildTools version used by your project
     - build-tools-27.0.3
+
+    # The SDK version used to compile your project
     - android-27
+
+    # Additional components
     - extra-android-support
     - extra-google-m2repository
     - extra-android-m2repository
   licenses:
     - '.+'
+jdk:
+  - oraclejdk8
 
-before_install:
-  - chmod +x gradlew
+script: ./gradlew clean test
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.m2
 
 before_script:
   - echo yes | android update sdk --no-ui --all --filter platform-tools,tools
   - echo yes | android update sdk --no-ui --all --filter build-tools-27.0.3
   - echo yes | android update sdk --no-ui --all --filter android-27
+  - chmod +x gradlew
 
-script:
-    - ./gradlew clean test
+before_install:
+  - yes | sdkmanager "platforms;android-27"
