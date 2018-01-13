@@ -6,6 +6,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.github.javiersantos.piracychecker.enums.InstallerID;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerCallback;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerError;
 import com.github.javiersantos.piracychecker.enums.PirateApp;
@@ -26,7 +27,7 @@ public class PiracyCheckerTest {
     public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
 
     @Test
-    public void verifySigningCertificate_OK() throws Throwable {
+    public void verifySigningCertificate_ALLOW() throws Throwable {
         final CountDownLatch signal = new CountDownLatch(1);
         uiThreadTestRule.runOnUiThread(new Runnable() {
             @Override
@@ -54,7 +55,7 @@ public class PiracyCheckerTest {
     }
 
     @Test
-    public void verifySigningCertificate_FAILED() throws Throwable {
+    public void verifySigningCertificate_DONTALLOW() throws Throwable {
         final CountDownLatch signal = new CountDownLatch(1);
         uiThreadTestRule.runOnUiThread(new Runnable() {
             @Override
@@ -65,6 +66,204 @@ public class PiracyCheckerTest {
                             @Override
                             public void allow() {
                                 assertTrue("PiracyChecker FAILED: The signing certificate is invalid.", false);
+                                signal.countDown();
+                            }
+
+                            @Override
+                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
+                                assertTrue("PiracyChecker OK", true);
+                                signal.countDown();
+                            }
+                        })
+                        .start();
+            }
+        });
+
+        signal.await(30, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void verifyInstaller_DONTALLOW() throws Throwable {
+        final CountDownLatch signal = new CountDownLatch(1);
+        uiThreadTestRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new PiracyChecker(InstrumentationRegistry.getTargetContext())
+                        .enableInstallerId(InstallerID.GOOGLE_PLAY)
+                        .enableInstallerId(InstallerID.AMAZON_APP_STORE)
+                        .enableInstallerId(InstallerID.GALAXY_APPS)
+                        .callback(new PiracyCheckerCallback() {
+                            @Override
+                            public void allow() {
+                                assertTrue("PiracyChecker FAILED: The app has been installed using another store.", false);
+                                signal.countDown();
+                            }
+
+                            @Override
+                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
+                                assertTrue("PiracyChecker OK", true);
+                                signal.countDown();
+                            }
+                        })
+                        .start();
+            }
+        });
+
+        signal.await(30, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void verifyUnauthorizedApps_ALLOW() throws Throwable {
+        final CountDownLatch signal = new CountDownLatch(1);
+        uiThreadTestRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new PiracyChecker(InstrumentationRegistry.getTargetContext())
+                        .enableUnauthorizedAppsCheck()
+                        .callback(new PiracyCheckerCallback() {
+                            @Override
+                            public void allow() {
+                                assertTrue("PiracyChecker OK", true);
+                                signal.countDown();
+                            }
+
+                            @Override
+                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
+                                assertTrue("PiracyChecker FAILED: No unauthorized apps are installed.", false);
+                                signal.countDown();
+                            }
+                        })
+                        .start();
+            }
+        });
+
+        signal.await(30, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void verifyThirdPartyStores_ALLOW() throws Throwable {
+        final CountDownLatch signal = new CountDownLatch(1);
+        uiThreadTestRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new PiracyChecker(InstrumentationRegistry.getTargetContext())
+                        .enableUnauthorizedAppsCheck()
+                        .callback(new PiracyCheckerCallback() {
+                            @Override
+                            public void allow() {
+                                assertTrue("PiracyChecker OK", true);
+                                signal.countDown();
+                            }
+
+                            @Override
+                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
+                                assertTrue("PiracyChecker FAILED: No third-party stores are installed.", false);
+                                signal.countDown();
+                            }
+                        })
+                        .start();
+            }
+        });
+
+        signal.await(30, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void verifyDeepPirate_ALLOW() throws Throwable {
+        final CountDownLatch signal = new CountDownLatch(1);
+        uiThreadTestRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new PiracyChecker(InstrumentationRegistry.getTargetContext())
+                        .enableFoldersCheck(true)
+                        .callback(new PiracyCheckerCallback() {
+                            @Override
+                            public void allow() {
+                                assertTrue("PiracyChecker OK", true);
+                                signal.countDown();
+                            }
+
+                            @Override
+                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
+                                assertTrue("PiracyChecker FAILED: Some unauthorized files have been found.", false);
+                                signal.countDown();
+                            }
+                        })
+                        .start();
+            }
+        });
+
+        signal.await(30, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void verifyDebug_DONTALLOW() throws Throwable {
+        final CountDownLatch signal = new CountDownLatch(1);
+        uiThreadTestRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new PiracyChecker(InstrumentationRegistry.getTargetContext())
+                        .enableDebugCheck()
+                        .callback(new PiracyCheckerCallback() {
+                            @Override
+                            public void allow() {
+                                assertTrue("PiracyChecker FAILED: Tests are running on a debug build.", false);
+                                signal.countDown();
+                            }
+
+                            @Override
+                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
+                                assertTrue("PiracyChecker OK", true);
+                                signal.countDown();
+                            }
+                        })
+                        .start();
+            }
+        });
+
+        signal.await(30, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void verifyEmulator_DONTALLOW() throws Throwable {
+        final CountDownLatch signal = new CountDownLatch(1);
+        uiThreadTestRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new PiracyChecker(InstrumentationRegistry.getTargetContext())
+                        .enableEmulatorCheck(false)
+                        .callback(new PiracyCheckerCallback() {
+                            @Override
+                            public void allow() {
+                                assertTrue("PiracyChecker FAILED: Tests are running on an emulator.", false);
+                                signal.countDown();
+                            }
+
+                            @Override
+                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
+                                assertTrue("PiracyChecker OK", true);
+                                signal.countDown();
+                            }
+                        })
+                        .start();
+            }
+        });
+
+        signal.await(30, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void verifyEmulatorDeep_DONTALLOW() throws Throwable {
+        final CountDownLatch signal = new CountDownLatch(1);
+        uiThreadTestRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new PiracyChecker(InstrumentationRegistry.getTargetContext())
+                        .enableEmulatorCheck(true)
+                        .callback(new PiracyCheckerCallback() {
+                            @Override
+                            public void allow() {
+                                assertTrue("PiracyChecker FAILED: Tests are running on an emulator.", false);
                                 signal.countDown();
                             }
 
