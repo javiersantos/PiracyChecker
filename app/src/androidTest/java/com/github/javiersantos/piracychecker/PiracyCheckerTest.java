@@ -33,7 +33,7 @@ public class PiracyCheckerTest {
             @Override
             public void run() {
                 new PiracyChecker(InstrumentationRegistry.getTargetContext())
-                        .enableSigningCertificate("VPZ8IttaUwwSsYq54Uw05JfH/Pw=")
+                        .enableSigningCertificate("VHZs2aiTBiap/F+AYhYeppy0aF0=")
                         .callback(new PiracyCheckerCallback() {
                             @Override
                             public void allow() {
