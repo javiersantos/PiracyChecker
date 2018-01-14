@@ -46,7 +46,7 @@ script:
   - ./gradlew connectedCheck -Pandroid.testInstrumentationRunnerArguments.class=com.github.javiersantos.piracychecker.PiracyCheckerTest
 
   # UnauthorizedAppTest
-  - unzip -P $SAMPLE_APP_PW app/src/androidTest/java/com/github/javiersantos/piracychecker/files/SampleUnauthorizedApp.zip
+  - unzip -P "$SAMPLE_APP_PW" app/src/androidTest/java/com/github/javiersantos/piracychecker/files/SampleUnauthorizedApp.zip
   - adb install SampleApp.apk
   - ./gradlew connectedCheck -Pandroid.testInstrumentationRunnerArguments.class=com.github.javiersantos.piracychecker.UnauthorizedAppTest
 
