@@ -3,9 +3,10 @@ package com.github.javiersantos.piracychecker;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.UiThreadTestRule;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.github.javiersantos.piracychecker.demo.MainActivity;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerCallback;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerError;
 import com.github.javiersantos.piracychecker.enums.PirateApp;
@@ -26,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 public class UnauthorizedAppUninstalledTest {
 
     @Rule
-    public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
+    public final ActivityTestRule<MainActivity> uiThreadTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void verifyBlockUnauthorizedApps_DONTALLOW() throws Throwable {
@@ -46,7 +47,10 @@ public class UnauthorizedAppUninstalledTest {
 
                             @Override
                             public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                assertTrue("PiracyChecker OK", true);
+                                if (error == PiracyCheckerError.BLOCK_PIRATE_APP)
+                                    assertTrue("PiracyChecker OK", true);
+                                else
+                                    assertTrue("PiracyChecker FAILED : PiracyCheckError is not " + error.toString(), false);
                                 signal.countDown();
                             }
                         })

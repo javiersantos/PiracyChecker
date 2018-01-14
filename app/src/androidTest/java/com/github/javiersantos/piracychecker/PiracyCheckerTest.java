@@ -3,9 +3,10 @@ package com.github.javiersantos.piracychecker;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.UiThreadTestRule;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.github.javiersantos.piracychecker.demo.MainActivity;
 import com.github.javiersantos.piracychecker.enums.InstallerID;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerCallback;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerError;
@@ -27,7 +28,7 @@ import static org.junit.Assert.*;
 public class PiracyCheckerTest {
 
     @Rule
-    public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
+    public final ActivityTestRule<MainActivity> uiThreadTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void verifySigningCertificate_ALLOW() throws Throwable {
@@ -74,7 +75,10 @@ public class PiracyCheckerTest {
 
                             @Override
                             public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                assertTrue("PiracyChecker OK", true);
+                                if (error == PiracyCheckerError.SIGNATURE_NOT_VALID)
+                                    assertTrue("PiracyChecker OK", true);
+                                else
+                                    assertTrue("PiracyChecker FAILED : PiracyCheckError is not " + error.toString(), false);
                                 signal.countDown();
                             }
                         })
@@ -104,7 +108,10 @@ public class PiracyCheckerTest {
 
                             @Override
                             public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                assertTrue("PiracyChecker OK", true);
+                                if (error == PiracyCheckerError.INVALID_INSTALLER_ID)
+                                    assertTrue("PiracyChecker OK", true);
+                                else
+                                    assertTrue("PiracyChecker FAILED : PiracyCheckError is not " + error.toString(), false);
                                 signal.countDown();
                             }
                         })
@@ -216,7 +223,10 @@ public class PiracyCheckerTest {
 
                             @Override
                             public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                assertTrue("PiracyChecker OK", true);
+                                if (error == PiracyCheckerError.USING_DEBUG_APP)
+                                    assertTrue("PiracyChecker OK", true);
+                                else
+                                    assertTrue("PiracyChecker FAILED : PiracyCheckError is not " + error.toString(), false);
                                 signal.countDown();
                             }
                         })
@@ -244,7 +254,10 @@ public class PiracyCheckerTest {
 
                             @Override
                             public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                assertTrue("PiracyChecker OK", true);
+                                if (error == PiracyCheckerError.USING_APP_IN_EMULATOR)
+                                    assertTrue("PiracyChecker OK", true);
+                                else
+                                    assertTrue("PiracyChecker FAILED : PiracyCheckError is not " + error.toString(), false);
                                 signal.countDown();
                             }
                         })
@@ -272,7 +285,10 @@ public class PiracyCheckerTest {
 
                             @Override
                             public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                assertTrue("PiracyChecker OK", true);
+                                if (error == PiracyCheckerError.USING_APP_IN_EMULATOR)
+                                    assertTrue("PiracyChecker OK", true);
+                                else
+                                    assertTrue("PiracyChecker FAILED : PiracyCheckError is not " + error.toString(), false);
                                 signal.countDown();
                             }
                         })
