@@ -50,3 +50,6 @@ script:
   - adb install SampleApp.apk
   - ./gradlew connectedCheck -Pandroid.testInstrumentationRunnerArguments.class=com.github.javiersantos.piracychecker.UnauthorizedAppTest
 
+  # UnauthorizedAppUninstalledTest
+  - adb uninstall $SAMPLE_APK_APK
+  - ./gradlew connectedCheck -Pandroid.testInstrumentationRunnerArguments.class=com.github.javiersantos.piracychecker.UnauthorizedAppUninstalledTest

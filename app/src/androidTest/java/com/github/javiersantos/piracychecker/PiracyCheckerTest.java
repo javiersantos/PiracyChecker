@@ -20,6 +20,9 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
+/**
+ * 1. Global test cases. Doesn't require any additional step to run.
+ */
 @RunWith(AndroidJUnit4.class)
 public class PiracyCheckerTest {
 
