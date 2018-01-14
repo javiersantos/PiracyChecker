@@ -40,16 +40,16 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-  - ./gradlew build
+  - ./gradlew installDebug installDebugAndroidTest
 
   # PiracyCheckerTest
-  - ./gradlew connectedCheck -Pandroid.testInstrumentationRunnerArguments.class=com.github.javiersantos.piracychecker.PiracyCheckerTest
+  - adb shell am instrument -w -e class com.github.javiersantos.piracychecker.PiracyCheckerTest com.github.javiersantos.piracychecker.demo.test/android.support.test.runner.AndroidJUnitRunner
 
   # UnauthorizedAppTest
   - unzip -P $SAMPLE_APP_PW app/src/androidTest/java/com/github/javiersantos/piracychecker/files/SampleUnauthorizedApp.zip
   - adb install SampleApp.apk
-  - ./gradlew connectedCheck -Pandroid.testInstrumentationRunnerArguments.class=com.github.javiersantos.piracychecker.UnauthorizedAppTest
+  - adb shell am instrument -w -e class com.github.javiersantos.piracychecker.UnauthorizedAppTest com.github.javiersantos.piracychecker.demo.test/android.support.test.runner.AndroidJUnitRunner
 
   # UnauthorizedAppUninstalledTest
   - adb uninstall $SAMPLE_APK_APK
-  - ./gradlew connectedCheck -Pandroid.testInstrumentationRunnerArguments.class=com.github.javiersantos.piracychecker.UnauthorizedAppUninstalledTest
+  - adb shell am instrument -w -e class com.github.javiersantos.piracychecker.UnauthorizedAppUninstalledTest com.github.javiersantos.piracychecker.demo.test/android.support.test.runner.AndroidJUnitRunner
