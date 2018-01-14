@@ -40,4 +40,10 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-    - ./gradlew build connectedCheck
+    - ./gradlew build
+    - ./gradlew connectedCheck -Pandroid.testInstrumentationRunnerArguments.class=com.github.javiersantos.piracychecker.PiracyCheckerTest
+    - wget --quiet --output-document=unauthorized-sample-app.zip $UNAUTHORIZED_SAMPLE_APP_URL
+    - unzip -qq unauthorized-sample-app.zip -d .
+    - adb install $UNAUTHORIZED_SAMPLE_APP_APK
+    - ./gradlew connectedCheck -Pandroid.testInstrumentationRunnerArguments.class=com.github.javiersantos.piracychecker.UnauthorizedAppTest
+
