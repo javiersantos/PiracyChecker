@@ -30,43 +30,43 @@ import java.util.List;
 @SuppressLint("HardwareIds")
 public class PiracyChecker {
 
-    protected static final String LIBRARY_PREFERENCES_NAME = "license_check";
+    private static final String LIBRARY_PREFERENCES_NAME = "license_check";
 
     // Library configuration/customizations
-    protected Context context;
-    protected String unlicensedDialogTitle;
-    protected String unlicensedDialogDescription;
-    protected Display display;
+    private Context context;
+    private String unlicensedDialogTitle;
+    private String unlicensedDialogDescription;
+    private Display display;
     @ColorRes
-    protected int colorPrimary;
+    private int colorPrimary;
     @ColorRes
-    protected int colorPrimaryDark;
-    protected boolean withLightStatusBar;
+    private int colorPrimaryDark;
+    private boolean withLightStatusBar;
     @LayoutRes
-    protected int layoutXML = -1;
-    protected boolean enableLVL;
-    protected boolean enableSigningCertificate;
-    protected boolean enableInstallerId;
-    protected boolean enableUnauthorizedAppsCheck;
-    protected boolean enableStoresCheck;
-    protected boolean enableEmulatorCheck;
-    protected boolean enableDeepEmulatorCheck;
-    protected boolean enableDebugCheck;
-    protected boolean enableFoldersCheck;
-    protected boolean saveToSharedPreferences;
-    protected boolean blockUnauthorized;
-    protected SharedPreferences preferences;
-    protected String preferenceSaveResult;
-    protected String preferenceBlockUnauthorized;
-    protected String licenseBase64;
-    protected String signature;
-    protected List<InstallerID> installerIDs;
-    protected PiracyCheckerCallback callback;
+    private int layoutXML = -1;
+    private boolean enableLVL;
+    private boolean enableSigningCertificate;
+    private boolean enableInstallerId;
+    private boolean enableUnauthorizedAppsCheck;
+    private boolean enableStoresCheck;
+    private boolean enableEmulatorCheck;
+    private boolean enableDeepEmulatorCheck;
+    private boolean enableDebugCheck;
+    private boolean enableFoldersCheck;
+    private boolean saveToSharedPreferences;
+    private boolean blockUnauthorized;
+    private SharedPreferences preferences;
+    private String preferenceSaveResult;
+    private String preferenceBlockUnauthorized;
+    private String licenseBase64;
+    private String signature;
+    private List<InstallerID> installerIDs;
+    private PiracyCheckerCallback callback;
 
     // LVL
-    protected LibraryChecker libraryLVLChecker;
+    private LibraryChecker libraryLVLChecker;
     // Dialog
-    protected PiracyCheckerDialog dialog;
+    private PiracyCheckerDialog dialog;
 
     public PiracyChecker(Context context) {
         this(context, context.getString(R.string.app_unlicensed),
