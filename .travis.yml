@@ -40,7 +40,7 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-  - ./gradlew installDebug installDebugAndroidTest
+  - ./gradlew build check installDebug installDebugAndroidTest
 
   # PiracyCheckerTest
   - adb shell am instrument -w -e class com.github.javiersantos.piracychecker.PiracyCheckerTest com.github.javiersantos.piracychecker.demo.test/android.support.test.runner.AndroidJUnitRunner
