@@ -73,6 +73,8 @@ new PiracyChecker(this)
 	.start();
 ```
 
+**Don't use this method when using [Google Play App Signing](https://support.google.com/googleplay/android-developer/answer/7384423?hl=en) since Google removes the original signature and add another one, so this method will fail.**
+
 **BE CAREFUL!!** Your app signature can be retrieved using a PiracyCheckerUtils method. Make sure that you have signed your APK using your PRODUCTION keystore (not using the DEBUG one) and installed the version that you plan to distribute. Then copy the signature returned by this method on the console and paste in `.enableSigningCertificate("YOUR_APK_SIGNATURE")`
 
 ```Java
