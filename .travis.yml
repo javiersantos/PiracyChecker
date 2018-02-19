@@ -36,7 +36,7 @@ cache:
 
 before_script:
   - ./gradlew build check
-  - echo no | android create avd --force -n test -t android-$EMULATOR_API --abi armeabi-v7a
+  - echo no | avdmanager create avd --force -n test --package android-$EMULATOR_API --abi armeabi-v7a
   - emulator -avd test -no-skin -no-window &
   - android-wait-for-emulator
   - while [ "`adb shell getprop sys.boot_completed | tr -d '\r' `" != "1" ] ; do sleep 1; done
