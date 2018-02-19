@@ -22,6 +22,7 @@ android:
     - '.+'
 
 before_install:
+  - sdkmanager --update
   - yes | sdkmanager "platforms;android-27"
 
 before_cache:
