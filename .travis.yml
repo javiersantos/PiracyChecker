@@ -3,6 +3,7 @@ jdk: oraclejdk8
 
 env:
   global:
+    - ANDROID_HOME=${TRAVIS_BUILD_DIR}/android-sdk
     - ANDROID_API=27
     - ANDROID_BUILD_TOOLS=27.0.3
     - EMULATOR_API=24
@@ -37,7 +38,7 @@ cache:
 before_script:
   - ./gradlew build check
   - echo no | avdmanager create avd --force -n test --package "system-images;android-${EMULATOR_API};default;armeabi-v7a" --abi armeabi-v7a
-  - emulator -avd test -no-skin -no-window &
+  - $ANDROID_HOME/emulator/emulator -avd test -no-skin -no-window &
   - android-wait-for-emulator
   - while [ "`adb shell getprop sys.boot_completed | tr -d '\r' `" != "1" ] ; do sleep 1; done
   - adb shell input keyevent 82 &
