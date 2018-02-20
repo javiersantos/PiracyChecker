@@ -3,7 +3,6 @@ jdk: oraclejdk8
 
 env:
   global:
-    - ANDROID_HOME=${TRAVIS_BUILD_DIR}/android-sdk
     - ANDROID_API=27
     - ANDROID_BUILD_TOOLS=27.0.3
     - EMULATOR_API=24
@@ -23,7 +22,6 @@ android:
     - '.+'
 
 before_install:
-  - yes | sdkmanager --update
   - yes | sdkmanager "platforms;android-27"
 
 before_cache:
@@ -36,16 +34,15 @@ cache:
     - $HOME/.gradle/wrapper/
 
 before_script:
-  - ./gradlew build check
-  - echo no | avdmanager create avd --force -n test --package "system-images;android-${EMULATOR_API};default;armeabi-v7a" --abi armeabi-v7a
-  - $ANDROID_HOME/emulator/emulator -avd test -no-skin -no-window &
+  - ./gradlew assembleDebug assembleDebugAndroidTest
+  - echo no | android create avd --force -n test -t android-$EMULATOR_API --abi armeabi-v7a
+  - emulator -avd test -no-skin -no-window &
   - android-wait-for-emulator
   - while [ "`adb shell getprop sys.boot_completed | tr -d '\r' `" != "1" ] ; do sleep 1; done
   - adb shell input keyevent 82 &
-
-script:
   - ./gradlew installDebug installDebugAndroidTest
 
+script:
   # PiracyCheckerTest
   - adb shell am instrument -w -e class com.github.javiersantos.piracychecker.PiracyCheckerTest com.github.javiersantos.piracychecker.demo.test/android.support.test.runner.AndroidJUnitRunner
 
