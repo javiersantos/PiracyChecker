@@ -85,9 +85,10 @@ class LibraryUtils {
     }
 
     @SuppressLint("SdCardPath")
-    static PirateApp getPirateApp(Context context, boolean lpf, boolean stores, boolean folders) {
+    static PirateApp getPirateApp(Context context, boolean lpf, boolean stores, boolean folders,
+                                  ArrayList<PirateApp> extraApps) {
         if (!lpf && !stores) return null;
-        for (PirateApp app : getApps()) {
+        for (PirateApp app : getApps(extraApps)) {
             if ((lpf && app.isUnauthorized()) || (stores && !app.isUnauthorized())) {
                 String pack = app.getPackage();
                 PackageManager pm = context.getPackageManager();
@@ -258,7 +259,7 @@ class LibraryUtils {
         return ((context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0);
     }
 
-    private static ArrayList<PirateApp> getApps() {
+    private static ArrayList<PirateApp> getApps(ArrayList<PirateApp> extraApps) {
         ArrayList<PirateApp> apps = new ArrayList<>();
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "c", "h", "e",
                                                              "l", "p", "u", "s", ".", "l", "a", "c",
@@ -344,6 +345,7 @@ class LibraryUtils {
                                                        "a", "n", "a", "g", "e", "r"}));
         apps.add(new PirateApp("ACMarket", new String[]{"n", "e", "t", ".", "a", "p", "p", "c",
                                                         "a", "k", "e"}));
+        apps.addAll(extraApps);
         return apps;
     }
 

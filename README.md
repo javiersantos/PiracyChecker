@@ -110,6 +110,16 @@ new PiracyChecker(this)
 	.start();
 ```
 
+#### Add custom apps to check
+Since version 1.2.2 you can add additional apps to be checked using this code:
+```Java
+PirateApp app = new PirateApp("Lucky Patcher", "the.package.name");
+new PiracyChecker(this)
+	.addAppToCheck(app)
+	...
+	.start();
+```
+
 You can block the app even when this pirate apps has been uninstalled. This prevents the app from being patched and then uninstall the pirate app in order to continue using your app. The library will save a `SharedPreference` value to know when a pirate app has been detected.
 
 There are two ways to do this:

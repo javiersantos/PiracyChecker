@@ -62,6 +62,7 @@ public class PiracyChecker {
     private String signature;
     private List<InstallerID> installerIDs;
     private PiracyCheckerCallback callback;
+    private ArrayList<PirateApp> extraApps = new ArrayList<>();
 
     // LVL
     private LibraryChecker libraryLVLChecker;
@@ -161,6 +162,11 @@ public class PiracyChecker {
 
     public PiracyChecker enableFoldersCheck(boolean foldersCheck) {
         this.enableFoldersCheck = foldersCheck;
+        return this;
+    }
+
+    public PiracyChecker addAppToCheck(PirateApp app) {
+        this.extraApps.add(app);
         return this;
     }
 
@@ -367,7 +373,7 @@ public class PiracyChecker {
     private void doExtraVerification(PiracyCheckerCallback verifyCallback,
                                      boolean possibleSuccess) {
         PirateApp app = LibraryUtils.getPirateApp(context, enableUnauthorizedAppsCheck,
-                                                  enableStoresCheck, enableFoldersCheck);
+                                                  enableStoresCheck, enableFoldersCheck, extraApps);
         if (possibleSuccess) {
             if (enableDebugCheck && LibraryUtils.isDebug(context)) {
                 if (preferences != null && saveToSharedPreferences)
