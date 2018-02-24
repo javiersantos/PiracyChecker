@@ -13,17 +13,21 @@ public class PirateApp {
         return name;
     }
 
+    @Deprecated
     public String[] getPack() {
         return pack;
     }
 
-    public void setPack(String[] pack) {
-        this.pack = pack;
+    public String getPackage() {
+        StringBuilder sb = new StringBuilder();
+        for (String s : pack) {
+            sb.append(s);
+        }
+        return sb.toString();
     }
 
     public boolean isUnauthorized() {
         return (name.equalsIgnoreCase("Lucky Patcher") || name.equalsIgnoreCase("Freedom") ||
                 name.equalsIgnoreCase("Uret Patcher") || name.equalsIgnoreCase("CreeHack"));
     }
-
 }

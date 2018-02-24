@@ -89,11 +89,7 @@ class LibraryUtils {
         if (!lpf && !stores) return null;
         for (PirateApp app : getApps()) {
             if ((lpf && app.isUnauthorized()) || (stores && !app.isUnauthorized())) {
-                StringBuilder builder = new StringBuilder();
-                for (String s : app.getPack()) {
-                    builder.append(s);
-                }
-                String pack = builder.toString();
+                String pack = app.getPackage();
                 PackageManager pm = context.getPackageManager();
                 try {
                     PackageInfo info = pm.getPackageInfo(pack, PackageManager.GET_META_DATA);
