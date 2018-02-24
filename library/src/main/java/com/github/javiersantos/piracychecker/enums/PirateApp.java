@@ -1,12 +1,20 @@
 package com.github.javiersantos.piracychecker.enums;
 
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
+
 public class PirateApp {
     private String name;
     private String[] pack;
 
-    public PirateApp(String name, String[] pack) {
+    public PirateApp(@NonNull String name, @NonNull String[] pack) {
         this.name = name;
         this.pack = pack;
+    }
+
+    public PirateApp(@NonNull String name, @NonNull String appPackage) {
+        this.name = name;
+        this.pack = TextUtils.split(appPackage, "");
     }
 
     public String getName() {
