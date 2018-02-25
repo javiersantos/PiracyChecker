@@ -88,7 +88,7 @@ class LibraryUtils {
     @SuppressLint("SdCardPath")
     static PirateApp getPirateApp(Context context, boolean lpf, boolean stores, boolean folders,
                                   ArrayList<PirateApp> extraApps) {
-        if (!lpf && !stores) return null;
+        if (!lpf && !stores && extraApps.isEmpty()) return null;
         for (PirateApp app : getApps(extraApps)) {
             if ((lpf && app.getType() == AppType.PIRATE) || (stores && app.getType() == AppType.STORE) || app.getType() == AppType.OTHER) {
                 String pack = app.getPackage();

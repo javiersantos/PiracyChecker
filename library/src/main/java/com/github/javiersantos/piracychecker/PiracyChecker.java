@@ -64,7 +64,7 @@ public class PiracyChecker {
     private String signature;
     private List<InstallerID> installerIDs;
     private PiracyCheckerCallback callback;
-    private ArrayList<PirateApp> extraApps = new ArrayList<>();
+    private ArrayList<PirateApp> extraApps;
 
     // LVL
     private LibraryChecker libraryLVLChecker;
@@ -82,6 +82,7 @@ public class PiracyChecker {
         this.unlicensedDialogDescription = description;
         this.display = Display.DIALOG;
         this.installerIDs = new ArrayList<>();
+        this.extraApps = new ArrayList<>();
         this.colorPrimary = R.color.colorPrimary;
         this.colorPrimaryDark = R.color.colorPrimaryDark;
     }
@@ -390,9 +391,9 @@ public class PiracyChecker {
                     preferences.edit().putBoolean(preferenceSaveResult, false).apply();
                 if (preferences != null && blockUnauthorized && app.getType() == AppType.PIRATE)
                     preferences.edit().putBoolean(preferenceBlockUnauthorized, true).apply();
-                verifyCallback.dontAllow(app.getType() == AppType.PIRATE
-                                         ? PiracyCheckerError.PIRATE_APP_INSTALLED
-                                         : PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED, app);
+                verifyCallback.dontAllow(app.getType() == AppType.STORE
+                                         ? PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED
+                                         : PiracyCheckerError.PIRATE_APP_INSTALLED, app);
             } else {
                 if (preferences != null && saveToSharedPreferences)
                     preferences.edit().putBoolean(preferenceSaveResult, true).apply();
@@ -404,9 +405,9 @@ public class PiracyChecker {
                     preferences.edit().putBoolean(preferenceSaveResult, false).apply();
                 if (preferences != null && blockUnauthorized && app.getType() == AppType.PIRATE)
                     preferences.edit().putBoolean(preferenceBlockUnauthorized, true).apply();
-                verifyCallback.dontAllow(app.getType() == AppType.PIRATE
-                                         ? PiracyCheckerError.PIRATE_APP_INSTALLED
-                                         : PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED, app);
+                verifyCallback.dontAllow(app.getType() == AppType.STORE
+                                         ? PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED
+                                         : PiracyCheckerError.PIRATE_APP_INSTALLED, app);
             } else {
                 if (preferences != null && saveToSharedPreferences)
                     preferences.edit().putBoolean(preferenceSaveResult, false).apply();
