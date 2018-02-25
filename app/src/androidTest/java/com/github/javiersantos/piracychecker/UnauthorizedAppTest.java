@@ -30,6 +30,37 @@ public class UnauthorizedAppTest {
     public final ActivityTestRule<MainActivity> uiThreadTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
+    public void verifyUnauthorizedCustomApp_DONTALLOW() throws Throwable {
+        final CountDownLatch signal = new CountDownLatch(1);
+        uiThreadTestRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new PiracyChecker(InstrumentationRegistry.getTargetContext())
+                        .addAppToCheck(new PirateApp("Demo", uiThreadTestRule.getActivity().getPackageName()))
+                        .callback(new PiracyCheckerCallback() {
+                            @Override
+                            public void allow() {
+                                assertTrue("PiracyChecker FAILED: There is a custom unauthorized app installed.", false);
+                                signal.countDown();
+                            }
+
+                            @Override
+                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
+                                if (error == PiracyCheckerError.PIRATE_APP_INSTALLED)
+                                    assertTrue("PiracyChecker OK", true);
+                                else
+                                    assertTrue("PiracyChecker FAILED : PiracyCheckError is not " + error.toString(), false);
+                                signal.countDown();
+                            }
+                        })
+                        .start();
+            }
+        });
+
+        signal.await(30, TimeUnit.SECONDS);
+    }
+
+    @Test
     public void verifyUnauthorizedApps_DONTALLOW() throws Throwable {
         final CountDownLatch signal = new CountDownLatch(1);
         uiThreadTestRule.runOnUiThread(new Runnable() {
