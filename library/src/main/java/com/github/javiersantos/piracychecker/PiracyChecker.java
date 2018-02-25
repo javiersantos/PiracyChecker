@@ -25,6 +25,7 @@ import com.github.javiersantos.piracychecker.enums.PiracyCheckerError;
 import com.github.javiersantos.piracychecker.enums.PirateApp;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SuppressLint("HardwareIds")
@@ -165,8 +166,8 @@ public class PiracyChecker {
         return this;
     }
 
-    public PiracyChecker addAppToCheck(PirateApp app) {
-        this.extraApps.add(app);
+    public PiracyChecker addAppToCheck(PirateApp... apps) {
+        this.extraApps.addAll(Arrays.asList(apps));
         return this;
     }
 
