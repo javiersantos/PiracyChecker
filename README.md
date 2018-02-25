@@ -31,7 +31,7 @@ And add the library to your module **build.gradle**:
 
 ```Gradle
 dependencies {
-    implementation 'com.github.javiersantos:PiracyChecker:1.2.1'
+    implementation 'com.github.javiersantos:PiracyChecker:1.2.2'
 }
 ```
 
@@ -89,9 +89,7 @@ Supported stores: Google Play, Amazon App Store and Samsung Galaxy Apps.
 
 ```Java
 new PiracyChecker(this)
-	.enableInstallerId(InstallerID.GOOGLE_PLAY)
-	.enableInstallerId(InstallerID.AMAZON_APP_STORE)
-	.enableInstallerId(InstallerID.GALAXY_APPS)
+	.enableInstallerId(InstallerID.GOOGLE_PLAY, InstallerID.AMAZON_APP_STORE, InstallerID.GALAXY_APPS)
 	...
 	.start();
 ```
