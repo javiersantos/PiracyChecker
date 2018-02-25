@@ -48,7 +48,6 @@ public class PiracyChecker {
     private int layoutXML = -1;
     private boolean enableLVL;
     private boolean enableSigningCertificate;
-    private boolean enableInstallerId;
     private boolean enableUnauthorizedAppsCheck;
     private boolean enableStoresCheck;
     private boolean enableEmulatorCheck;
@@ -103,9 +102,8 @@ public class PiracyChecker {
         return this;
     }
 
-    public PiracyChecker enableInstallerId(InstallerID installerID) {
-        this.enableInstallerId = true;
-        this.installerIDs.add(installerID);
+    public PiracyChecker enableInstallerId(InstallerID... installerID) {
+        this.installerIDs.addAll(Arrays.asList(installerID));
         return this;
     }
 
@@ -356,7 +354,7 @@ public class PiracyChecker {
     }
 
     private boolean verifyInstallerId() {
-        if (enableInstallerId) {
+        if (!installerIDs.isEmpty()) {
             if (LibraryUtils.verifyInstallerId(context, installerIDs))
                 return true;
         } else
