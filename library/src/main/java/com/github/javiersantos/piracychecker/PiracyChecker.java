@@ -18,6 +18,7 @@ import com.github.javiersantos.licensing.LibraryChecker;
 import com.github.javiersantos.licensing.LibraryCheckerCallback;
 import com.github.javiersantos.licensing.ServerManagedPolicy;
 import com.github.javiersantos.piracychecker.activities.LicenseActivity;
+import com.github.javiersantos.piracychecker.enums.AppType;
 import com.github.javiersantos.piracychecker.enums.Display;
 import com.github.javiersantos.piracychecker.enums.InstallerID;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerCallback;
@@ -387,9 +388,9 @@ public class PiracyChecker {
             } else if (app != null) {
                 if (preferences != null && saveToSharedPreferences)
                     preferences.edit().putBoolean(preferenceSaveResult, false).apply();
-                if (preferences != null && blockUnauthorized && app.isUnauthorized())
+                if (preferences != null && blockUnauthorized && app.getType() == AppType.PIRATE)
                     preferences.edit().putBoolean(preferenceBlockUnauthorized, true).apply();
-                verifyCallback.dontAllow(app.isUnauthorized()
+                verifyCallback.dontAllow(app.getType() == AppType.PIRATE
                                          ? PiracyCheckerError.PIRATE_APP_INSTALLED
                                          : PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED, app);
             } else {
@@ -401,9 +402,9 @@ public class PiracyChecker {
             if (app != null) {
                 if (preferences != null && saveToSharedPreferences)
                     preferences.edit().putBoolean(preferenceSaveResult, false).apply();
-                if (preferences != null && blockUnauthorized && app.isUnauthorized())
+                if (preferences != null && blockUnauthorized && app.getType() == AppType.PIRATE)
                     preferences.edit().putBoolean(preferenceBlockUnauthorized, true).apply();
-                verifyCallback.dontAllow(app.isUnauthorized()
+                verifyCallback.dontAllow(app.getType() == AppType.PIRATE
                                          ? PiracyCheckerError.PIRATE_APP_INSTALLED
                                          : PiracyCheckerError.THIRD_PARTY_STORE_INSTALLED, app);
             } else {

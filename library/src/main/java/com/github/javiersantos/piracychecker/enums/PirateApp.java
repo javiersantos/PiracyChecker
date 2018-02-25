@@ -6,15 +6,22 @@ import android.text.TextUtils;
 public class PirateApp {
     private String name;
     private String[] pack;
+    private AppType type;
 
-    public PirateApp(@NonNull String name, @NonNull String[] pack) {
+    public PirateApp(@NonNull String name, @NonNull String[] pack, @NonNull AppType type) {
         this.name = name;
         this.pack = pack;
+        this.type = type;
+    }
+
+    public PirateApp(@NonNull String name, @NonNull String appPackage, @NonNull AppType type) {
+        this.name = name;
+        this.pack = TextUtils.split(appPackage, "");
+        this.type = type;
     }
 
     public PirateApp(@NonNull String name, @NonNull String appPackage) {
-        this.name = name;
-        this.pack = TextUtils.split(appPackage, "");
+        this(name, appPackage, AppType.OTHER);
     }
 
     public String getName() {
@@ -34,8 +41,7 @@ public class PirateApp {
         return sb.toString();
     }
 
-    public boolean isUnauthorized() {
-        return (name.equalsIgnoreCase("Lucky Patcher") || name.equalsIgnoreCase("Freedom") ||
-                name.equalsIgnoreCase("Uret Patcher") || name.equalsIgnoreCase("CreeHack"));
+    public AppType getType() {
+        return type;
     }
 }
