@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 @SuppressLint("HardwareIds")
 public class PiracyChecker {
 
@@ -346,30 +347,16 @@ public class PiracyChecker {
     }
 
     private boolean verifySigningCertificate() {
-        if (enableSigningCertificate) {
-            if (LibraryUtils.verifySigningCertificate(context, signature))
-                return true;
-        } else
-            return true;
-        return false;
+        return !enableSigningCertificate ||
+                LibraryUtils.verifySigningCertificate(context, signature);
     }
 
     private boolean verifyInstallerId() {
-        if (!installerIDs.isEmpty()) {
-            if (LibraryUtils.verifyInstallerId(context, installerIDs))
-                return true;
-        } else
-            return true;
-        return false;
+        return installerIDs.isEmpty() || LibraryUtils.verifyInstallerId(context, installerIDs);
     }
 
     private boolean verifyUnauthorizedApp() {
-        if (blockUnauthorized) {
-            if (!preferences.getBoolean(preferenceBlockUnauthorized, false))
-                return true;
-        } else
-            return true;
-        return false;
+        return !blockUnauthorized || !preferences.getBoolean(preferenceBlockUnauthorized, false);
     }
 
     private void doExtraVerification(PiracyCheckerCallback verifyCallback,
