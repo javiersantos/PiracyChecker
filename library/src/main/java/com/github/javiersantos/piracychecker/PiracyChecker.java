@@ -54,6 +54,7 @@ public class PiracyChecker {
     private boolean enableDeepEmulatorCheck;
     private boolean enableDebugCheck;
     private boolean enableFoldersCheck;
+    private boolean enableAPKCheck;
     private boolean saveToSharedPreferences;
     private boolean blockUnauthorized;
     private SharedPreferences preferences;
@@ -107,15 +108,15 @@ public class PiracyChecker {
         return this;
     }
 
+    @Deprecated
     public PiracyChecker enableUnauthorizedAppsCheck() {
         this.enableUnauthorizedAppsCheck = true;
         return this;
     }
 
-    @Deprecated
-    public PiracyChecker blockIfUnauthorizedAppDetected(SharedPreferences preferences,
-                                                        @NonNull String preferenceName) {
-        return blockIfUnauthorizedAppUninstalled(preferences, preferenceName);
+    public PiracyChecker enableUnauthorizedAppsCheck(boolean enable) {
+        this.enableUnauthorizedAppsCheck = enable;
+        return this;
     }
 
     public PiracyChecker blockIfUnauthorizedAppUninstalled(SharedPreferences preferences,
@@ -126,12 +127,6 @@ public class PiracyChecker {
         return this;
     }
 
-    @Deprecated
-    public PiracyChecker blockIfUnauthorizedAppDetected(String preferencesName,
-                                                        @NonNull String preferenceName) {
-        return blockIfUnauthorizedAppUninstalled(preferences, preferenceName);
-    }
-
     public PiracyChecker blockIfUnauthorizedAppUninstalled(String preferencesName,
                                                            @NonNull String preferenceName) {
         this.blockUnauthorized = true;
@@ -140,19 +135,31 @@ public class PiracyChecker {
         return this;
     }
 
+    @Deprecated
     public PiracyChecker enableStoresCheck() {
         this.enableStoresCheck = true;
         return this;
     }
 
+    @Deprecated
     public PiracyChecker enableDebugCheck() {
         this.enableDebugCheck = true;
         return this;
     }
 
-    @Deprecated
-    public PiracyChecker enableEmulatorCheck() {
-        return enableEmulatorCheck(false);
+    public PiracyChecker enableStoresCheck(boolean enable) {
+        this.enableStoresCheck = enable;
+        return this;
+    }
+
+    public PiracyChecker enableDebugCheck(boolean enable) {
+        this.enableDebugCheck = enable;
+        return this;
+    }
+
+    public PiracyChecker enableAPKCheck(boolean enable) {
+        this.enableAPKCheck = enable;
+        return this;
     }
 
     public PiracyChecker enableEmulatorCheck(boolean deepCheck) {
@@ -216,12 +223,6 @@ public class PiracyChecker {
     public PiracyChecker display(Display display) {
         this.display = display;
         return this;
-    }
-
-    @Deprecated
-    public PiracyChecker withActivityColor(@ColorRes int colorPrimary,
-                                           @ColorRes int colorPrimaryDark) {
-        return withActivityColors(colorPrimary, colorPrimaryDark, false);
     }
 
     public PiracyChecker withActivityColors(@ColorRes int colorPrimary,

@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 14
-        versionName "1.2.2"
+        versionCode 123
+        versionName "1.2.3"
         consumerProguardFiles 'proguard-rules.pro'
     }
     buildTypes {
@@ -22,5 +22,5 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.android.support:appcompat-v7:27.0.2'
+    api 'com.android.support:appcompat-v7:27.1.1'
 }
