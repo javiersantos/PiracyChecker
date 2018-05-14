@@ -375,7 +375,8 @@ public class PiracyChecker {
     private void doExtraVerification(PiracyCheckerCallback verifyCallback,
                                      boolean possibleSuccess) {
         PirateApp app = LibraryUtils.getPirateApp(context, enableUnauthorizedAppsCheck,
-                                                  enableStoresCheck, enableFoldersCheck, extraApps);
+                                                  enableStoresCheck, enableFoldersCheck,
+                                                  enableAPKCheck, extraApps);
         if (possibleSuccess) {
             if (enableDebugCheck && LibraryUtils.isDebug(context)) {
                 if (preferences != null && saveToSharedPreferences)

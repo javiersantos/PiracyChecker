@@ -86,11 +86,13 @@ class LibraryUtils {
     }
 
     @SuppressLint("SdCardPath")
-    static PirateApp getPirateApp(Context context, boolean lpf, boolean stores, boolean folders,
+    static PirateApp getPirateApp(Context context,
+                                  boolean lpf, boolean stores, boolean folders, boolean apks,
                                   ArrayList<PirateApp> extraApps) {
         if (!lpf && !stores && extraApps.isEmpty()) return null;
         for (PirateApp app : getApps(extraApps)) {
-            if ((lpf && app.getType() == AppType.PIRATE) || (stores && app.getType() == AppType.STORE) || app.getType() == AppType.OTHER) {
+            if ((lpf && app.getType() == AppType.PIRATE) ||
+                    (stores && app.getType() == AppType.STORE) || app.getType() == AppType.OTHER) {
                 String pack = app.getPackage();
                 PackageManager pm = context.getPackageManager();
                 try {
@@ -105,23 +107,22 @@ class LibraryUtils {
                     } catch (Exception ignored2) {
                         try {
                             if (hasPermissions(context)) {
-                                File appsContainer = new File("/data/app/");
-                                boolean containsFolder = false;
-                                if (appsContainer.exists()) {
-                                    for (File f : appsContainer.listFiles()) {
-                                        if (f.getName().startsWith(pack))
-                                            containsFolder = true;
-                                    }
+                                boolean apkExist = false;
+                                if (apks) {
+                                    File file1 = new File("/data/app/" + pack + "-1/base.apk");
+                                    File file2 = new File("/data/app/" + pack + "-2/base.apk");
+                                    File file3 = new File("/data/app/" + pack + ".apk");
+                                    File file4 = new File("/data/data/" + pack + ".apk");
+                                    File file5 =
+                                            new File(context.getFilesDir().getPath() + pack +
+                                                             ".apk");
+                                    apkExist = file1.exists() || file2.exists() || file3.exists() ||
+                                            file4.exists() || file5.exists();
                                 }
 
-                                File file1 = new File("/data/app/" + pack + "-1/base.apk");
-                                File file2 = new File("/data/app/" + pack + "-2/base.apk");
-                                File file3 = new File("/data/app/" + pack + ".apk");
-                                File file4 = new File("/data/data/" + pack + ".apk");
-                                File file5 =
-                                        new File(context.getFilesDir().getPath() + pack + ".apk");
-
                                 boolean foldersExist = false;
+                                boolean containsFolder = false;
+
                                 if (folders) {
                                     File file6 = new File("/data/data/" + pack);
                                     File file7 = new File(context.getFilesDir().getPath() + pack);
@@ -130,11 +131,17 @@ class LibraryUtils {
                                                              "/Android/data/" + pack);
                                     foldersExist =
                                             file6.exists() || file7.exists() || file8.exists();
+
+                                    File appsContainer = new File("/data/app/");
+                                    if (appsContainer.exists()) {
+                                        for (File f : appsContainer.listFiles()) {
+                                            if (f.getName().startsWith(pack))
+                                                containsFolder = true;
+                                        }
+                                    }
                                 }
 
-                                if (containsFolder ||
-                                        file1.exists() || file2.exists() || file3.exists() ||
-                                        file4.exists() || file5.exists() || foldersExist) {
+                                if (containsFolder || apkExist || foldersExist) {
                                     return app;
                                 }
                             }
@@ -265,15 +272,15 @@ class LibraryUtils {
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "c", "h", "e",
                                                              "l", "p", "u", "s", ".", "l", "a", "c",
                                                              "k", "y", "p", "a", "t", "c", "h"},
-                AppType.PIRATE));
+                               AppType.PIRATE));
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "d", "i", "m",
                                                              "o", "n", "v", "i", "d", "e", "o", ".",
                                                              "l", "u", "c", "k", "y", "p", "a", "t",
                                                              "c", "h", "e", "r"},
-                AppType.PIRATE));
+                               AppType.PIRATE));
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "f", "o", "r",
                                                              "p", "d", "a", ".", "l", "p"},
-                AppType.PIRATE));
+                               AppType.PIRATE));
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "a", "n", "d",
                                                              "r", "o", "i", "d", ".", "v", "e", "n",
                                                              "d", "i", "n", "g", ".", "b", "i", "l",
@@ -281,7 +288,7 @@ class LibraryUtils {
                                                              "p", "p", "B", "i", "l", "l", "i", "n",
                                                              "g", "S", "e", "r", "v", "i", "c", "e",
                                                              ".", "L", "U", "C", "K"},
-                AppType.PIRATE));
+                               AppType.PIRATE));
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "a", "n", "d",
                                                              "r", "o", "i", "d", ".", "v", "e", "n",
                                                              "d", "i", "n", "g", ".", "b", "i", "l",
@@ -289,7 +296,7 @@ class LibraryUtils {
                                                              "p", "p", "B", "i", "l", "l", "i", "n",
                                                              "g", "S", "e", "r", "v", "i", "c", "e",
                                                              ".", "L", "O", "C", "K"},
-                AppType.PIRATE));
+                               AppType.PIRATE));
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "a", "n", "d",
                                                              "r", "o", "i", "d", ".", "v", "e", "n",
                                                              "d", "i", "n", "g", ".", "b", "i", "l",
@@ -297,7 +304,7 @@ class LibraryUtils {
                                                              "p", "p", "B", "i", "l", "l", "i", "n",
                                                              "g", "S", "e", "r", "v", "i", "c", "e",
                                                              ".", "L", "A", "C", "K"},
-                AppType.PIRATE));
+                               AppType.PIRATE));
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "a", "n", "d",
                                                              "r", "o", "i", "d", ".", "v", "e", "n",
                                                              "d", "i", "n", "g", ".", "b", "i", "l",
@@ -305,7 +312,7 @@ class LibraryUtils {
                                                              "p", "p", "B", "i", "l", "l", "i", "n",
                                                              "g", "S", "e", "r", "v", "i", "c", "e",
                                                              ".", "C", "L", "O", "N"},
-                AppType.PIRATE));
+                               AppType.PIRATE));
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "a", "n", "d",
                                                              "r", "o", "i", "d", ".", "v", "e", "n",
                                                              "d", "i", "n", "g", ".", "b", "i", "l",
@@ -313,7 +320,7 @@ class LibraryUtils {
                                                              "p", "p", "B", "i", "l", "l", "i", "n",
                                                              "g", "S", "e", "r", "v", "i", "c", "e",
                                                              ".", "C", "R", "A", "C"},
-                AppType.PIRATE));
+                               AppType.PIRATE));
         apps.add(new PirateApp("Lucky Patcher", new String[]{"c", "o", "m", ".", "a", "n", "d",
                                                              "r", "o", "i", "d", ".", "v", "e", "n",
                                                              "d", "i", "n", "g", ".", "b", "i", "l",
@@ -321,52 +328,52 @@ class LibraryUtils {
                                                              "p", "p", "B", "i", "l", "l", "i", "n",
                                                              "g", "S", "e", "r", "v", "i", "c", "e",
                                                              ".", "C", "O", "I", "N"},
-                AppType.PIRATE));
+                               AppType.PIRATE));
         apps.add(new PirateApp("Uret Patcher", new String[]{"u", "r", "e", "t", ".", "j", "a",
                                                             "s", "i", "2", "1", "6", "9", ".", "p",
                                                             "a", "t", "c", "h", "e", "r"},
-                AppType.PIRATE));
+                               AppType.PIRATE));
         apps.add(new PirateApp("Freedom", new String[]{"c", "c", ".", "m", "a", "d", "k", "i",
                                                        "t", "e", ".", "f", "r", "e", "e", "d", "o",
                                                        "m"},
-                AppType.PIRATE));
+                               AppType.PIRATE));
         apps.add(new PirateApp("Freedom", new String[]{"c", "c", ".", "c", "z", ".", "m", "a",
                                                        "d", "k", "i", "t", "e", ".", "f", "r", "e",
                                                        "e", "d", "o", "m"},
-                AppType.PIRATE));
+                               AppType.PIRATE));
         apps.add(new PirateApp("CreeHack", new String[]{"o", "r", "g", ".", "c", "r", "e", "e",
                                                         "p", "l", "a", "y", "s", ".", "h", "a", "c",
                                                         "k"},
-                AppType.PIRATE));
+                               AppType.PIRATE));
         apps.add(new PirateApp("Aptoide", new String[]{"c", "m", ".", "a", "p", "t", "o", "i",
                                                        "d", "e", ".", "p", "t"},
-                AppType.STORE));
+                               AppType.STORE));
         apps.add(new PirateApp("BlackMart", new String[]{"o", "r", "g", ".", "b", "l", "a", "c",
                                                          "k", "m", "a", "r", "t", ".", "m", "a",
                                                          "r", "k", "e", "t"},
-                AppType.STORE));
+                               AppType.STORE));
         apps.add(new PirateApp("Mobogenie", new String[]{"c", "o", "m", ".", "m", "o", "b", "o",
                                                          "g", "e", "n", "i", "e"},
-                AppType.STORE));
+                               AppType.STORE));
         apps.add(new PirateApp("1Mobile", new String[]{"m", "e", ".", "o", "n", "e", "m", "o",
                                                        "b", "i", "l", "e", ".", "a", "n", "d", "r",
                                                        "o", "i", "d"},
-                AppType.STORE));
+                               AppType.STORE));
         apps.add(new PirateApp("GetApk", new String[]{"c", "o", "m", ".", "r", "e", "p", "o",
                                                       "d", "r", "o", "i", "d", ".", "a", "p",
                                                       "p"},
-                AppType.STORE));
+                               AppType.STORE));
         apps.add(new PirateApp("GetJar", new String[]{"c", "o", "m", ".", "g", "e", "t", "j",
                                                       "a", "r", ".", "r", "e", "w", "a", "r", "d",
                                                       "s"},
-                AppType.STORE));
+                               AppType.STORE));
         apps.add(new PirateApp("SlideMe", new String[]{"c", "o", "m", ".", "s", "l", "i", "d",
                                                        "e", "m", "e", ".", "s", "a", "m", ".", "m",
                                                        "a", "n", "a", "g", "e", "r"},
-                AppType.STORE));
+                               AppType.STORE));
         apps.add(new PirateApp("ACMarket", new String[]{"n", "e", "t", ".", "a", "p", "p", "c",
                                                         "a", "k", "e"},
-                AppType.STORE));
+                               AppType.STORE));
         apps.addAll(extraApps);
         return apps;
     }
