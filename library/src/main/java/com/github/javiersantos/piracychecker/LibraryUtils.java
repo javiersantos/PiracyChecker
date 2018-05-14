@@ -29,10 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 class LibraryUtils {
-    static final byte[] SALT = new byte[]{
-            -85, -55, 27, 58, -83, 27, -34, -45, 101, -98, 12, 37, 13, -17, 95, -28, -62, -32,
-            -32, 33
-    };
 
     static AlertDialog buildUnlicensedDialog(Context context, String title, String content) {
         if (!(context instanceof Activity)) return null;
@@ -389,9 +385,8 @@ class LibraryUtils {
         try {
             return Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN ||
                     !shouldAskPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) ||
-                    (!(ActivityCompat.shouldShowRequestPermissionRationale((Activity) context,
-                                                                           Manifest.permission
-                                                                                   .READ_EXTERNAL_STORAGE)));
+                    (!(ActivityCompat.shouldShowRequestPermissionRationale(
+                            (Activity) context, Manifest.permission.READ_EXTERNAL_STORAGE)));
         } catch (Exception e) {
             return false;
         }
@@ -404,11 +399,8 @@ class LibraryUtils {
     private static boolean shouldAskPermission(Context context, String permission) {
         if (shouldAskPermission()) {
             int permissionResult = ActivityCompat.checkSelfPermission(context, permission);
-            if (permissionResult != PackageManager.PERMISSION_GRANTED) {
-                return true;
-            }
+            return permissionResult != PackageManager.PERMISSION_GRANTED;
         }
         return false;
     }
-
 }

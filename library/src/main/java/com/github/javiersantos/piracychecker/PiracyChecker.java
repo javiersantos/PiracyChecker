@@ -319,7 +319,7 @@ public class PiracyChecker {
                                 context,
                                 new ServerManagedPolicy(context,
                                                         new AESObfuscator(
-                                                                LibraryUtils.SALT,
+                                                                SaltUtils.getSalt(context),
                                                                 context.getPackageName(),
                                                                 deviceId)),
                                 licenseBase64);
