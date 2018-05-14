@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        RadioGroup radioDisplay = (RadioGroup) findViewById(R.id.radio_display);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        RadioGroup radioDisplay = findViewById(R.id.radio_display);
 
         setSupportActionBar(toolbar);
 
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     public void verifyUnauthorizedApps(View view) {
         new PiracyChecker(this)
                 .display(piracyCheckerDisplay)
-                .enableUnauthorizedAppsCheck()
+                .enableUnauthorizedAppsCheck(true)
                 //.blockIfUnauthorizedAppUninstalled("license_checker", "block")
                 .start();
     }
@@ -87,14 +87,14 @@ public class MainActivity extends AppCompatActivity {
     public void verifyStores(View view) {
         new PiracyChecker(this)
                 .display(piracyCheckerDisplay)
-                .enableStoresCheck()
+                .enableStoresCheck(true)
                 .start();
     }
 
     public void verifyDebug(View view) {
         new PiracyChecker(this)
                 .display(piracyCheckerDisplay)
-                .enableDebugCheck()
+                .enableDebugCheck(true)
                 .start();
     }
 

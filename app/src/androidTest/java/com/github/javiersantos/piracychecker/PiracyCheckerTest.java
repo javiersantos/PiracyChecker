@@ -129,7 +129,7 @@ public class PiracyCheckerTest {
             @Override
             public void run() {
                 new PiracyChecker(InstrumentationRegistry.getTargetContext())
-                        .enableUnauthorizedAppsCheck()
+                        .enableUnauthorizedAppsCheck(true)
                         .callback(new PiracyCheckerCallback() {
                             @Override
                             public void allow() {
@@ -157,7 +157,7 @@ public class PiracyCheckerTest {
             @Override
             public void run() {
                 new PiracyChecker(InstrumentationRegistry.getTargetContext())
-                        .enableUnauthorizedAppsCheck()
+                        .enableUnauthorizedAppsCheck(true)
                         .callback(new PiracyCheckerCallback() {
                             @Override
                             public void allow() {
@@ -213,7 +213,7 @@ public class PiracyCheckerTest {
             @Override
             public void run() {
                 new PiracyChecker(InstrumentationRegistry.getTargetContext())
-                        .enableDebugCheck()
+                        .enableDebugCheck(true)
                         .callback(new PiracyCheckerCallback() {
                             @Override
                             public void allow() {
