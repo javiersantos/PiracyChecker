@@ -103,7 +103,7 @@ It will check for: Lucky Patcher, Uret Patcher, Freedom and CreeHack.
 
 ```Java
 new PiracyChecker(this)
-	.enableUnauthorizedAppsCheck()
+	.enableUnauthorizedAppsCheck(true)
 	...
 	.start();
 ```
@@ -126,7 +126,7 @@ Define the `SharedPreferences` and the name of the preference where you want to 
 
 ```Java
 new PiracyChecker(this)
-	.enableUnauthorizedAppsCheck()
+	.enableUnauthorizedAppsCheck(true)
 	.blockIfUnauthorizedAppUninstalled(preferences, "app_unauthorized") // Change "app_unauthorized" with your own value
 	...
 	.start();
@@ -136,7 +136,7 @@ Define the `SharedPreferences` name and the name of the preference where you wan
 
 ```Java
 new PiracyChecker(this)
-	.enableUnauthorizedAppsCheck()
+	.enableUnauthorizedAppsCheck(true)
 	.blockIfUnauthorizedAppUninstalled("license_preferences", "app_unauthorized") // Change "license_preferences" and "app_unauthorized" with your own value
 	...
 	.start();
@@ -149,7 +149,7 @@ It will check for: Aptoide, BlackMart, Mobogenie, 1Mobile, GetApk, GetJar, Slide
 
 ```Java
 new PiracyChecker(this)
-	.enableStoresCheck()
+	.enableStoresCheck(true)
 	...
 	.start();
 ```
@@ -163,6 +163,14 @@ new PiracyChecker(this)
 	.start();
 ```
 
+If you also want to check for `.apk` files in certain system folders, you can enable it like so:
+```Java
+new PiracyChecker(this)
+	.enableAPKCheck(true)
+	...
+	.start();
+```
+
 **BE CAREFUL!** This means, that some times, the app will be recognized as pirated even after those pirate and third-party store apps were uninstalled. Set it to false if you don't like this behaviour/approach.
 
 ### Verify if app is a debug build
@@ -170,7 +178,7 @@ Allowing apps to be debugged when installed on an Android device is something th
 
 ```Java
 new PiracyChecker(this)
-	.enableDebugCheck()
+	.enableDebugCheck(true)
 	...
 	.start();
 ```
@@ -280,7 +288,7 @@ Sure. You can use as many validation methods in the builder as you want. For exa
 new PiracyChecker(this)
 	.enableGooglePlayLicensing("BASE_64_LICENSE_KEY")
 	.enableSigningCertificate("YOUR_APK_SIGNATURE")
-	.enableUnauthorizedAppsCheck()
+	.enableUnauthorizedAppsCheck(true)
 	.saveResultToSharedPreferences("my_app_preferences", "valid_license");
 	...
 	.start();
