@@ -66,7 +66,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-</details>
+</details><br>
 
 
 
@@ -96,7 +96,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-</details>
+</details><br>
 
 
 
@@ -116,7 +116,7 @@ Log.e("SIGNATURE", apkSignature)
 Log.e("SIGNATURE", LibraryUtilsKt.getApkSignature(this));
 ```
 
-</details>
+</details><br>
 
 
 
@@ -141,7 +141,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-</details>
+</details><br>
 
 
 
@@ -168,7 +168,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-</details>
+</details><br>
 
 
 
@@ -193,7 +193,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-</details>
+</details><br>
 
 
 
@@ -221,7 +221,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-</details>
+</details><br>
 
 
 
@@ -245,7 +245,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-</details>
+</details><br>
 
 
 
@@ -270,7 +270,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-</details>
+</details><br>
 
 
 
@@ -293,7 +293,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-</details>
+</details><br>
 
 
 
@@ -315,7 +315,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-</details>
+</details><br>
 
 
 
@@ -341,7 +341,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-</details>
+</details><br>
 
 
 
@@ -366,7 +366,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-</details>
+</details><br>
 
 
 
@@ -396,7 +396,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-</details>
+</details><br>
 
 
 
@@ -418,7 +418,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-</details>
+</details><br>
 
 
 
@@ -447,7 +447,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-</details>
+</details><br>
 
 
 
@@ -521,7 +521,7 @@ callback {
 })
 ```
 
-</details>
+</details><br>
 
 
 
@@ -551,7 +551,7 @@ new PiracyChecker(this)
 	.start();
 ```
 
-</details>
+</details><br>
 
 
 
