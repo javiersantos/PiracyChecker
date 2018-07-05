@@ -16,12 +16,12 @@ import com.github.javiersantos.licensing.LibraryCheckerCallback
 import com.github.javiersantos.licensing.ServerManagedPolicy
 import com.github.javiersantos.piracychecker.activities.LicenseActivity
 import com.github.javiersantos.piracychecker.callbacks.AllowCallback
-import com.github.javiersantos.piracychecker.enums.AppType
-import com.github.javiersantos.piracychecker.enums.Display
 import com.github.javiersantos.piracychecker.callbacks.DoNotAllowCallback
-import com.github.javiersantos.piracychecker.enums.InstallerID
 import com.github.javiersantos.piracychecker.callbacks.OnErrorCallback
 import com.github.javiersantos.piracychecker.callbacks.PiracyCheckerCallback
+import com.github.javiersantos.piracychecker.enums.AppType
+import com.github.javiersantos.piracychecker.enums.Display
+import com.github.javiersantos.piracychecker.enums.InstallerID
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerError
 import com.github.javiersantos.piracychecker.enums.PirateApp
 import com.github.javiersantos.piracychecker.utils.SaltUtils

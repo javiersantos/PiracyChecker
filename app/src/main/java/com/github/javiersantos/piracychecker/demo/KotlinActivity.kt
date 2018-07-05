@@ -8,14 +8,14 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.widget.RadioGroup
-import com.github.javiersantos.piracychecker.apkSignature
 import com.github.javiersantos.piracychecker.allow
 import com.github.javiersantos.piracychecker.callback
 import com.github.javiersantos.piracychecker.doNotAllow
-import com.github.javiersantos.piracychecker.onError
 import com.github.javiersantos.piracychecker.enums.Display
 import com.github.javiersantos.piracychecker.enums.InstallerID
+import com.github.javiersantos.piracychecker.onError
 import com.github.javiersantos.piracychecker.piracyChecker
+import com.github.javiersantos.piracychecker.utils.apkSignature
 
 @Suppress("unused")
 class KotlinActivity : AppCompatActivity() {
@@ -38,7 +38,7 @@ class KotlinActivity : AppCompatActivity() {
         }
         
         // Show APK signature
-        Log.e("Signature", this.apkSignature)
+        Log.e("Signature", apkSignature)
     }
     
     fun toGithub() {
@@ -57,10 +57,10 @@ class KotlinActivity : AppCompatActivity() {
     }
     
     fun readSignature() {
-        Log.e("Signature", this.apkSignature)
+        Log.e("Signature", apkSignature)
         AlertDialog.Builder(this)
             .setTitle("APK")
-            .setMessage(this.apkSignature)
+            .setMessage(apkSignature)
             .show()
     }
     
@@ -97,7 +97,7 @@ class KotlinActivity : AppCompatActivity() {
                 doNotAllow { piracyCheckerError, pirateApp ->
                     // You can either do something specific when the user is not allowed to use the app
                     // Or manage the error, using the 'error' parameter, yourself (Check errors at {@link PiracyCheckerError}).
-            
+                    
                     // Additionally, if you enabled the check of pirate apps and/or third-party stores, the 'app' param
                     // is the app that has been detected on device. App can be null, and when null, it means no pirate app or store was found,
                     // or you disabled the check for those apps.

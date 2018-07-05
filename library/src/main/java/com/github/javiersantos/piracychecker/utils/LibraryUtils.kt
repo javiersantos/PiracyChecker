@@ -12,6 +12,7 @@ import android.opengl.GLES20
 import android.os.Build
 import android.os.Environment
 import android.support.v4.app.ActivityCompat
+import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.util.Base64
 import com.github.javiersantos.piracychecker.R
@@ -39,6 +40,12 @@ internal fun Context.buildUnlicensedDialog(title: String, content: String): Aler
             .create()
     }
 }
+
+val Context.apkSignature: String
+    get() = currentSignature
+
+val Fragment.apkSignature: String
+    get() = context!!.apkSignature
 
 internal val Context.currentSignature: String
     get() {

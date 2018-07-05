@@ -39,7 +39,7 @@ interface OnErrorCallback {
      * PiracyCheckerError.INVALID_PUBLIC_KEY, PiracyCheckerError.MISSING_PERMISSION or
      * PiracyCheckerError.UNKNOWN
      */
-    open fun onError(error: PiracyCheckerError) {}
+    fun onError(error: PiracyCheckerError) {}
 }
 
 abstract class PiracyCheckerCallback : AllowCallback,

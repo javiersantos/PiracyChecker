@@ -8,7 +8,6 @@ import com.github.javiersantos.piracychecker.callbacks.OnErrorCallback
 import com.github.javiersantos.piracychecker.callbacks.PiracyCheckerCallbacksDSL
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerError
 import com.github.javiersantos.piracychecker.enums.PirateApp
-import com.github.javiersantos.piracychecker.utils.currentSignature
 
 fun Context.piracyChecker(builder: PiracyChecker.() -> Unit): PiracyChecker {
     val checker = PiracyChecker(this)
@@ -18,12 +17,6 @@ fun Context.piracyChecker(builder: PiracyChecker.() -> Unit): PiracyChecker {
 
 fun Fragment.piracyChecker(builder: PiracyChecker.() -> Unit): PiracyChecker =
     context!!.piracyChecker(builder)
-
-val Context.apkSignature: String
-    get() = currentSignature
-
-val Fragment.apkSignature: String
-    get() = context!!.apkSignature
 
 inline fun PiracyChecker.allow(crossinline allow: () -> Unit = {}) = apply {
     allowCallback(object : AllowCallback {

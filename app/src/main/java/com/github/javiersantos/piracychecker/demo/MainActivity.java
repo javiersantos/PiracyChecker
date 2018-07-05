@@ -11,10 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 
-import com.github.javiersantos.piracychecker.LibraryUtilsKt;
 import com.github.javiersantos.piracychecker.PiracyChecker;
 import com.github.javiersantos.piracychecker.enums.Display;
 import com.github.javiersantos.piracychecker.enums.InstallerID;
+import com.github.javiersantos.piracychecker.utils.LibraryUtilsKt;
 
 public class MainActivity extends AppCompatActivity {
     private Display piracyCheckerDisplay = Display.DIALOG;
