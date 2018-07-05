@@ -68,6 +68,8 @@ new PiracyChecker(this)
 
 </details>
 
+
+
 In order to retrieve your BASE64 license key your app must be uploaded to the [Google Play Developer Console](https://play.google.com/apps/publish/). Then access to your app -> Services and APIs.
 
 When using Google Play Licensing your should call `.destroy()` in the `onDestroy()` method of your Activity to avoid multiple instances of the service running. Have a look to the Wiki for a [sample Activity](https://github.com/javiersantos/PiracyChecker/wiki/Using-Google-Play-Licensing-(LVL)) with `destroy()`.
@@ -96,6 +98,8 @@ new PiracyChecker(this)
 
 </details>
 
+
+
 **Don't use this method when using [Google Play App Signing](https://support.google.com/googleplay/android-developer/answer/7384423?hl=en) since Google removes the original signature and add another one, so this method will fail.**
 
 **BE CAREFUL!!** Your app signature can be retrieved using a PiracyCheckerUtils method. Make sure that you have signed your APK using your PRODUCTION keystore (not using the DEBUG one) and installed the version that you plan to distribute. Then copy the signature returned by this method on the console and paste in `enableSigningCertificate("YOUR_APK_SIGNATURE")`
@@ -113,6 +117,8 @@ Log.e("SIGNATURE", LibraryUtilsKt.getApkSignature(this));
 ```
 
 </details>
+
+
 
 ### Verify the installer
 If you only plan to distribute the app on a particular store this technique will block from installing the app using any another store.
@@ -136,6 +142,8 @@ new PiracyChecker(this)
 ```
 
 </details>
+
+
 
 **BE CAREFUL!!** This is a really restrictive technique since it will block your app from being installed using another market or directly installing the .apk on the device. It isn't recommended for most cases.
 
@@ -162,6 +170,8 @@ new PiracyChecker(this)
 
 </details>
 
+
+
 #### Add custom apps to check
 Since version 1.2.2 you can add additional apps to be checked using this code:
 
@@ -184,6 +194,8 @@ new PiracyChecker(this)
 ```
 
 </details>
+
+
 
 You can block the app even when this pirate apps has been uninstalled. This prevents the app from being patched and then uninstall the pirate app in order to continue using your app. The library will save a `SharedPreference` value to know when a pirate app has been detected.
 
@@ -211,6 +223,8 @@ new PiracyChecker(this)
 
 </details>
 
+
+
 Define the `SharedPreferences` name and the name of the preference where you want to save the result.
 
 ```kotlin
@@ -232,6 +246,8 @@ new PiracyChecker(this)
 ```
 
 </details>
+
+
 
 ### Verify the use of third-party store apps
 If you want to check if user has third-party store apps installed, you can use this code.
@@ -256,6 +272,8 @@ new PiracyChecker(this)
 
 </details>
 
+
+
 ### Enable deep pirate and third-party store apps check
 If you want to check if these kind of apps left some files that could make your app work as pirated still, you can enable its check as follows:
 
@@ -277,6 +295,8 @@ new PiracyChecker(this)
 
 </details>
 
+
+
 If you also want to check for `.apk` files in certain system folders, you can enable it like so:
 
 ```kotlin
@@ -296,6 +316,8 @@ new PiracyChecker(this)
 ```
 
 </details>
+
+
 
 **BE CAREFUL!** This means, that some times, the app will be recognized as pirated even after those pirate and third-party store apps were uninstalled. Set it to false if you don't like this behaviour/approach.
 
@@ -321,6 +343,8 @@ new PiracyChecker(this)
 
 </details>
 
+
+
 ### Verify if app is being run in an emulator
 If your app is running on an emulator outside the development process, it gives an indication that someone other than you is trying to analyze the app.
 
@@ -343,6 +367,8 @@ new PiracyChecker(this)
 ```
 
 </details>
+
+
 
 **Note:** the deep boolean with make the library do extra checks to detect if device is an emulator or not. It could lead to some weird crashes, so be wise when using it.
 
@@ -372,6 +398,8 @@ new PiracyChecker(this)
 
 </details>
 
+
+
 Define the `SharedPreferences` name and the name of the preference where you want to save the result.
 
 ```kotlin
@@ -391,6 +419,8 @@ new PiracyChecker(this)
 ```
 
 </details>
+
+
 
 
 ## Customizations
@@ -418,6 +448,8 @@ new PiracyChecker(this)
 ```
 
 </details>
+
+
 
 By default, the displayed Activity will use the library colors. To apply a custom primary and primary dark color, and to define if the activity should show normal or light status bar, use:
 
@@ -491,6 +523,8 @@ callback {
 
 </details>
 
+
+
 ## FAQs
 #### Can I protect my app using more than one validation method?
 Sure. You can use as many validation methods in the builder as you want. For example:
@@ -518,6 +552,8 @@ new PiracyChecker(this)
 ```
 
 </details>
+
+
 
 ## License
 	Copyright 2018 Javier Santos
