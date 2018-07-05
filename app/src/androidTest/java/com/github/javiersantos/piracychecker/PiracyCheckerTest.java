@@ -8,7 +8,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.github.javiersantos.piracychecker.demo.MainActivity;
 import com.github.javiersantos.piracychecker.enums.InstallerID;
-import com.github.javiersantos.piracychecker.enums.PiracyCheckerCallback;
+import com.github.javiersantos.piracychecker.callbacks.PiracyCheckerCallback;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerError;
 import com.github.javiersantos.piracychecker.enums.PirateApp;
 

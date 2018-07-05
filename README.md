@@ -19,7 +19,7 @@ Some of the techniques included in this library can be found [here](https://www.
 ## How to include
 Add the repository to your project **build.gradle**:
 
-```Gradle
+```gradle
 repositories {
     maven {
         url "https://jitpack.io"
@@ -29,7 +29,7 @@ repositories {
 
 And add the library to your module **build.gradle**:
 
-```Gradle
+```gradle
 dependencies {
     implementation 'com.github.javiersantos:PiracyChecker:1.2.3'
 }
@@ -49,50 +49,93 @@ Google Play offers a licensing service that lets you enforce licensing policies 
 Any application that you publish through Google Play can use the Google Play Licensing service. No special account or registration is needed.
 
 For more information check out the [Google Developers page](https://developer.android.com/google/play/licensing/index.html).
- 
-```Java
+
+```kotlin
+piracyChecker {
+	enableGooglePlayLicensing("BASE_64_LICENSE_KEY")
+	...
+}.start()
+```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
 new PiracyChecker(this)
 	.enableGooglePlayLicensing("BASE_64_LICENSE_KEY")
 	...
 	.start();
 ```
 
+</details>
+
 In order to retrieve your BASE64 license key your app must be uploaded to the [Google Play Developer Console](https://play.google.com/apps/publish/). Then access to your app -> Services and APIs.
 
-When using Google Play Licensing your should call `.destroy()` in the `onDestroy()` method of your Activity to avoid multiple instances of the service running. Have a look to the Wiki for a [sample Activity](https://github.com/javiersantos/PiracyChecker/wiki/Using-Google-Play-Licensing-(LVL)) with `.destroy()`.
+When using Google Play Licensing your should call `.destroy()` in the `onDestroy()` method of your Activity to avoid multiple instances of the service running. Have a look to the Wiki for a [sample Activity](https://github.com/javiersantos/PiracyChecker/wiki/Using-Google-Play-Licensing-(LVL)) with `destroy()`.
 
 ### Verify your app's signing certificate (signature)
 In a nutshell, developers must sign applications with their private key/certificate (contained in a .keystore file) before the app can be installed on user devices. The signing certificate must stay consistent throughout the life of the app, and typically have an expiry date of 25 years in the future.
 
 The app signature will be broken if the .apk is altered in any way — unsigned apps cannot typically be installed. We can imagine an attacker removing license-checking code to enable full app features without paying, for instance. A more dangerous example would be altering the .apk to include malware in a legitimate app to harvest sensitive user data. In order for the altered .apk to be installed, the attacker must resign it.
 
-```Java
+
+```kotlin
+piracyChecker {
+	enableSigningCertificate("478yYkKAQF+KST8y4ATKvHkYibo=") // The original APK signature for the PRODUCTION version
+	...
+}.start()
+```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
 new PiracyChecker(this)
 	.enableSigningCertificate("478yYkKAQF+KST8y4ATKvHkYibo=") // The original APK signature for the PRODUCTION version
 	...
 	.start();
 ```
 
+</details>
+
 **Don't use this method when using [Google Play App Signing](https://support.google.com/googleplay/android-developer/answer/7384423?hl=en) since Google removes the original signature and add another one, so this method will fail.**
 
-**BE CAREFUL!!** Your app signature can be retrieved using a PiracyCheckerUtils method. Make sure that you have signed your APK using your PRODUCTION keystore (not using the DEBUG one) and installed the version that you plan to distribute. Then copy the signature returned by this method on the console and paste in `.enableSigningCertificate("YOUR_APK_SIGNATURE")`
+**BE CAREFUL!!** Your app signature can be retrieved using a PiracyCheckerUtils method. Make sure that you have signed your APK using your PRODUCTION keystore (not using the DEBUG one) and installed the version that you plan to distribute. Then copy the signature returned by this method on the console and paste in `enableSigningCertificate("YOUR_APK_SIGNATURE")`
 
-```Java
+```kotlin
 // This method will print your app signature in the console
-Log.e("SIGNATURE", PiracyCheckerUtils.getAPKSignature(this));
+Log.e("SIGNATURE", apkSignature)
 ```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
+// This method will print your app signature in the console
+Log.e("SIGNATURE", LibraryUtilsKt.getApkSignature(this));
+```
+
+</details>
 
 ### Verify the installer
 If you only plan to distribute the app on a particular store this technique will block from installing the app using any another store.
 
 Supported stores: Google Play, Amazon App Store and Samsung Galaxy Apps.
 
-```Java
+```kotlin
+piracyChecker {
+	enableInstallerId(InstallerID.GOOGLE_PLAY, InstallerID.AMAZON_APP_STORE, InstallerID.GALAXY_APPS)
+	...
+}.start()
+```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
 new PiracyChecker(this)
 	.enableInstallerId(InstallerID.GOOGLE_PLAY, InstallerID.AMAZON_APP_STORE, InstallerID.GALAXY_APPS)
 	...
 	.start();
 ```
+
+</details>
 
 **BE CAREFUL!!** This is a really restrictive technique since it will block your app from being installed using another market or directly installing the .apk on the device. It isn't recommended for most cases.
 
@@ -101,16 +144,38 @@ If you want to check if user has pirate apps installed, you can use this code.
 
 It will check for: Lucky Patcher, Uret Patcher, Freedom and CreeHack.
 
-```Java
+```kotlin
+piracyChecker {
+	enableUnauthorizedAppsCheck(true)
+	...
+}.start()
+```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
 new PiracyChecker(this)
 	.enableUnauthorizedAppsCheck(true)
 	...
 	.start();
 ```
 
+</details>
+
 #### Add custom apps to check
 Since version 1.2.2 you can add additional apps to be checked using this code:
-```Java
+
+```kotlin
+val app = PirateApp("Lucky Patcher", "the.package.name")
+piracyChecker {
+	addAppToCheck(app)
+	...
+}.start()
+```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
 PirateApp app = new PirateApp("Lucky Patcher", "the.package.name");
 new PiracyChecker(this)
 	.addAppToCheck(app)
@@ -118,13 +183,25 @@ new PiracyChecker(this)
 	.start();
 ```
 
+</details>
+
 You can block the app even when this pirate apps has been uninstalled. This prevents the app from being patched and then uninstall the pirate app in order to continue using your app. The library will save a `SharedPreference` value to know when a pirate app has been detected.
 
 There are two ways to do this:
 
 Define the `SharedPreferences` and the name of the preference where you want to save the result.
 
-```Java
+```kotlin
+piracyChecker {
+	enableUnauthorizedAppsCheck()
+	blockIfUnauthorizedAppUninstalled(preferences, "app_unauthorized") // Change "app_unauthorized" with your own value
+	...
+}.start()
+```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
 new PiracyChecker(this)
 	.enableUnauthorizedAppsCheck(true)
 	.blockIfUnauthorizedAppUninstalled(preferences, "app_unauthorized") // Change "app_unauthorized" with your own value
@@ -132,9 +209,21 @@ new PiracyChecker(this)
 	.start();
 ```
 
+</details>
+
 Define the `SharedPreferences` name and the name of the preference where you want to save the result.
 
-```Java
+```kotlin
+piracyChecker {
+	enableUnauthorizedAppsCheck()
+	blockIfUnauthorizedAppUninstalled("license_preferences", "app_unauthorized") // Change "license_preferences" and "app_unauthorized" with your own value
+	...
+}.start()
+```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
 new PiracyChecker(this)
 	.enableUnauthorizedAppsCheck(true)
 	.blockIfUnauthorizedAppUninstalled("license_preferences", "app_unauthorized") // Change "license_preferences" and "app_unauthorized" with your own value
@@ -142,57 +231,118 @@ new PiracyChecker(this)
 	.start();
 ```
 
+</details>
+
 ### Verify the use of third-party store apps
 If you want to check if user has third-party store apps installed, you can use this code.
 
 It will check for: Aptoide, BlackMart, Mobogenie, 1Mobile, GetApk, GetJar, SlideMe and ACMarket.
 
-```Java
+```kotlin
+piracyChecker {
+	enableStoresCheck()
+	...
+}.start()
+```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
 new PiracyChecker(this)
 	.enableStoresCheck(true)
 	...
 	.start();
 ```
 
+</details>
+
 ### Enable deep pirate and third-party store apps check
 If you want to check if these kind of apps left some files that could make your app work as pirated still, you can enable its check as follows:
-```Java
+
+```kotlin
+piracyChecker {
+	enableFoldersCheck()
+	...
+}.start()
+```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
 new PiracyChecker(this)
 	.enableFoldersCheck(true)
 	...
 	.start();
 ```
 
+</details>
+
 If you also want to check for `.apk` files in certain system folders, you can enable it like so:
-```Java
+
+```kotlin
+piracyChecker {
+	enableAPKCheck()
+	...
+}.start()
+```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
 new PiracyChecker(this)
 	.enableAPKCheck(true)
 	...
 	.start();
 ```
 
+</details>
+
 **BE CAREFUL!** This means, that some times, the app will be recognized as pirated even after those pirate and third-party store apps were uninstalled. Set it to false if you don't like this behaviour/approach.
 
 ### Verify if app is a debug build
 Allowing apps to be debugged when installed on an Android device is something that, as developers, we only enable during the development process. Therefore, if debugging occurs on a live build of your app, it's likely that someone other than you is trying to analyze the app.
 
-```Java
+
+```kotlin
+piracyChecker {
+	enableDebugCheck()
+	...
+}.start()
+```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
 new PiracyChecker(this)
 	.enableDebugCheck(true)
 	...
 	.start();
 ```
 
+</details>
+
 ### Verify if app is being run in an emulator
 If your app is running on an emulator outside the development process, it gives an indication that someone other than you is trying to analyze the app.
 
-```Java
+```kotlin
+val deepCheck = fals
+piracyChecker {
+	.enableEmulatorCheck(deepCheck)
+	...
+}.start()
+```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
 boolean deep = false;
 new PiracyChecker(this)
 	.enableEmulatorCheck(deep)
 	...
 	.start();
 ```
+
+</details>
 
 **Note:** the deep boolean with make the library do extra checks to detect if device is an emulator or not. It could lead to some weird crashes, so be wise when using it.
 
@@ -204,21 +354,43 @@ There are two ways to do this:
 
 Define the `SharedPreferences` and the name of the preference where you want to save the result.
 
-```Java
+```kotlin
+piracyChecker {
+	saveResultToSharedPreferences(preferences, "valid_license") // Change "valid_license" with your own value
+	...
+}.start()
+```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
 new PiracyChecker(this)
 	.saveResultToSharedPreferences(preferences, "valid_license") // Change "valid_license" with your own value
 	...
 	.start();
 ```
 
+</details>
+
 Define the `SharedPreferences` name and the name of the preference where you want to save the result.
 
-```Java
+```kotlin
+piracyChecker {
+	saveResultToSharedPreferences("license_preferences", "valid_license") // Change "license_preferences" and "valid_license" with your own value
+	...
+}.start()
+```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
 new PiracyChecker(this)
 	.saveResultToSharedPreferences("license_preferences", "valid_license") // Change "license_preferences" and "valid_license" with your own value
 	...
 	.start();
 ```
+
+</details>
 
 
 ## Customizations
@@ -229,20 +401,33 @@ It's recommended to show a new Activity instead of a Dialog when the license is 
 
 By default a non-cancelable Dialog will be displayed.
 
-```Java
+```kotlin
+piracyChecker {
+	display(Display.ACTIVITY)
+	...
+}.start()
+```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
 new PiracyChecker(this)
 	.display(Display.ACTIVITY)
 	...
 	.start();
 ```
 
+</details>
+
 By default, the displayed Activity will use the library colors. To apply a custom primary and primary dark color, and to define if the activity should show normal or light status bar, use:
-```java
-.withActivityColors(R.color.colorPrimary, R.color.colorPrimaryDark, withLightStatusBar)
+
+```kotlin
+withActivityColors(R.color.colorPrimary, R.color.colorPrimaryDark, withLightStatusBar)
 ```
 
 You can also define a custom layout xml for this activity content, using:
-```java
+
+```kotlin
 .withActivityLayout(R.layout.my_custom_layout)
 ```
 
@@ -252,6 +437,30 @@ Adding a callback to the builder allows you to customize what will happen when t
 By default, the library will display a non-cancelable dialog if the user is not allowed to use the app, otherwise nothing will happen.
 
 Use the builder and add following:
+
+```kotlin
+callback {
+    allow {
+        // Do something when the user is allowed to use the app
+    }
+    doNotAllow { piracyCheckerError, pirateApp ->
+        // You can either do something specific when the user is not allowed to use the app
+        // Or manage the error, using the 'error' parameter, yourself (Check errors at {@link PiracyCheckerError}).
+        
+        // Additionally, if you enabled the check of pirate apps and/or third-party stores, the 'app' param
+        // is the app that has been detected on device. App can be null, and when null, it means no pirate app or store was found,
+        // or you disabled the check for those apps.
+        // This allows you to let users know the possible reasons why license is been invalid.
+    }
+    onError { error ->
+        // This method is not required to be implemented/overriden but...
+        // You can either do something specific when an error occurs while checking the license,
+        // Or manage the error, using the 'error' parameter, yourself (Check errors at {@link PiracyCheckerError}).
+    }
+}
+```
+
+<details><summary><b>Java Sample</b></summary>
 
 ```Java
 .callback(new PiracyCheckerCallback() {
@@ -280,19 +489,35 @@ Use the builder and add following:
 })
 ```
 
+</details>
+
 ## FAQs
 #### Can I protect my app using more than one validation method?
 Sure. You can use as many validation methods in the builder as you want. For example:
 
-```Java
+```kotlin
+piracyChecker {
+	enableGooglePlayLicensing("BASE_64_LICENSE_KEY")
+	enableSigningCertificate("YOUR_APK_SIGNATURE")
+	enableUnauthorizedAppsCheck()
+	saveResultToSharedPreferences("my_app_preferences", "valid_license")
+	...
+}.start()
+```
+
+<details><summary><b>Java Sample</b></summary>
+
+```java
 new PiracyChecker(this)
 	.enableGooglePlayLicensing("BASE_64_LICENSE_KEY")
 	.enableSigningCertificate("YOUR_APK_SIGNATURE")
 	.enableUnauthorizedAppsCheck(true)
-	.saveResultToSharedPreferences("my_app_preferences", "valid_license");
+	.saveResultToSharedPreferences("my_app_preferences", "valid_license")
 	...
 	.start();
 ```
+
+</details>
 
 ## License
 	Copyright 2018 Javier Santos
