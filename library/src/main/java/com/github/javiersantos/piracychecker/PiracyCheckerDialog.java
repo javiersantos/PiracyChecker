@@ -30,8 +30,8 @@ public class PiracyCheckerDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         setCancelable(false);
-        return LibraryUtils.buildUnlicensedDialog(getActivity(), mTitle,
-                                                  mContent);
+        return LibraryUtils.INSTANCE.buildUnlicensedDialog(getActivity(), mTitle,
+                                                           mContent);
     }
 
 }

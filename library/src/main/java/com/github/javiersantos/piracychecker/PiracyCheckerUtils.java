@@ -4,6 +4,6 @@ import android.content.Context;
 
 public class PiracyCheckerUtils {
     public static String getAPKSignature(Context context) {
-        return LibraryUtils.getCurrentSignature(context);
+        return LibraryUtils.INSTANCE.getCurrentSignature(context);
     }
 }

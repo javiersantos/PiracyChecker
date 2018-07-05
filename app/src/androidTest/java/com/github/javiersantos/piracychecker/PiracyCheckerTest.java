@@ -47,7 +47,9 @@ public class PiracyCheckerTest {
 
                             @Override
                             public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                assertTrue(error.toString() + " - Current signature: " + LibraryUtils.getCurrentSignature(InstrumentationRegistry.getTargetContext()), false);
+                                assertTrue(error.toString() + " - Current signature: " + LibraryUtils.INSTANCE
+
+                                    .getCurrentSignature(InstrumentationRegistry.getTargetContext()), false);
                                 signal.countDown();
                             }
                         })

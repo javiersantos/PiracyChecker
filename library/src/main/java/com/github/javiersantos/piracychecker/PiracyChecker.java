@@ -348,11 +348,12 @@ public class PiracyChecker {
 
     private boolean verifySigningCertificate() {
         return !enableSigningCertificate ||
-                LibraryUtils.verifySigningCertificate(context, signature);
+                LibraryUtils.INSTANCE.verifySigningCertificate(context, signature);
     }
 
     private boolean verifyInstallerId() {
-        return installerIDs.isEmpty() || LibraryUtils.verifyInstallerId(context, installerIDs);
+        return installerIDs.isEmpty() || LibraryUtils.INSTANCE
+            .verifyInstallerId(context, installerIDs);
     }
 
     private boolean verifyUnauthorizedApp() {
@@ -361,15 +362,16 @@ public class PiracyChecker {
 
     private void doExtraVerification(PiracyCheckerCallback verifyCallback,
                                      boolean possibleSuccess) {
-        PirateApp app = LibraryUtils.getPirateApp(context, enableUnauthorizedAppsCheck,
-                                                  enableStoresCheck, enableFoldersCheck,
-                                                  enableAPKCheck, extraApps);
+        PirateApp app = LibraryUtils.INSTANCE.getPirateApp(context, enableUnauthorizedAppsCheck,
+                                                           enableStoresCheck, enableFoldersCheck,
+                                                           enableAPKCheck, extraApps);
         if (possibleSuccess) {
-            if (enableDebugCheck && LibraryUtils.isDebug(context)) {
+            if (enableDebugCheck && LibraryUtils.INSTANCE.isDebug(context)) {
                 if (preferences != null && saveToSharedPreferences)
                     preferences.edit().putBoolean(preferenceSaveResult, false).apply();
                 verifyCallback.dontAllow(PiracyCheckerError.USING_DEBUG_APP, null);
-            } else if (enableEmulatorCheck && LibraryUtils.isInEmulator(enableDeepEmulatorCheck)) {
+            } else if (enableEmulatorCheck && LibraryUtils.INSTANCE
+                .isInEmulator(enableDeepEmulatorCheck)) {
                 if (preferences != null && saveToSharedPreferences)
                     preferences.edit().putBoolean(preferenceSaveResult, false).apply();
                 verifyCallback.dontAllow(PiracyCheckerError.USING_APP_IN_EMULATOR, null);
