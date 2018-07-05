@@ -14,12 +14,13 @@ internal object SaltUtils {
     private val saltString: String
         get() {
             val sb = StringBuilder()
-            for (i in mSalt!!.indices) {
-                if (i > 0) {
-                    sb.append(" ")
+            mSalt?.let {
+                for (i in it.indices) {
+                    if (i > 0) {
+                        sb.append(" ")
+                    }
+                    sb.append(java.lang.Byte.toString(it[i]))
                 }
-                sb.append(java.lang.Byte.toString(
-                    mSalt!![i]))
             }
             return sb.toString()
         }

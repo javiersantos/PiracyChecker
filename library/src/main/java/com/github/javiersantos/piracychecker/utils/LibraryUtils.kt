@@ -47,7 +47,8 @@ val Context.apkSignature: String
 val Fragment.apkSignature: String
     get() = context!!.apkSignature
 
-internal val Context.currentSignature: String
+val Context.currentSignature: String
+    @SuppressLint("PackageManagerGetSignatures")
     get() {
         var res = ""
         try {

@@ -1,17 +1,17 @@
 package com.github.javiersantos.piracychecker;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.github.javiersantos.piracychecker.callbacks.PiracyCheckerCallback;
 import com.github.javiersantos.piracychecker.demo.MainActivity;
 import com.github.javiersantos.piracychecker.enums.InstallerID;
-import com.github.javiersantos.piracychecker.callbacks.PiracyCheckerCallback;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerError;
 import com.github.javiersantos.piracychecker.enums.PirateApp;
+import com.github.javiersantos.piracychecker.utils.LibraryUtilsKt;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * 1. Global test cases. Doesn't require any additional step to run.
@@ -28,7 +28,8 @@ import static org.junit.Assert.*;
 public class PiracyCheckerTest {
 
     @Rule
-    public final ActivityTestRule<MainActivity> uiThreadTestRule = new ActivityTestRule<>(MainActivity.class);
+    public final ActivityTestRule<MainActivity> uiThreadTestRule =
+        new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void verifySigningCertificate_ALLOW() throws Throwable {
@@ -37,23 +38,26 @@ public class PiracyCheckerTest {
             @Override
             public void run() {
                 new PiracyChecker(InstrumentationRegistry.getTargetContext())
-                        .enableSigningCertificate("VHZs2aiTBiap/F+AYhYeppy0aF0=")
-                        .callback(new PiracyCheckerCallback() {
-                            @Override
-                            public void allow() {
-                                assertTrue("PiracyChecker OK", true);
-                                signal.countDown();
-                            }
+                    .enableSigningCertificate("VHZs2aiTBiap/F+AYhYeppy0aF0=")
+                    .callback(new PiracyCheckerCallback() {
+                        @Override
+                        public void allow() {
+                            assertTrue("PiracyChecker OK", true);
+                            signal.countDown();
+                        }
 
-                            @Override
-                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                assertTrue(error.toString() + " - Current signature: " + LibraryUtils.INSTANCE
-
-                                    .getCurrentSignature(InstrumentationRegistry.getTargetContext()), false);
-                                signal.countDown();
-                            }
-                        })
-                        .start();
+                        @Override
+                        public void doNotAllow(@NotNull PiracyCheckerError error,
+                                               @org.jetbrains.annotations.Nullable PirateApp app) {
+                            assertTrue(error.toString() + " - Current signature: " +
+                                           LibraryUtilsKt
+                                               .getCurrentSignature(
+                                                   InstrumentationRegistry.getTargetContext()),
+                                       false);
+                            signal.countDown();
+                        }
+                    })
+                    .start();
             }
         });
 
@@ -67,24 +71,27 @@ public class PiracyCheckerTest {
             @Override
             public void run() {
                 new PiracyChecker(InstrumentationRegistry.getTargetContext())
-                        .enableSigningCertificate("478yYkKAQF+KST8y4ATKvHkYibo=")
-                        .callback(new PiracyCheckerCallback() {
-                            @Override
-                            public void allow() {
-                                assertTrue("PiracyChecker FAILED: The signing certificate is invalid.", false);
-                                signal.countDown();
-                            }
+                    .enableSigningCertificate("478yYkKAQF+KST8y4ATKvHkYibo=")
+                    .callback(new PiracyCheckerCallback() {
+                        @Override
+                        public void allow() {
+                            assertTrue("PiracyChecker FAILED: The signing certificate is invalid.",
+                                       false);
+                            signal.countDown();
+                        }
 
-                            @Override
-                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                if (error == PiracyCheckerError.SIGNATURE_NOT_VALID)
-                                    assertTrue("PiracyChecker OK", true);
-                                else
-                                    assertTrue("PiracyChecker FAILED : PiracyCheckError is not " + error.toString(), false);
-                                signal.countDown();
-                            }
-                        })
-                        .start();
+                        @Override
+                        public void doNotAllow(@NotNull PiracyCheckerError error,
+                                               @org.jetbrains.annotations.Nullable PirateApp app) {
+                            if (error == PiracyCheckerError.SIGNATURE_NOT_VALID)
+                                assertTrue("PiracyChecker OK", true);
+                            else
+                                assertTrue("PiracyChecker FAILED : PiracyCheckError is not " +
+                                               error.toString(), false);
+                            signal.countDown();
+                        }
+                    })
+                    .start();
             }
         });
 
@@ -98,26 +105,31 @@ public class PiracyCheckerTest {
             @Override
             public void run() {
                 new PiracyChecker(InstrumentationRegistry.getTargetContext())
-                        .enableInstallerId(InstallerID.GOOGLE_PLAY)
-                        .enableInstallerId(InstallerID.AMAZON_APP_STORE)
-                        .enableInstallerId(InstallerID.GALAXY_APPS)
-                        .callback(new PiracyCheckerCallback() {
-                            @Override
-                            public void allow() {
-                                assertTrue("PiracyChecker FAILED: The app has been installed using another store.", false);
-                                signal.countDown();
-                            }
+                    .enableInstallerId(InstallerID.GOOGLE_PLAY)
+                    .enableInstallerId(InstallerID.AMAZON_APP_STORE)
+                    .enableInstallerId(InstallerID.GALAXY_APPS)
+                    .callback(new PiracyCheckerCallback() {
+                        @Override
+                        public void allow() {
+                            assertTrue(
+                                "PiracyChecker FAILED: The app has been installed using another " +
+                                    "store.",
+                                false);
+                            signal.countDown();
+                        }
 
-                            @Override
-                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                if (error == PiracyCheckerError.INVALID_INSTALLER_ID)
-                                    assertTrue("PiracyChecker OK", true);
-                                else
-                                    assertTrue("PiracyChecker FAILED : PiracyCheckError is not " + error.toString(), false);
-                                signal.countDown();
-                            }
-                        })
-                        .start();
+                        @Override
+                        public void doNotAllow(@NotNull PiracyCheckerError error,
+                                               @org.jetbrains.annotations.Nullable PirateApp app) {
+                            if (error == PiracyCheckerError.INVALID_INSTALLER_ID)
+                                assertTrue("PiracyChecker OK", true);
+                            else
+                                assertTrue("PiracyChecker FAILED : PiracyCheckError is not " +
+                                               error.toString(), false);
+                            signal.countDown();
+                        }
+                    })
+                    .start();
             }
         });
 
@@ -131,21 +143,22 @@ public class PiracyCheckerTest {
             @Override
             public void run() {
                 new PiracyChecker(InstrumentationRegistry.getTargetContext())
-                        .enableUnauthorizedAppsCheck(true)
-                        .callback(new PiracyCheckerCallback() {
-                            @Override
-                            public void allow() {
-                                assertTrue("PiracyChecker OK", true);
-                                signal.countDown();
-                            }
+                    .enableUnauthorizedAppsCheck(true)
+                    .callback(new PiracyCheckerCallback() {
+                        @Override
+                        public void allow() {
+                            assertTrue("PiracyChecker OK", true);
+                            signal.countDown();
+                        }
 
-                            @Override
-                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                assertTrue(error.toString(), false);
-                                signal.countDown();
-                            }
-                        })
-                        .start();
+                        @Override
+                        public void doNotAllow(@NotNull PiracyCheckerError error,
+                                               @org.jetbrains.annotations.Nullable PirateApp app) {
+                            assertTrue(error.toString(), false);
+                            signal.countDown();
+                        }
+                    })
+                    .start();
             }
         });
 
@@ -159,21 +172,22 @@ public class PiracyCheckerTest {
             @Override
             public void run() {
                 new PiracyChecker(InstrumentationRegistry.getTargetContext())
-                        .enableUnauthorizedAppsCheck(true)
-                        .callback(new PiracyCheckerCallback() {
-                            @Override
-                            public void allow() {
-                                assertTrue("PiracyChecker OK", true);
-                                signal.countDown();
-                            }
+                    .enableUnauthorizedAppsCheck(true)
+                    .callback(new PiracyCheckerCallback() {
+                        @Override
+                        public void allow() {
+                            assertTrue("PiracyChecker OK", true);
+                            signal.countDown();
+                        }
 
-                            @Override
-                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                assertTrue(error.toString(), false);
-                                signal.countDown();
-                            }
-                        })
-                        .start();
+                        @Override
+                        public void doNotAllow(@NotNull PiracyCheckerError error,
+                                               @org.jetbrains.annotations.Nullable PirateApp app) {
+                            assertTrue(error.toString(), false);
+                            signal.countDown();
+                        }
+                    })
+                    .start();
             }
         });
 
@@ -187,21 +201,22 @@ public class PiracyCheckerTest {
             @Override
             public void run() {
                 new PiracyChecker(InstrumentationRegistry.getTargetContext())
-                        .enableFoldersCheck(true)
-                        .callback(new PiracyCheckerCallback() {
-                            @Override
-                            public void allow() {
-                                assertTrue("PiracyChecker OK", true);
-                                signal.countDown();
-                            }
+                    .enableFoldersCheck(true)
+                    .callback(new PiracyCheckerCallback() {
+                        @Override
+                        public void allow() {
+                            assertTrue("PiracyChecker OK", true);
+                            signal.countDown();
+                        }
 
-                            @Override
-                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                assertTrue(error.toString(), false);
-                                signal.countDown();
-                            }
-                        })
-                        .start();
+                        @Override
+                        public void doNotAllow(@NotNull PiracyCheckerError error,
+                                               @org.jetbrains.annotations.Nullable PirateApp app) {
+                            assertTrue(error.toString(), false);
+                            signal.countDown();
+                        }
+                    })
+                    .start();
             }
         });
 
@@ -215,24 +230,27 @@ public class PiracyCheckerTest {
             @Override
             public void run() {
                 new PiracyChecker(InstrumentationRegistry.getTargetContext())
-                        .enableDebugCheck(true)
-                        .callback(new PiracyCheckerCallback() {
-                            @Override
-                            public void allow() {
-                                assertTrue("PiracyChecker FAILED: Tests are running on a debug build.", false);
-                                signal.countDown();
-                            }
+                    .enableDebugCheck(true)
+                    .callback(new PiracyCheckerCallback() {
+                        @Override
+                        public void allow() {
+                            assertTrue("PiracyChecker FAILED: Tests are running on a debug build.",
+                                       false);
+                            signal.countDown();
+                        }
 
-                            @Override
-                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                if (error == PiracyCheckerError.USING_DEBUG_APP)
-                                    assertTrue("PiracyChecker OK", true);
-                                else
-                                    assertTrue("PiracyChecker FAILED : PiracyCheckError is not " + error.toString(), false);
-                                signal.countDown();
-                            }
-                        })
-                        .start();
+                        @Override
+                        public void doNotAllow(@NotNull PiracyCheckerError error,
+                                               @org.jetbrains.annotations.Nullable PirateApp app) {
+                            if (error == PiracyCheckerError.USING_DEBUG_APP)
+                                assertTrue("PiracyChecker OK", true);
+                            else
+                                assertTrue("PiracyChecker FAILED : PiracyCheckError is not " +
+                                               error.toString(), false);
+                            signal.countDown();
+                        }
+                    })
+                    .start();
             }
         });
 
@@ -246,24 +264,27 @@ public class PiracyCheckerTest {
             @Override
             public void run() {
                 new PiracyChecker(InstrumentationRegistry.getTargetContext())
-                        .enableEmulatorCheck(false)
-                        .callback(new PiracyCheckerCallback() {
-                            @Override
-                            public void allow() {
-                                assertTrue("PiracyChecker FAILED: Tests are running on an emulator.", false);
-                                signal.countDown();
-                            }
+                    .enableEmulatorCheck(false)
+                    .callback(new PiracyCheckerCallback() {
+                        @Override
+                        public void allow() {
+                            assertTrue("PiracyChecker FAILED: Tests are running on an emulator.",
+                                       false);
+                            signal.countDown();
+                        }
 
-                            @Override
-                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                if (error == PiracyCheckerError.USING_APP_IN_EMULATOR)
-                                    assertTrue("PiracyChecker OK", true);
-                                else
-                                    assertTrue("PiracyChecker FAILED : PiracyCheckError is not " + error.toString(), false);
-                                signal.countDown();
-                            }
-                        })
-                        .start();
+                        @Override
+                        public void doNotAllow(@NotNull PiracyCheckerError error,
+                                               @org.jetbrains.annotations.Nullable PirateApp app) {
+                            if (error == PiracyCheckerError.USING_APP_IN_EMULATOR)
+                                assertTrue("PiracyChecker OK", true);
+                            else
+                                assertTrue("PiracyChecker FAILED : PiracyCheckError is not " +
+                                               error.toString(), false);
+                            signal.countDown();
+                        }
+                    })
+                    .start();
             }
         });
 
@@ -277,28 +298,30 @@ public class PiracyCheckerTest {
             @Override
             public void run() {
                 new PiracyChecker(InstrumentationRegistry.getTargetContext())
-                        .enableEmulatorCheck(true)
-                        .callback(new PiracyCheckerCallback() {
-                            @Override
-                            public void allow() {
-                                assertTrue("PiracyChecker FAILED: Tests are running on an emulator.", false);
-                                signal.countDown();
-                            }
+                    .enableEmulatorCheck(true)
+                    .callback(new PiracyCheckerCallback() {
+                        @Override
+                        public void allow() {
+                            assertTrue("PiracyChecker FAILED: Tests are running on an emulator.",
+                                       false);
+                            signal.countDown();
+                        }
 
-                            @Override
-                            public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                if (error == PiracyCheckerError.USING_APP_IN_EMULATOR)
-                                    assertTrue("PiracyChecker OK", true);
-                                else
-                                    assertTrue("PiracyChecker FAILED : PiracyCheckError is not " + error.toString(), false);
-                                signal.countDown();
-                            }
-                        })
-                        .start();
+                        @Override
+                        public void doNotAllow(@NotNull PiracyCheckerError error,
+                                               @org.jetbrains.annotations.Nullable PirateApp app) {
+                            if (error == PiracyCheckerError.USING_APP_IN_EMULATOR)
+                                assertTrue("PiracyChecker OK", true);
+                            else
+                                assertTrue("PiracyChecker FAILED : PiracyCheckError is not " +
+                                               error.toString(), false);
+                            signal.countDown();
+                        }
+                    })
+                    .start();
             }
         });
 
         signal.await(30, TimeUnit.SECONDS);
     }
-
 }
