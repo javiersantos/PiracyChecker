@@ -341,6 +341,9 @@ class LibraryUtils {
                                                         "p", "l", "a", "y", "s", ".", "h", "a", "c",
                                                         "k"},
                                AppType.PIRATE));
+        apps.add(new PirateApp("HappyMod", new String[]{"c", "o", "m", ".", "h", "a", "p", "p", "y",
+                                                        "m", "o", "d", ".", "a", "p", "k"},
+                               AppType.PIRATE));
         apps.add(new PirateApp("Aptoide", new String[]{"c", "m", ".", "a", "p", "t", "o", "i",
                                                        "d", "e", ".", "p", "t"},
                                AppType.STORE));
