@@ -10,7 +10,7 @@ public class PirateApp {
 
     public PirateApp(@NonNull String name, @NonNull String[] pack, @NonNull AppType type) {
         this.name = name;
-        this.pack = pack;
+        this.pack = pack.clone();
         this.type = type;
     }
 
