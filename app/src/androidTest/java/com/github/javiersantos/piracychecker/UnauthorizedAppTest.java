@@ -74,7 +74,8 @@ public class UnauthorizedAppTest {
 
                             @Override
                             public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                if (error == PiracyCheckerError.PIRATE_APP_INSTALLED)
+                                if (error == PiracyCheckerError.PIRATE_APP_INSTALLED
+                                   || error == PiracyCheckerError.BLOCK_PIRATE_APP)
                                     assertTrue("PiracyChecker OK", true);
                                 else
                                     assertTrue("PiracyChecker FAILED : PiracyCheckError is not " + error.toString(), false);
@@ -106,7 +107,8 @@ public class UnauthorizedAppTest {
 
                             @Override
                             public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
-                                if (error == PiracyCheckerError.PIRATE_APP_INSTALLED)
+                                if (error == PiracyCheckerError.PIRATE_APP_INSTALLED
+                                   || error == PiracyCheckerError.BLOCK_PIRATE_APP)
                                     assertTrue("PiracyChecker OK", true);
                                 else
                                     assertTrue("PiracyChecker FAILED : PiracyCheckError is not " + error.toString(), false);
