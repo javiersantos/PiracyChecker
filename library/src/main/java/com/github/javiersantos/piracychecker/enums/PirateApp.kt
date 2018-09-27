@@ -11,7 +11,7 @@ class PirateApp(name: String, pack: Array<String>, type: AppType = AppType.OTHER
     
     init {
         this.name = name
-        this.pack = pack
+        this.pack = pack.clone()
         this.type = type
     }
     
