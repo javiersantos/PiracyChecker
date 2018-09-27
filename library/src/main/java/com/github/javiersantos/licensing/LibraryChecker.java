@@ -83,14 +83,14 @@ public class LibraryChecker implements ServiceConnection {
 
     /**
      * @param context
-     *         a Context
+     *     a Context
      * @param policy
-     *         implementation of Policy
+     *     implementation of Policy
      * @param encodedPublicKey
-     *         Base64-encoded RSA public key
+     *     Base64-encoded RSA public key
      *
      * @throws IllegalArgumentException
-     *         if encodedPublicKey is invalid
+     *     if encodedPublicKey is invalid
      */
     public LibraryChecker(Context context, Policy policy, String encodedPublicKey) {
         mContext = context;
@@ -107,10 +107,10 @@ public class LibraryChecker implements ServiceConnection {
      * Generates a PublicKey instance from a string containing the Base64-encoded public key.
      *
      * @param encodedPublicKey
-     *         Base64-encoded public key
+     *     Base64-encoded public key
      *
      * @throws IllegalArgumentException
-     *         if encodedPublicKey is invalid
+     *     if encodedPublicKey is invalid
      */
     private static PublicKey generatePublicKey(String encodedPublicKey) {
         try {
@@ -134,14 +134,14 @@ public class LibraryChecker implements ServiceConnection {
      * Get version code for the application package name.
      *
      * @param packageName
-     *         application package name
+     *     application package name
      *
      * @return the version code or empty string if package not found
      */
     private static String getVersionCode(Context context, String packageName) {
         try {
             return String.valueOf(
-                    context.getPackageManager().getPackageInfo(packageName, 0).versionCode);
+                context.getPackageManager().getPackageInfo(packageName, 0).versionCode);
         } catch (NameNotFoundException e) {
             Log.e(TAG, "Package not found. could not get version code.");
             return "";
@@ -169,35 +169,35 @@ public class LibraryChecker implements ServiceConnection {
                 Log.i(TAG, "Binding to licensing service.");
                 try {
                     boolean bindResult = mContext
-                            .bindService(
-                                    new Intent(
-                                            new String(
-                                                    // Base64 encoded -
-                                                    // com.android.vending.licensing
-                                                    // .ILicensingService
-                                                    // Consider encoding this in another way in your
-                                                    // code to improve security
-                                                    Base64.decode(
-                                                            "Y29tLmFuZHJvaWQudmVuZGluZy5saWNlbnNpbmcuSUxpY2Vuc2luZ1NlcnZpY2U=")))
-                                            // As of Android 5.0, implicit
-                                            // Service Intents are no longer
-                                            // allowed because it's not
-                                            // possible for the user to
-                                            // participate in disambiguating
-                                            // them. This does mean we break
-                                            // compatibility with Android
-                                            // Cupcake devices with this
-                                            // release, since setPackage was
-                                            // added in Donut.
-                                            .setPackage(
-                                                    new String(
-                                                            // Base64
-                                                            // encoded -
-                                                            // com.android.vending
-                                                            Base64.decode(
-                                                                    "Y29tLmFuZHJvaWQudmVuZGluZw=="))),
-                                    this, // ServiceConnection.
-                                    Context.BIND_AUTO_CREATE);
+                        .bindService(
+                            new Intent(
+                                new String(
+                                    // Base64 encoded -
+                                    // com.android.vending.licensing
+                                    // .ILicensingService
+                                    // Consider encoding this in another way in your
+                                    // code to improve security
+                                    Base64.decode(
+                                        "Y29tLmFuZHJvaWQudmVuZGluZy5saWNlbnNpbmcuSUxpY2Vuc2luZ1NlcnZpY2U=")))
+                                // As of Android 5.0, implicit
+                                // Service Intents are no longer
+                                // allowed because it's not
+                                // possible for the user to
+                                // participate in disambiguating
+                                // them. This does mean we break
+                                // compatibility with Android
+                                // Cupcake devices with this
+                                // release, since setPackage was
+                                // added in Donut.
+                                .setPackage(
+                                    new String(
+                                        // Base64
+                                        // encoded -
+                                        // com.android.vending
+                                        Base64.decode(
+                                            "Y29tLmFuZHJvaWQudmVuZGluZw=="))),
+                            this, // ServiceConnection.
+                            Context.BIND_AUTO_CREATE);
                     if (bindResult) {
                         mPendingChecks.offer(validator);
                     } else {
@@ -222,8 +222,8 @@ public class LibraryChecker implements ServiceConnection {
             try {
                 Log.i(TAG, "Calling checkLicense on service for " + validator.getPackageName());
                 mService.checkLicense(
-                        validator.getNonce(), validator.getPackageName(),
-                        new ResultListener(validator));
+                    validator.getNonce(), validator.getPackageName(),
+                    new ResultListener(validator));
                 mChecksInProgress.add(validator);
             } catch (RemoteException e) {
                 Log.w(TAG, "RemoteException in checkLicense call.", e);
