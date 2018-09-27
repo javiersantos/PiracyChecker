@@ -150,7 +150,7 @@ new PiracyChecker(this)
 ### Verify the use of pirate apps
 If you want to check if user has pirate apps installed, you can use this code.
 
-It will check for: Lucky Patcher, Uret Patcher, Freedom and CreeHack.
+It will check for: Lucky Patcher, Uret Patcher, Freedom, CreeHack and HappyMod.
 
 ```kotlin
 piracyChecker {

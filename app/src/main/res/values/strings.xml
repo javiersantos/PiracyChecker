@@ -11,7 +11,7 @@
     <string name="verify_signature">Verify using the APK signature</string>
     <string name="read_signature">Read APK signature</string>
     <string name="verify_installer_id">Verify using the Installer ID</string>
-    <string name="verify_unauthorized_apps">Verify unauthorized apps: Lucky Patcher, Freedom and CreeHack</string>
+    <string name="verify_unauthorized_apps">Verify unauthorized apps: Lucky Patcher, Freedom, CreeHack and HappyMod</string>
     <string name="verify_stores">Verify third-party stores: Aptoide, BlackMart, 1Mobile, GetApk, etc</string>
     <string name="verify_debug">Verify if app is a debug build</string>
     <string name="verify_emulator">Verify if app is being run in an emulator</string>

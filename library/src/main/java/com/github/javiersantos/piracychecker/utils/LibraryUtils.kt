@@ -270,18 +270,19 @@ internal fun Context.isDebug(): Boolean =
 
 private fun getApps(extraApps: ArrayList<PirateApp>): ArrayList<PirateApp> {
     val apps = ArrayList<PirateApp>()
-    // apps.add(PirateApp("",arrayOf(), AppType.STORE))
     apps.add(
         PirateApp(
-            "LuckyPatcher", arrayOf(
-            "c", "o", "m", ".", "c", "h", "e", "l", "p", "u", "s", ".", "l", "a", "c", "k", "y",
-            "p", "a", "t", "c", "h"),
+            "LuckyPatcher",
+            arrayOf(
+                "c", "o", "m", ".", "c", "h", "e", "l", "p", "u", "s", ".", "l", "a", "c", "k", "y",
+                "p", "a", "t", "c", "h"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "LuckyPatcher", arrayOf(
-            "c", "o", "m", ".", "d", "i", "m", "o", "n", "v", "i", "d", "e", "o", ".", "l", "u",
-            "c", "k", "y", "p", "a", "t", "c", "h", "e", "r"),
+            "LuckyPatcher",
+            arrayOf(
+                "c", "o", "m", ".", "d", "i", "m", "o", "n", "v", "i", "d", "e", "o", ".", "l", "u",
+                "c", "k", "y", "p", "a", "t", "c", "h", "e", "r"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
@@ -290,35 +291,40 @@ private fun getApps(extraApps: ArrayList<PirateApp>): ArrayList<PirateApp> {
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "LuckyPatcher", arrayOf(
-            "c", "o", "m", ".", "a", "n", "d", "r", "o", "i", "d", ".", "v", "e", "n", "d", "i",
-            "n", "g", ".", "b", "i", "l", "l", "i", "n", "g", ".", "I", "n", "A", "p", "p", "B",
-            "i", "l", "l", "i", "n", "g", "S", "e", "r", "v", "i", "c", "e"),
+            "LuckyPatcher",
+            arrayOf(
+                "c", "o", "m", ".", "a", "n", "d", "r", "o", "i", "d", ".", "v", "e", "n", "d", "i",
+                "n", "g", ".", "b", "i", "l", "l", "i", "n", "g", ".", "I", "n", "A", "p", "p", "B",
+                "i", "l", "l", "i", "n", "g", "S", "e", "r", "v", "i", "c", "e"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "LuckyPatcher", arrayOf(
-            "c", "o", "m", ".", "a", "n", "d", "r", "o", "i", "d", ".", "v", "e", "n", "d", "i",
-            "n", "g", ".", "b", "i", "l", "l", "i", "n", "g", ".", "I", "n", "A", "p", "p", "B",
-            "i", "l", "l", "i", "n", "g", "S", "o", "r", "v", "i", "c", "e"),
+            "LuckyPatcher",
+            arrayOf(
+                "c", "o", "m", ".", "a", "n", "d", "r", "o", "i", "d", ".", "v", "e", "n", "d", "i",
+                "n", "g", ".", "b", "i", "l", "l", "i", "n", "g", ".", "I", "n", "A", "p", "p", "B",
+                "i", "l", "l", "i", "n", "g", "S", "o", "r", "v", "i", "c", "e"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "LuckyPatcher", arrayOf(
-            "c", "o", "m", ".", "a", "n", "d", "r", "o", "i", "d", ".", "v", "e", "n", "d", "i",
-            "n", "c"),
+            "LuckyPatcher",
+            arrayOf(
+                "c", "o", "m", ".", "a", "n", "d", "r", "o", "i", "d", ".", "v", "e", "n", "d", "i",
+                "n", "c"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "UretPatcher", arrayOf(
-            "u", "r", "e", "t", ".", "j", "a", "s", "i", "2", "1", "6", "9", ".", "p", "a", "t",
-            "c", "h", "e", "r"),
+            "UretPatcher",
+            arrayOf(
+                "u", "r", "e", "t", ".", "j", "a", "s", "i", "2", "1", "6", "9", ".", "p", "a", "t",
+                "c", "h", "e", "r"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "UretPatcher", arrayOf(
-            "z", "o", "n", "e", ".", "j", "a", "s", "i", "2", "1", "6", "9", ".", "u", "r",
-            "e", "t", "p", "a", "t", "c", "h", "e", "r"),
+            "UretPatcher",
+            arrayOf(
+                "z", "o", "n", "e", ".", "j", "a", "s", "i", "2", "1", "6", "9", ".", "u", "r", "e",
+                "t", "p", "a", "t", "c", "h", "e", "r"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
@@ -327,33 +333,43 @@ private fun getApps(extraApps: ArrayList<PirateApp>): ArrayList<PirateApp> {
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "Freedom", arrayOf(
-            "c", "c", ".", "m", "a", "d", "k", "i", "t", "e", ".", "f", "r", "e", "e", "d", "o",
-            "m"),
+            "Freedom",
+            arrayOf(
+                "c", "c", ".", "m", "a", "d", "k", "i", "t", "e", ".", "f", "r", "e", "e", "d", "o",
+                "m"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "Freedom", arrayOf(
-            "c", "c", ".", "c", "z", ".", "m", "a", "d", "k", "i", "t", "e", ".", "f", "r", "e",
-            "e", "d", "o", "m"),
+            "Freedom",
+            arrayOf(
+                "c", "c", ".", "c", "z", ".", "m", "a", "d", "k", "i", "t", "e", ".", "f", "r", "e",
+                "e", "d", "o", "m"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "CreeHack", arrayOf(
-            "o", "r", "g", ".", "c", "r", "e", "e", "p", "l", "a", "y", "s", ".", "h", "a", "c",
-            "k"),
+            "CreeHack",
+            arrayOf(
+                "o", "r", "g", ".", "c", "r", "e", "e", "p", "l", "a", "y", "s", ".", "h", "a", "c",
+                "k"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "Game Hacker", arrayOf(
-            "o", "r", "g", ".", "s", "b", "t", "o", "o", "l", "s", ".", "g", "a", "m", "e", "h",
-            "a", "c", "k"),
+            "HappyMod",
+            arrayOf("c", "o", "m", ".", "h", "a", "p", "p", "y", "m", "o", "d", ".", "a", "p", "k"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "Game Killer Cheats", arrayOf(
-            "c", "o", "m", ".", "z", "u", "n", "e", ".", "g", "a", "m", "e", "k", "i", "l", "l",
-            "e", "r"),
+            "Game Hacker",
+            arrayOf(
+                "o", "r", "g", ".", "s", "b", "t", "o", "o", "l", "s", ".", "g", "a", "m", "e", "h",
+                "a", "c", "k"),
+            AppType.PIRATE))
+    apps.add(
+        PirateApp(
+            "Game Killer Cheats",
+            arrayOf(
+                "c", "o", "m", ".", "z", "u", "n", "e", ".", "g", "a", "m", "e", "k", "i", "l", "l",
+                "e", "r"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
@@ -362,94 +378,94 @@ private fun getApps(extraApps: ArrayList<PirateApp>): ArrayList<PirateApp> {
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "Game Killer", arrayOf(
-            "c", "o", "m", ".", "k", "i", "l", "l", "e", "r", "a", "p", "p", ".", "g", "a", "m",
-            "e", "k", "i", "l", "l", "e", "r"),
+            "Game Killer",
+            arrayOf(
+                "c", "o", "m", ".", "k", "i", "l", "l", "e", "r", "a", "p", "p", ".", "g", "a", "m",
+                "e", "k", "i", "l", "l", "e", "r"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "Game Killer", arrayOf(
-            "c", "n", ".", "l", "m", ".", "s", "q"),
+            "Game Killer", arrayOf("c", "n", ".", "l", "m", ".", "s", "q"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "Game CheatIng Hacker", arrayOf(
-            "n", "e", "t", ".", "s", "c", "h", "w", "a", "r", "z", "i", "s", ".", "g", "a", "m",
-            "e", "_", "c", "i", "h"),
+            "Game CheatIng Hacker",
+            arrayOf(
+                "n", "e", "t", ".", "s", "c", "h", "w", "a", "r", "z", "i", "s", ".", "g", "a", "m",
+                "e", "_", "c", "i", "h"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "Game Hacker", arrayOf(
-            "c", "o", "m", ".", "b", "a", "s", "e", "a", "p", "p", "f", "u", "l", "l", ".", "f",
-            "w", "d"),
+            "Game Hacker",
+            arrayOf(
+                "c", "o", "m", ".", "b", "a", "s", "e", "a", "p", "p", "f", "u", "l", "l", ".", "f",
+                "w", "d"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "Content Guard Disabler", arrayOf(
-            "c", "o", "m", ".", "g", "i", "t", "h", "u", "b", ".", "o", "n", "e", "m", "i", "n",
-            "u", "s", "o", "n", "e", ".", "d", "i", "s", "a", "b", "l", "e", "c", "o", "n", "t",
-            "e", "n", "t", "g", "u", "a", "r", "d"),
+            "Content Guard Disabler",
+            arrayOf(
+                "c", "o", "m", ".", "g", "i", "t", "h", "u", "b", ".", "o", "n", "e", "m", "i", "n",
+                "u", "s", "o", "n", "e", ".", "d", "i", "s", "a", "b", "l", "e", "c", "o", "n", "t",
+                "e", "n", "t", "g", "u", "a", "r", "d"),
             AppType.PIRATE))
     
     apps.add(
         PirateApp(
-            "Content Guard Disabler", arrayOf(
-            "c", "o", "m", ".", "o", "n", "e", "m", "i", "n", "u", "s", "o", "n", "e", ".",
-            "d", "i", "s", "a", "b", "l", "e", "c", "o", "n", "t", "e", "n", "t", "g", "u",
-            "a", "r", "d"),
+            "Content Guard Disabler",
+            arrayOf(
+                "c", "o", "m", ".", "o", "n", "e", "m", "i", "n", "u", "s", "o", "n", "e", ".", "d",
+                "i", "s", "a", "b", "l", "e", "c", "o", "n", "t", "e", "n", "t", "g", "u", "a", "r",
+                "d"),
             AppType.PIRATE))
     apps.add(
         PirateApp(
-            "Aptoide", arrayOf(
-            "c", "m", ".", "a", "p", "t", "o", "i", "d", "e", ".", "p", "t"),
+            "Aptoide", arrayOf("c", "m", ".", "a", "p", "t", "o", "i", "d", "e", ".", "p", "t"),
             AppType.STORE))
     apps.add(
         PirateApp(
-            "BlackMart", arrayOf(
-            "o", "r", "g", ".", "b", "l", "a", "c", "k", "m", "a", "r", "t", ".",
-            "m", "a", "r",
-            "k", "e", "t"),
+            "BlackMart",
+            arrayOf(
+                "o", "r", "g", ".", "b", "l", "a", "c", "k", "m", "a", "r", "t", ".", "m", "a", "r",
+                "k", "e", "t"),
             AppType.STORE))
     apps.add(
         PirateApp(
-            "BlackMart", arrayOf(
-            "c", "o", "m", ".", "b", "l", "a", "c", "k", "m", "a", "r", "t", "a",
-            "l", "p", "h",
-            "a"),
+            "BlackMart",
+            arrayOf(
+                "c", "o", "m", ".", "b", "l", "a", "c", "k", "m", "a", "r", "t", "a", "l", "p", "h",
+                "a"),
             AppType.STORE))
     apps.add(
         PirateApp(
             "Mobogenie",
-            arrayOf(
-                "c", "o", "m", ".", "m", "o", "b", "o", "g", "e", "n", "i", "e"),
+            arrayOf("c", "o", "m", ".", "m", "o", "b", "o", "g", "e", "n", "i", "e"),
             AppType.STORE))
     apps.add(
         PirateApp(
-            "1Mobile", arrayOf(
-            "m", "e", ".", "o", "n", "e", "m", "o", "b", "i", "l", "e", ".", "a",
-            "n", "d", "r",
-            "o", "i", "d"),
+            "1Mobile",
+            arrayOf(
+                "m", "e", ".", "o", "n", "e", "m", "o", "b", "i", "l", "e", ".", "a", "n", "d", "r",
+                "o", "i", "d"),
             AppType.STORE))
     apps.add(
         PirateApp(
             "GetApk", arrayOf(
-            "c", "o", "m", ".", "r", "e", "p", "o", "d", "r", "o", "i", "d", ".",
-            "a", "p",
-            "p"),
+            "c", "o", "m", ".", "r", "e", "p", "o", "d", "r", "o", "i", "d", ".", "a", "p", "p"),
             AppType.STORE))
     apps.add(
         PirateApp(
-            "GetJar", arrayOf(
-            "c", "o", "m", ".", "g", "e", "t", "j", "a", "r", ".", "r", "e", "w",
-            "a", "r", "d",
-            "s"),
+            "GetJar",
+            arrayOf(
+                "c", "o", "m", ".", "g", "e", "t", "j", "a", "r", ".", "r", "e", "w", "a", "r", "d",
+                "s"),
             AppType.STORE))
     apps.add(
         PirateApp(
-            "SlideMe", arrayOf(
-            "c", "o", "m", ".", "s", "l", "i", "d", "e", "m", "e", ".", "s", "a",
-            "m", ".", "m",
-            "a", "n", "a", "g", "e", "r"),
+            "SlideMe",
+            arrayOf(
+                "c", "o", "m", ".", "s", "l", "i", "d", "e", "m", "e", ".", "s", "a", "m", ".", "m",
+                "a", "n", "a", "g", "e", "r"),
             AppType.STORE))
     apps.add(
         PirateApp(
@@ -459,9 +475,7 @@ private fun getApps(extraApps: ArrayList<PirateApp>): ArrayList<PirateApp> {
     apps.add(
         PirateApp(
             "ACMarket",
-            arrayOf(
-                "a", "c", ".", "m", "a", "r", "k", "e", "t", ".", "s", "t", "o",
-                "r", "e"),
+            arrayOf("a", "c", ".", "m", "a", "r", "k", "e", "t", ".", "s", "t", "o", "r", "e"),
             AppType.STORE))
     apps.add(
         PirateApp(
@@ -475,24 +489,22 @@ private fun getApps(extraApps: ArrayList<PirateApp>): ArrayList<PirateApp> {
             AppType.STORE))
     apps.add(
         PirateApp(
-            "Modded Play Store", arrayOf(
-            "c", "o", "m", ".", "d", "v", ".", "m", "a", "r", "k", "e", "t", "m",
-            "o", "d", ".",
-            "i", "n", "s", "t", "a", "l", "l", "e", "r"),
+            "Modded Play Store",
+            arrayOf(
+                "c", "o", "m", ".", "d", "v", ".", "m", "a", "r", "k", "e", "t", "m", "o", "d", ".",
+                "i", "n", "s", "t", "a", "l", "l", "e", "r"),
             AppType.STORE))
     apps.add(
         PirateApp(
-            "Mobilism Market", arrayOf(
-            "o", "r", "g", ".", "m", "o", "b", "i", "l", "i", "s", "m", ".", "a",
-            "n", "d", "r",
-            "o", "i", "d"),
+            "Mobilism Market",
+            arrayOf(
+                "o", "r", "g", ".", "m", "o", "b", "i", "l", "i", "s", "m", ".", "a", "n", "d", "r",
+                "o", "i", "d"),
             AppType.STORE))
     apps.add(
         PirateApp(
             "All-in-one Downloader", arrayOf(
-            "c", "o", "m", ".", "a", "l", "l", "i", "n", "o", "n", "e", ".", "f",
-            "r", "e",
-            "e"),
+            "c", "o", "m", ".", "a", "l", "l", "i", "n", "o", "n", "e", ".", "f", "r", "e", "e"),
             AppType.STORE))
     apps.addAll(extraApps)
     return ArrayList(apps.distinctBy { it.packageName })
