@@ -1,14 +1,17 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.javiersantos'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 27
-        versionCode 123
-        versionName "1.2.3"
+        targetSdkVersion 28
+        versionCode 124
+        versionName "1.2.4"
         consumerProguardFiles 'proguard-rules.pro'
     }
     buildTypes {
@@ -22,5 +25,10 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.android.support:appcompat-v7:27.1.1'
+    api 'com.android.support:appcompat-v7:28.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+}
+
+repositories {
+    mavenCentral()
 }

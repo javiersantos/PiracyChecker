@@ -12,9 +12,9 @@ import android.view.View;
 import android.widget.RadioGroup;
 
 import com.github.javiersantos.piracychecker.PiracyChecker;
-import com.github.javiersantos.piracychecker.PiracyCheckerUtils;
 import com.github.javiersantos.piracychecker.enums.Display;
 import com.github.javiersantos.piracychecker.enums.InstallerID;
+import com.github.javiersantos.piracychecker.utils.LibraryUtilsKt;
 
 public class MainActivity extends AppCompatActivity {
     private Display piracyCheckerDisplay = Display.DIALOG;
@@ -44,65 +44,63 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Show APK signature
-        Log.e("Signature", PiracyCheckerUtils.getAPKSignature(this));
-
+        Log.e("Signature", LibraryUtilsKt.getApkSignature(this));
     }
 
     public void toGithub(View view) {
         startActivity(new Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://github.com/javiersantos/PiracyChecker")));
+                                 Uri.parse("https://github.com/javiersantos/PiracyChecker")));
     }
 
     public void verifySignature(View view) {
         new PiracyChecker(this)
-                .display(piracyCheckerDisplay)
-                .enableSigningCertificate("478yYkKAQF+KST8y4ATKvHkYibo=") // Wrong signature
-                //.enableSigningCertificate("VHZs2aiTBiap/F+AYhYeppy0aF0=") // Right signature
-                .start();
+            .display(piracyCheckerDisplay)
+            .enableSigningCertificate("478yYkKAQF+KST8y4ATKvHkYibo=") // Wrong signature
+            //.enableSigningCertificate("VHZs2aiTBiap/F+AYhYeppy0aF0=") // Right signature
+            .start();
     }
 
     public void readSignature(View view) {
-        Log.e("Signature", PiracyCheckerUtils.getAPKSignature(this));
+        Log.e("Signature", LibraryUtilsKt.getApkSignature(this));
         new AlertDialog.Builder(this)
-                .setTitle("APK")
-                .setMessage(PiracyCheckerUtils.getAPKSignature(this))
-                .show();
+            .setTitle("APK")
+            .setMessage(LibraryUtilsKt.getApkSignature((this)))
+            .show();
     }
 
     public void verifyInstallerId(View view) {
         new PiracyChecker(this)
-                .display(piracyCheckerDisplay)
-                .enableInstallerId(InstallerID.GOOGLE_PLAY)
-                .start();
+            .display(piracyCheckerDisplay)
+            .enableInstallerId(InstallerID.GOOGLE_PLAY)
+            .start();
     }
 
     public void verifyUnauthorizedApps(View view) {
         new PiracyChecker(this)
-                .display(piracyCheckerDisplay)
-                .enableUnauthorizedAppsCheck(true)
-                //.blockIfUnauthorizedAppUninstalled("license_checker", "block")
-                .start();
+            .display(piracyCheckerDisplay)
+            .enableUnauthorizedAppsCheck(true)
+            //.blockIfUnauthorizedAppUninstalled("license_checker", "block")
+            .start();
     }
 
     public void verifyStores(View view) {
         new PiracyChecker(this)
-                .display(piracyCheckerDisplay)
-                .enableStoresCheck(true)
-                .start();
+            .display(piracyCheckerDisplay)
+            .enableStoresCheck(true)
+            .start();
     }
 
     public void verifyDebug(View view) {
         new PiracyChecker(this)
-                .display(piracyCheckerDisplay)
-                .enableDebugCheck(true)
-                .start();
+            .display(piracyCheckerDisplay)
+            .enableDebugCheck(true)
+            .start();
     }
 
     public void verifyEmulator(View view) {
         new PiracyChecker(this)
-                .display(piracyCheckerDisplay)
-                .enableEmulatorCheck(true)
-                .start();
+            .display(piracyCheckerDisplay)
+            .enableEmulatorCheck(true)
+            .start();
     }
-
 }
