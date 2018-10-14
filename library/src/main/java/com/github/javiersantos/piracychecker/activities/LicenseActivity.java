@@ -48,7 +48,7 @@ public class LicenseActivity extends AppCompatActivity {
     }
 
     private void setActivityStyle() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
             toolbar.setBackgroundColor(ContextCompat.getColor(this, colorPrimary));
             setSupportActionBar(toolbar);
@@ -66,14 +66,14 @@ public class LicenseActivity extends AppCompatActivity {
     }
 
     private void setActivityData() {
-        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.mainContainer);
+        FrameLayout frameLayout = findViewById(R.id.mainContainer);
 
         LayoutInflater factory = LayoutInflater.from(this);
         View inflateView;
         if (layoutXML == -1) {
             inflateView = factory.inflate(R.layout.activity_license_default, null);
             TextView activityDescription =
-                    (TextView) inflateView.findViewById(R.id.piracy_checker_description);
+                    inflateView.findViewById(R.id.piracy_checker_description);
             activityDescription.setText(description);
         } else
             inflateView = factory.inflate(layoutXML, null);
