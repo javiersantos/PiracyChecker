@@ -34,11 +34,22 @@ repositories {
 
 And add the library to your module **build.gradle**:
 
+**AndroidX**
+
+```gradle
+dependencies {
+    implementation 'com.github.javiersantos:PiracyChecker:1.2.5'
+}
+```
+
+**Pre AndroidX (no longer supported)**
+
 ```gradle
 dependencies {
     implementation 'com.github.javiersantos:PiracyChecker:1.2.4'
 }
 ```
+
 
 ## Recommendations
 * Always enable ProGuard in your production release. Always, without exceptions.
