@@ -1,7 +1,7 @@
 package com.github.javiersantos.piracychecker
 
 import android.content.Context
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.github.javiersantos.piracychecker.callbacks.AllowCallback
 import com.github.javiersantos.piracychecker.callbacks.DoNotAllowCallback
 import com.github.javiersantos.piracychecker.callbacks.OnErrorCallback
@@ -15,7 +15,7 @@ fun Context.piracyChecker(builder: PiracyChecker.() -> Unit): PiracyChecker {
     return checker
 }
 
-fun Fragment.piracyChecker(builder: PiracyChecker.() -> Unit): PiracyChecker =
+fun androidx.fragment.app.Fragment.piracyChecker(builder: PiracyChecker.() -> Unit): PiracyChecker =
     context!!.piracyChecker(builder)
 
 inline fun PiracyChecker.allow(crossinline allow: () -> Unit = {}) = apply {

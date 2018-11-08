@@ -1,9 +1,5 @@
 package com.github.javiersantos.piracychecker;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-
 import com.github.javiersantos.piracychecker.callbacks.PiracyCheckerCallback;
 import com.github.javiersantos.piracychecker.demo.MainActivity;
 import com.github.javiersantos.piracychecker.enums.PiracyCheckerError;
@@ -17,6 +13,10 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import androidx.test.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.runner.AndroidJUnit4;
+
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -25,11 +25,11 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(AndroidJUnit4.class)
 public class UnauthorizedAppUninstalledTest {
-
+    
     @Rule
     public final ActivityTestRule<MainActivity> uiThreadTestRule =
         new ActivityTestRule<>(MainActivity.class);
-
+    
     @Test
     public void verifyBlockUnauthorizedApps_DONTALLOW() throws Throwable {
         final CountDownLatch signal = new CountDownLatch(1);
@@ -49,7 +49,7 @@ public class UnauthorizedAppUninstalledTest {
                                 false);
                             signal.countDown();
                         }
-
+                        
                         @Override
                         public void doNotAllow(@NotNull PiracyCheckerError error,
                                                @org.jetbrains.annotations.Nullable PirateApp app) {
@@ -64,10 +64,10 @@ public class UnauthorizedAppUninstalledTest {
                     .start();
             }
         });
-
+        
         signal.await(30, TimeUnit.SECONDS);
     }
-
+    
     @Test
     public void verifyUnauthorizedApps_ALLOW() throws Throwable {
         final CountDownLatch signal = new CountDownLatch(1);
@@ -82,7 +82,7 @@ public class UnauthorizedAppUninstalledTest {
                             assertTrue("PiracyChecker OK", true);
                             signal.countDown();
                         }
-
+                        
                         @Override
                         public void doNotAllow(@NotNull PiracyCheckerError error,
                                                @org.jetbrains.annotations.Nullable PirateApp app) {

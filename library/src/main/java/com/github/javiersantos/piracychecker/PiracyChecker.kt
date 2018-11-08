@@ -6,9 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.provider.Settings
-import android.support.annotation.ColorRes
-import android.support.annotation.LayoutRes
-import android.support.annotation.StringRes
+import androidx.annotation.ColorRes
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import android.util.Log
 import com.github.javiersantos.licensing.AESObfuscator
 import com.github.javiersantos.licensing.LibraryChecker

@@ -1,9 +1,5 @@
 package com.github.javiersantos.piracychecker;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-
 import com.github.javiersantos.piracychecker.callbacks.PiracyCheckerCallback;
 import com.github.javiersantos.piracychecker.demo.MainActivity;
 import com.github.javiersantos.piracychecker.enums.InstallerID;
@@ -19,6 +15,10 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import androidx.test.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.runner.AndroidJUnit4;
+
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -26,11 +26,11 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(AndroidJUnit4.class)
 public class PiracyCheckerTest {
-
+    
     @Rule
     public final ActivityTestRule<MainActivity> uiThreadTestRule =
         new ActivityTestRule<>(MainActivity.class);
-
+    
     @Test
     public void verifySigningCertificate_ALLOW() throws Throwable {
         final CountDownLatch signal = new CountDownLatch(1);
@@ -45,7 +45,7 @@ public class PiracyCheckerTest {
                             assertTrue("PiracyChecker OK", true);
                             signal.countDown();
                         }
-
+                        
                         @Override
                         public void doNotAllow(@NotNull PiracyCheckerError error,
                                                @org.jetbrains.annotations.Nullable PirateApp app) {
@@ -60,10 +60,10 @@ public class PiracyCheckerTest {
                     .start();
             }
         });
-
+        
         signal.await(30, TimeUnit.SECONDS);
     }
-
+    
     @Test
     public void verifySigningCertificate_DONTALLOW() throws Throwable {
         final CountDownLatch signal = new CountDownLatch(1);
@@ -79,7 +79,7 @@ public class PiracyCheckerTest {
                                        false);
                             signal.countDown();
                         }
-
+                        
                         @Override
                         public void doNotAllow(@NotNull PiracyCheckerError error,
                                                @org.jetbrains.annotations.Nullable PirateApp app) {
@@ -94,10 +94,10 @@ public class PiracyCheckerTest {
                     .start();
             }
         });
-
+        
         signal.await(30, TimeUnit.SECONDS);
     }
-
+    
     @Test
     public void verifyInstaller_DONTALLOW() throws Throwable {
         final CountDownLatch signal = new CountDownLatch(1);
@@ -117,7 +117,7 @@ public class PiracyCheckerTest {
                                 false);
                             signal.countDown();
                         }
-
+                        
                         @Override
                         public void doNotAllow(@NotNull PiracyCheckerError error,
                                                @org.jetbrains.annotations.Nullable PirateApp app) {
@@ -132,10 +132,10 @@ public class PiracyCheckerTest {
                     .start();
             }
         });
-
+        
         signal.await(30, TimeUnit.SECONDS);
     }
-
+    
     @Test
     public void verifyUnauthorizedApps_ALLOW() throws Throwable {
         final CountDownLatch signal = new CountDownLatch(1);
@@ -150,7 +150,7 @@ public class PiracyCheckerTest {
                             assertTrue("PiracyChecker OK", true);
                             signal.countDown();
                         }
-
+                        
                         @Override
                         public void doNotAllow(@NotNull PiracyCheckerError error,
                                                @org.jetbrains.annotations.Nullable PirateApp app) {
@@ -161,10 +161,10 @@ public class PiracyCheckerTest {
                     .start();
             }
         });
-
+        
         signal.await(30, TimeUnit.SECONDS);
     }
-
+    
     @Test
     public void verifyThirdPartyStores_ALLOW() throws Throwable {
         final CountDownLatch signal = new CountDownLatch(1);
@@ -179,7 +179,7 @@ public class PiracyCheckerTest {
                             assertTrue("PiracyChecker OK", true);
                             signal.countDown();
                         }
-
+                        
                         @Override
                         public void doNotAllow(@NotNull PiracyCheckerError error,
                                                @org.jetbrains.annotations.Nullable PirateApp app) {
@@ -190,10 +190,10 @@ public class PiracyCheckerTest {
                     .start();
             }
         });
-
+        
         signal.await(30, TimeUnit.SECONDS);
     }
-
+    
     @Test
     public void verifyDeepPirate_ALLOW() throws Throwable {
         final CountDownLatch signal = new CountDownLatch(1);
@@ -208,7 +208,7 @@ public class PiracyCheckerTest {
                             assertTrue("PiracyChecker OK", true);
                             signal.countDown();
                         }
-
+                        
                         @Override
                         public void doNotAllow(@NotNull PiracyCheckerError error,
                                                @org.jetbrains.annotations.Nullable PirateApp app) {
@@ -219,10 +219,10 @@ public class PiracyCheckerTest {
                     .start();
             }
         });
-
+        
         signal.await(30, TimeUnit.SECONDS);
     }
-
+    
     @Test
     public void verifyDebug_DONTALLOW() throws Throwable {
         final CountDownLatch signal = new CountDownLatch(1);
@@ -238,7 +238,7 @@ public class PiracyCheckerTest {
                                        false);
                             signal.countDown();
                         }
-
+                        
                         @Override
                         public void doNotAllow(@NotNull PiracyCheckerError error,
                                                @org.jetbrains.annotations.Nullable PirateApp app) {
@@ -253,10 +253,10 @@ public class PiracyCheckerTest {
                     .start();
             }
         });
-
+        
         signal.await(30, TimeUnit.SECONDS);
     }
-
+    
     @Test
     public void verifyEmulator_DONTALLOW() throws Throwable {
         final CountDownLatch signal = new CountDownLatch(1);
@@ -272,7 +272,7 @@ public class PiracyCheckerTest {
                                        false);
                             signal.countDown();
                         }
-
+                        
                         @Override
                         public void doNotAllow(@NotNull PiracyCheckerError error,
                                                @org.jetbrains.annotations.Nullable PirateApp app) {
@@ -287,10 +287,10 @@ public class PiracyCheckerTest {
                     .start();
             }
         });
-
+        
         signal.await(30, TimeUnit.SECONDS);
     }
-
+    
     @Test
     public void verifyEmulatorDeep_DONTALLOW() throws Throwable {
         final CountDownLatch signal = new CountDownLatch(1);
@@ -306,7 +306,7 @@ public class PiracyCheckerTest {
                                        false);
                             signal.countDown();
                         }
-
+                        
                         @Override
                         public void doNotAllow(@NotNull PiracyCheckerError error,
                                                @org.jetbrains.annotations.Nullable PirateApp app) {
@@ -321,7 +321,7 @@ public class PiracyCheckerTest {
                     .start();
             }
         });
-
+        
         signal.await(30, TimeUnit.SECONDS);
     }
 }

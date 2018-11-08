@@ -11,9 +11,9 @@ import android.content.pm.PackageManager
 import android.opengl.GLES20
 import android.os.Build
 import android.os.Environment
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AlertDialog
 import android.util.Base64
 import com.github.javiersantos.piracychecker.R
 import com.github.javiersantos.piracychecker.enums.AppType
@@ -44,7 +44,7 @@ internal fun Context.buildUnlicensedDialog(title: String, content: String): Aler
 val Context.apkSignature: String
     get() = currentSignature
 
-val Fragment.apkSignature: String
+val androidx.fragment.app.Fragment.apkSignature: String
     get() = context!!.apkSignature
 
 val Context.currentSignature: String
