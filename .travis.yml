@@ -5,7 +5,7 @@ env:
   global:
     - ANDROID_API=28
     - ANDROID_BUILD_TOOLS=28.0.3
-    - EMULATOR_API=26
+    - EMULATOR_API=21
 
 android:
   components:
