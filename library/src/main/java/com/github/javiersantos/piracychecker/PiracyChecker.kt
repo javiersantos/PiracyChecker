@@ -6,10 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.provider.Settings
+import android.util.Log
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
-import android.util.Log
 import com.github.javiersantos.licensing.AESObfuscator
 import com.github.javiersantos.licensing.LibraryChecker
 import com.github.javiersantos.licensing.LibraryCheckerCallback
@@ -337,9 +337,7 @@ class PiracyChecker(
                             .putExtra("withLightStatusBar", withLightStatusBar)
                             .putExtra("layoutXML", layoutXML)
                         context?.startActivity(intent)
-                        if (context is Activity) {
-                            (context as Activity).finish()
-                        }
+                        (context as? Activity)?.finish()
                         destroy()
                     }
                 }
@@ -411,18 +409,17 @@ class PiracyChecker(
             extraApps)
         if (possibleSuccess) {
             if (enableDebugCheck && (context?.isDebug() == true)) {
-                if (preferences != null && saveToSharedPreferences)
+                if (saveToSharedPreferences)
                     preferences?.edit()?.putBoolean(preferenceSaveResult, false)?.apply()
                 doNotAllowCallback?.doNotAllow(PiracyCheckerError.USING_DEBUG_APP, null)
-            } else if (enableEmulatorCheck && isInEmulator(
-                    enableDeepEmulatorCheck)) {
-                if (preferences != null && saveToSharedPreferences)
+            } else if (enableEmulatorCheck && isInEmulator(enableDeepEmulatorCheck)) {
+                if (saveToSharedPreferences)
                     preferences?.edit()?.putBoolean(preferenceSaveResult, false)?.apply()
                 doNotAllowCallback?.doNotAllow(PiracyCheckerError.USING_APP_IN_EMULATOR, null)
             } else if (app != null) {
-                if (preferences != null && saveToSharedPreferences)
+                if (saveToSharedPreferences)
                     preferences?.edit()?.putBoolean(preferenceSaveResult, false)?.apply()
-                if (preferences != null && blockUnauthorized && app.type == AppType.PIRATE)
+                if (blockUnauthorized && app.type == AppType.PIRATE)
                     preferences?.edit()?.putBoolean(preferenceBlockUnauthorized, true)?.apply()
                 doNotAllowCallback?.doNotAllow(
                     if (app.type == AppType.STORE)
@@ -430,15 +427,15 @@ class PiracyChecker(
                     else
                         PiracyCheckerError.PIRATE_APP_INSTALLED, app)
             } else {
-                if (preferences != null && saveToSharedPreferences)
+                if (saveToSharedPreferences)
                     preferences?.edit()?.putBoolean(preferenceSaveResult, true)?.apply()
                 allowCallback?.allow()
             }
         } else {
             if (app != null) {
-                if (preferences != null && saveToSharedPreferences)
+                if (saveToSharedPreferences)
                     preferences?.edit()?.putBoolean(preferenceSaveResult, false)?.apply()
-                if (preferences != null && blockUnauthorized && app.type == AppType.PIRATE)
+                if (blockUnauthorized && app.type == AppType.PIRATE)
                     preferences?.edit()?.putBoolean(preferenceBlockUnauthorized, true)?.apply()
                 doNotAllowCallback?.doNotAllow(
                     if (app.type == AppType.STORE)
@@ -446,7 +443,7 @@ class PiracyChecker(
                     else
                         PiracyCheckerError.PIRATE_APP_INSTALLED, app)
             } else {
-                if (preferences != null && saveToSharedPreferences)
+                if (saveToSharedPreferences)
                     preferences?.edit()?.putBoolean(preferenceSaveResult, false)?.apply()
                 doNotAllowCallback?.doNotAllow(PiracyCheckerError.NOT_LICENSED, null)
             }

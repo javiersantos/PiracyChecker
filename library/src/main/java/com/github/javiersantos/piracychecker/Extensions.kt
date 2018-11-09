@@ -15,7 +15,7 @@ fun Context.piracyChecker(builder: PiracyChecker.() -> Unit): PiracyChecker {
     return checker
 }
 
-fun androidx.fragment.app.Fragment.piracyChecker(builder: PiracyChecker.() -> Unit): PiracyChecker =
+fun Fragment.piracyChecker(builder: PiracyChecker.() -> Unit): PiracyChecker =
     context!!.piracyChecker(builder)
 
 inline fun PiracyChecker.allow(crossinline allow: () -> Unit = {}) = apply {

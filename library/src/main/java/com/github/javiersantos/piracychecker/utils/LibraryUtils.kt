@@ -11,10 +11,9 @@ import android.content.pm.PackageManager
 import android.opengl.GLES20
 import android.os.Build
 import android.os.Environment
-import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AlertDialog
 import android.util.Base64
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import com.github.javiersantos.piracychecker.R
 import com.github.javiersantos.piracychecker.enums.AppType
 import com.github.javiersantos.piracychecker.enums.InstallerID
@@ -175,90 +174,107 @@ internal fun Context.getPirateApp(
 internal fun isInEmulator(deepCheck: Boolean): Boolean {
     var ratingCheckEmulator = 0
     
-    if (Build.PRODUCT.contains("sdk") ||
-        Build.PRODUCT.contains("Andy") ||
-        Build.PRODUCT.contains("ttVM_Hdragon") ||
-        Build.PRODUCT.contains("google_sdk") ||
-        Build.PRODUCT.contains("Droid4X") ||
-        Build.PRODUCT.contains("nox") ||
-        Build.PRODUCT.contains("sdk_x86") ||
-        Build.PRODUCT.contains("sdk_google") ||
-        Build.PRODUCT.contains("vbox86p")) {
+    val product = try {
+        Build.PRODUCT
+    } catch (e: Exception) {
+        ""
+    }
+    if (product.containsIgnoreCase("sdk") || product.containsIgnoreCase("Andy") ||
+        product.containsIgnoreCase("ttVM_Hdragon") || product.containsIgnoreCase("google_sdk") ||
+        product.containsIgnoreCase("Droid4X") || product.containsIgnoreCase("nox") ||
+        product.containsIgnoreCase("sdk_x86") || product.containsIgnoreCase("sdk_google") ||
+        product.containsIgnoreCase("vbox86p")) {
         ratingCheckEmulator++
     }
     
-    if (Build.MANUFACTURER == "unknown" ||
-        Build.MANUFACTURER == "Genymotion" ||
-        Build.MANUFACTURER.contains("Andy") ||
-        Build.MANUFACTURER.contains("MIT") ||
-        Build.MANUFACTURER.contains("nox") ||
-        Build.MANUFACTURER.contains("TiantianVM")) {
+    val manufacturer = try {
+        Build.MANUFACTURER
+    } catch (e: Exception) {
+        ""
+    }
+    if (manufacturer.equalsIgnoreCase("unknown") || manufacturer.equalsIgnoreCase("Genymotion") ||
+        manufacturer.containsIgnoreCase("Andy") || manufacturer.containsIgnoreCase("MIT") ||
+        manufacturer.containsIgnoreCase("nox") || manufacturer.containsIgnoreCase("TiantianVM")) {
         ratingCheckEmulator++
     }
     
-    if (Build.BRAND == "generic" ||
-        Build.BRAND == "generic_x86" ||
-        Build.BRAND == "TTVM" ||
-        Build.BRAND.contains("Andy")) {
+    val brand = try {
+        Build.BRAND
+    } catch (e: Exception) {
+        ""
+    }
+    if (brand.equalsIgnoreCase("generic") || brand.equalsIgnoreCase("generic_x86") ||
+        brand.equalsIgnoreCase("TTVM") || brand.containsIgnoreCase("Andy")) {
         ratingCheckEmulator++
     }
     
-    if (Build.DEVICE.contains("generic") ||
-        Build.DEVICE.contains("generic_x86") ||
-        Build.DEVICE.contains("Andy") ||
-        Build.DEVICE.contains("ttVM_Hdragon") ||
-        Build.DEVICE.contains("Droid4X") ||
-        Build.DEVICE.contains("nox") ||
-        Build.DEVICE.contains("generic_x86_64") ||
-        Build.DEVICE.contains("vbox86p")) {
+    val device = try {
+        Build.DEVICE
+    } catch (e: Exception) {
+        ""
+    }
+    if (device.containsIgnoreCase("generic") || device.containsIgnoreCase("generic_x86") ||
+        device.containsIgnoreCase("Andy") || device.containsIgnoreCase("ttVM_Hdragon") ||
+        device.containsIgnoreCase("Droid4X") || device.containsIgnoreCase("nox") ||
+        device.containsIgnoreCase("generic_x86_64") || device.containsIgnoreCase("vbox86p")) {
         ratingCheckEmulator++
     }
     
-    if (Build.MODEL == "sdk" ||
-        Build.MODEL == "google_sdk" ||
-        Build.MODEL.contains("Droid4X") ||
-        Build.MODEL.contains("TiantianVM") ||
-        Build.MODEL.contains("Andy") ||
-        Build.MODEL == "Android SDK built for x86_64" ||
-        Build.MODEL == "Android SDK built for x86") {
+    val model = try {
+        Build.MODEL
+    } catch (e: Exception) {
+        ""
+    }
+    if (model.equalsIgnoreCase("sdk") || model.equalsIgnoreCase("google_sdk") ||
+        model.containsIgnoreCase("Droid4X") || model.containsIgnoreCase("TiantianVM") ||
+        model.containsIgnoreCase("Andy") || model.equalsIgnoreCase(
+            "Android SDK built for x86_64") ||
+        model.equalsIgnoreCase("Android SDK built for x86")) {
         ratingCheckEmulator++
     }
     
-    if (Build.HARDWARE == "goldfish" ||
-        Build.HARDWARE == "vbox86" ||
-        Build.HARDWARE.contains("nox") ||
-        Build.HARDWARE.contains("ttVM_x86")) {
+    val hardware = try {
+        Build.HARDWARE
+    } catch (e: Exception) {
+        ""
+    }
+    if (hardware.equalsIgnoreCase("goldfish") || hardware.equalsIgnoreCase("vbox86") ||
+        hardware.containsIgnoreCase("nox") || hardware.containsIgnoreCase("ttVM_x86")) {
         ratingCheckEmulator++
     }
     
-    if (Build.FINGERPRINT.contains("generic") ||
-        Build.FINGERPRINT.contains("generic/sdk/generic") ||
-        Build.FINGERPRINT.contains("generic_x86/sdk_x86/generic_x86") ||
-        Build.FINGERPRINT.contains("Andy") ||
-        Build.FINGERPRINT.contains("ttVM_Hdragon") ||
-        Build.FINGERPRINT.contains("generic_x86_64") ||
-        Build.FINGERPRINT.contains("generic/google_sdk/generic") ||
-        Build.FINGERPRINT.contains("vbox86p") ||
-        Build.FINGERPRINT.contains("generic/vbox86p/vbox86p")) {
+    val fingerprint = try {
+        Build.FINGERPRINT
+    } catch (e: Exception) {
+        ""
+    }
+    if (fingerprint.containsIgnoreCase("generic") ||
+        fingerprint.containsIgnoreCase("generic/sdk/generic") ||
+        fingerprint.containsIgnoreCase("generic_x86/sdk_x86/generic_x86") ||
+        fingerprint.containsIgnoreCase("Andy") || fingerprint.containsIgnoreCase("ttVM_Hdragon") ||
+        fingerprint.containsIgnoreCase("generic_x86_64") ||
+        fingerprint.containsIgnoreCase("generic/google_sdk/generic") ||
+        fingerprint.containsIgnoreCase("vbox86p") ||
+        fingerprint.containsIgnoreCase("generic/vbox86p/vbox86p")) {
         ratingCheckEmulator++
     }
     
     if (deepCheck) {
         try {
-            val opengl = GLES20.glGetString(GLES20.GL_RENDERER)
-            if (opengl != null) {
-                if (opengl.contains("Bluestacks") || opengl.contains("Translator"))
+            GLES20.glGetString(GLES20.GL_RENDERER)?.let {
+                if (it.containsIgnoreCase("Bluestacks") || it.containsIgnoreCase("Translator"))
                     ratingCheckEmulator += 10
             }
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
         }
         
         try {
             val sharedFolder = File(
-                "${Environment.getExternalStorageDirectory()}${File.separatorChar}windows${File.separatorChar}BstSharedFolder")
+                "${Environment.getExternalStorageDirectory()}${File.separatorChar}windows" +
+                    "${File.separatorChar}BstSharedFolder")
             if (sharedFolder.exists())
                 ratingCheckEmulator += 10
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
         }
     }
     
@@ -539,3 +555,6 @@ private fun Context.shouldAskPermission(permission: String): Boolean {
     }
     return false
 }
+
+private fun String.equalsIgnoreCase(other: String) = this.equals(other, true)
+private fun String.containsIgnoreCase(other: String) = this.contains(other, true)
