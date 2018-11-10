@@ -126,8 +126,8 @@ class PiracyChecker(
         return this
     }
     
-    fun enableUnauthorizedAppsCheck(enable: Boolean = true): PiracyChecker {
-        this.enableUnauthorizedAppsCheck = enable
+    fun enableUnauthorizedAppsCheck(): PiracyChecker {
+        this.enableUnauthorizedAppsCheck = true
         return this
     }
     
@@ -151,29 +151,29 @@ class PiracyChecker(
         return this
     }
     
-    fun enableStoresCheck(enable: Boolean = true): PiracyChecker {
-        this.enableStoresCheck = enable
+    fun enableStoresCheck(): PiracyChecker {
+        this.enableStoresCheck = true
         return this
     }
     
-    fun enableDebugCheck(enable: Boolean = true): PiracyChecker {
-        this.enableDebugCheck = enable
+    fun enableDebugCheck(): PiracyChecker {
+        this.enableDebugCheck = true
         return this
     }
     
-    fun enableAPKCheck(enable: Boolean = true): PiracyChecker {
-        this.enableAPKCheck = enable
+    fun enableAPKCheck(): PiracyChecker {
+        this.enableAPKCheck = true
         return this
     }
     
-    fun enableEmulatorCheck(deepCheck: Boolean = true): PiracyChecker {
+    fun enableEmulatorCheck(deepCheck: Boolean): PiracyChecker {
         this.enableEmulatorCheck = true
         this.enableDeepEmulatorCheck = deepCheck
         return this
     }
     
-    fun enableFoldersCheck(foldersCheck: Boolean = true): PiracyChecker {
-        this.enableFoldersCheck = foldersCheck
+    fun enableFoldersCheck(): PiracyChecker {
+        this.enableFoldersCheck = true
         return this
     }
     
@@ -212,13 +212,11 @@ class PiracyChecker(
             this.preferences = preferences
         } else {
             try {
-                this.preferences = (context as Activity).getPreferences(Context.MODE_PRIVATE)
+                this.preferences = (context as? Activity)?.getPreferences(Context.MODE_PRIVATE)
             } catch (e: Exception) {
-                this.preferences = context?.getSharedPreferences(
-                    LIBRARY_PREFERENCES_NAME,
-                    Context.MODE_PRIVATE)
+                this.preferences =
+                    context?.getSharedPreferences(LIBRARY_PREFERENCES_NAME, Context.MODE_PRIVATE)
             }
-            
         }
     }
     
@@ -227,13 +225,11 @@ class PiracyChecker(
             this.preferences = context?.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
         } else {
             try {
-                this.preferences = (context as Activity).getPreferences(Context.MODE_PRIVATE)
+                this.preferences = (context as? Activity)?.getPreferences(Context.MODE_PRIVATE)
             } catch (e: Exception) {
-                this.preferences = context?.getSharedPreferences(
-                    LIBRARY_PREFERENCES_NAME,
-                    Context.MODE_PRIVATE)
+                this.preferences =
+                    context?.getSharedPreferences(LIBRARY_PREFERENCES_NAME, Context.MODE_PRIVATE)
             }
-            
         }
     }
     
