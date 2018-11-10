@@ -16,7 +16,7 @@ fun Context.piracyChecker(builder: PiracyChecker.() -> Unit): PiracyChecker {
 }
 
 fun Fragment.piracyChecker(builder: PiracyChecker.() -> Unit): PiracyChecker =
-    context!!.piracyChecker(builder)
+    activity?.piracyChecker(builder) ?: context!!.piracyChecker(builder)
 
 inline fun PiracyChecker.allow(crossinline allow: () -> Unit = {}) = apply {
     allowCallback(object : AllowCallback {

@@ -14,6 +14,7 @@ import android.os.Environment
 import android.util.Base64
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import com.github.javiersantos.piracychecker.R
 import com.github.javiersantos.piracychecker.enums.AppType
 import com.github.javiersantos.piracychecker.enums.InstallerID
@@ -43,8 +44,8 @@ internal fun Context.buildUnlicensedDialog(title: String, content: String): Aler
 val Context.apkSignature: String
     get() = currentSignature
 
-val androidx.fragment.app.Fragment.apkSignature: String
-    get() = context!!.apkSignature
+val Fragment.apkSignature: String?
+    get() = context?.apkSignature
 
 val Context.currentSignature: String
     @SuppressLint("PackageManagerGetSignatures")
@@ -171,7 +172,7 @@ internal fun Context.getPirateApp(
  *
  * Copyright (C) 2013, Vladislav Gingo Skoumal (http://www.skoumal.net)
  */
-internal fun isInEmulator(deepCheck: Boolean): Boolean {
+internal fun isInEmulator(deepCheck: Boolean = false): Boolean {
     var ratingCheckEmulator = 0
     
     val product = try {
