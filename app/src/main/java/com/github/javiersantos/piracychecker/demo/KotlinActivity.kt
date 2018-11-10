@@ -115,7 +115,7 @@ class KotlinActivity : AppCompatActivity() {
     fun verifyEmulator() {
         piracyChecker {
             display(piracyCheckerDisplay)
-            enableEmulatorCheck()
+            enableEmulatorCheck(false)
         }.start()
     }
 }

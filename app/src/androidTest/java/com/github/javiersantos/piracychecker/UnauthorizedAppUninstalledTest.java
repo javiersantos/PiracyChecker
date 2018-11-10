@@ -37,7 +37,7 @@ public class UnauthorizedAppUninstalledTest {
             @Override
             public void run() {
                 new PiracyChecker(InstrumentationRegistry.getTargetContext())
-                    .enableUnauthorizedAppsCheck(true)
+                    .enableUnauthorizedAppsCheck()
                     .blockIfUnauthorizedAppUninstalled("piracychecker_preferences",
                                                        "app_unauthorized")
                     .callback(new PiracyCheckerCallback() {
@@ -75,7 +75,7 @@ public class UnauthorizedAppUninstalledTest {
             @Override
             public void run() {
                 new PiracyChecker(InstrumentationRegistry.getTargetContext())
-                    .enableUnauthorizedAppsCheck(true)
+                    .enableUnauthorizedAppsCheck()
                     .callback(new PiracyCheckerCallback() {
                         @Override
                         public void allow() {

@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     public void verifyUnauthorizedApps(View view) {
         new PiracyChecker(this)
             .display(piracyCheckerDisplay)
-            .enableUnauthorizedAppsCheck(true)
+            .enableUnauthorizedAppsCheck()
             //.blockIfUnauthorizedAppUninstalled("license_checker", "block")
             .start();
     }
@@ -86,21 +86,21 @@ public class MainActivity extends AppCompatActivity {
     public void verifyStores(View view) {
         new PiracyChecker(this)
             .display(piracyCheckerDisplay)
-            .enableStoresCheck(true)
+            .enableStoresCheck()
             .start();
     }
 
     public void verifyDebug(View view) {
         new PiracyChecker(this)
             .display(piracyCheckerDisplay)
-            .enableDebugCheck(true)
+            .enableDebugCheck()
             .start();
     }
 
     public void verifyEmulator(View view) {
         new PiracyChecker(this)
             .display(piracyCheckerDisplay)
-            .enableEmulatorCheck(true)
+            .enableEmulatorCheck(false)
             .start();
     }
 }
