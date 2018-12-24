@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_unlicensed">Licencia no válida</string>
     <string name="app_unlicensed_description">Ésta app no dispone de una licencia válida. Por favor, descárgala de una fuente segura.</string>

@@ -34,11 +34,22 @@ repositories {
 
 And add the library to your module **build.gradle**:
 
+**AndroidX**
+
+```gradle
+dependencies {
+    implementation 'com.github.javiersantos:PiracyChecker:1.2.5'
+}
+```
+
+**Pre AndroidX (no longer supported)**
+
 ```gradle
 dependencies {
     implementation 'com.github.javiersantos:PiracyChecker:1.2.4'
 }
 ```
+
 
 ## Recommendations
 * Always enable ProGuard in your production release. Always, without exceptions.
@@ -159,7 +170,7 @@ It will check for: Lucky Patcher, Uret Patcher, Freedom, CreeHack and HappyMod.
 
 ```kotlin
 piracyChecker {
-	enableUnauthorizedAppsCheck(true)
+	enableUnauthorizedAppsCheck()
 	...
 }.start()
 ```
@@ -168,7 +179,7 @@ piracyChecker {
 
 ```java
 new PiracyChecker(this)
-	.enableUnauthorizedAppsCheck(true)
+	.enableUnauthorizedAppsCheck()
 	...
 	.start();
 ```
@@ -220,7 +231,7 @@ piracyChecker {
 
 ```java
 new PiracyChecker(this)
-	.enableUnauthorizedAppsCheck(true)
+	.enableUnauthorizedAppsCheck()
 	.blockIfUnauthorizedAppUninstalled(preferences, "app_unauthorized") // Change "app_unauthorized" with your own value
 	...
 	.start();
@@ -244,7 +255,7 @@ piracyChecker {
 
 ```java
 new PiracyChecker(this)
-	.enableUnauthorizedAppsCheck(true)
+	.enableUnauthorizedAppsCheck()
 	.blockIfUnauthorizedAppUninstalled("license_preferences", "app_unauthorized") // Change "license_preferences" and "app_unauthorized" with your own value
 	...
 	.start();
@@ -270,7 +281,7 @@ piracyChecker {
 
 ```java
 new PiracyChecker(this)
-	.enableStoresCheck(true)
+	.enableStoresCheck()
 	...
 	.start();
 ```
@@ -293,7 +304,7 @@ piracyChecker {
 
 ```java
 new PiracyChecker(this)
-	.enableFoldersCheck(true)
+	.enableFoldersCheck()
 	...
 	.start();
 ```
@@ -315,7 +326,7 @@ piracyChecker {
 
 ```java
 new PiracyChecker(this)
-	.enableAPKCheck(true)
+	.enableAPKCheck()
 	...
 	.start();
 ```
@@ -341,7 +352,7 @@ piracyChecker {
 
 ```java
 new PiracyChecker(this)
-	.enableDebugCheck(true)
+	.enableDebugCheck()
 	...
 	.start();
 ```
@@ -353,8 +364,10 @@ new PiracyChecker(this)
 ### Verify if app is being run in an emulator
 If your app is running on an emulator outside the development process, it gives an indication that someone other than you is trying to analyze the app.
 
+**Warning!**: Using deep check can cause crashes in some specific devices.
+
 ```kotlin
-val deepCheck = fals
+val deepCheck = false
 piracyChecker {
 	.enableEmulatorCheck(deepCheck)
 	...
@@ -550,7 +563,7 @@ piracyChecker {
 new PiracyChecker(this)
 	.enableGooglePlayLicensing("BASE_64_LICENSE_KEY")
 	.enableSigningCertificate("YOUR_APK_SIGNATURE")
-	.enableUnauthorizedAppsCheck(true)
+	.enableUnauthorizedAppsCheck()
 	.saveResultToSharedPreferences("my_app_preferences", "valid_license")
 	...
 	.start();

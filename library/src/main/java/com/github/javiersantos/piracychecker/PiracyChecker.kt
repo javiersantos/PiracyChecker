@@ -6,10 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.provider.Settings
-import android.support.annotation.ColorRes
-import android.support.annotation.LayoutRes
-import android.support.annotation.StringRes
 import android.util.Log
+import androidx.annotation.ColorRes
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import com.github.javiersantos.licensing.AESObfuscator
 import com.github.javiersantos.licensing.LibraryChecker
 import com.github.javiersantos.licensing.LibraryCheckerCallback
@@ -126,8 +126,8 @@ class PiracyChecker(
         return this
     }
     
-    fun enableUnauthorizedAppsCheck(enable: Boolean = true): PiracyChecker {
-        this.enableUnauthorizedAppsCheck = enable
+    fun enableUnauthorizedAppsCheck(): PiracyChecker {
+        this.enableUnauthorizedAppsCheck = true
         return this
     }
     
@@ -151,29 +151,29 @@ class PiracyChecker(
         return this
     }
     
-    fun enableStoresCheck(enable: Boolean = true): PiracyChecker {
-        this.enableStoresCheck = enable
+    fun enableStoresCheck(): PiracyChecker {
+        this.enableStoresCheck = true
         return this
     }
     
-    fun enableDebugCheck(enable: Boolean = true): PiracyChecker {
-        this.enableDebugCheck = enable
+    fun enableDebugCheck(): PiracyChecker {
+        this.enableDebugCheck = true
         return this
     }
     
-    fun enableAPKCheck(enable: Boolean = true): PiracyChecker {
-        this.enableAPKCheck = enable
+    fun enableAPKCheck(): PiracyChecker {
+        this.enableAPKCheck = true
         return this
     }
     
-    fun enableEmulatorCheck(deepCheck: Boolean = true): PiracyChecker {
+    fun enableEmulatorCheck(deepCheck: Boolean): PiracyChecker {
         this.enableEmulatorCheck = true
         this.enableDeepEmulatorCheck = deepCheck
         return this
     }
     
-    fun enableFoldersCheck(foldersCheck: Boolean = true): PiracyChecker {
-        this.enableFoldersCheck = foldersCheck
+    fun enableFoldersCheck(): PiracyChecker {
+        this.enableFoldersCheck = true
         return this
     }
     
@@ -212,13 +212,11 @@ class PiracyChecker(
             this.preferences = preferences
         } else {
             try {
-                this.preferences = (context as Activity).getPreferences(Context.MODE_PRIVATE)
+                this.preferences = (context as? Activity)?.getPreferences(Context.MODE_PRIVATE)
             } catch (e: Exception) {
-                this.preferences = context?.getSharedPreferences(
-                    LIBRARY_PREFERENCES_NAME,
-                    Context.MODE_PRIVATE)
+                this.preferences =
+                    context?.getSharedPreferences(LIBRARY_PREFERENCES_NAME, Context.MODE_PRIVATE)
             }
-            
         }
     }
     
@@ -227,13 +225,11 @@ class PiracyChecker(
             this.preferences = context?.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
         } else {
             try {
-                this.preferences = (context as Activity).getPreferences(Context.MODE_PRIVATE)
+                this.preferences = (context as? Activity)?.getPreferences(Context.MODE_PRIVATE)
             } catch (e: Exception) {
-                this.preferences = context?.getSharedPreferences(
-                    LIBRARY_PREFERENCES_NAME,
-                    Context.MODE_PRIVATE)
+                this.preferences =
+                    context?.getSharedPreferences(LIBRARY_PREFERENCES_NAME, Context.MODE_PRIVATE)
             }
-            
         }
     }
     
@@ -337,9 +333,7 @@ class PiracyChecker(
                             .putExtra("withLightStatusBar", withLightStatusBar)
                             .putExtra("layoutXML", layoutXML)
                         context?.startActivity(intent)
-                        if (context is Activity) {
-                            (context as Activity).finish()
-                        }
+                        (context as? Activity)?.finish()
                         destroy()
                     }
                 }
@@ -411,18 +405,17 @@ class PiracyChecker(
             extraApps)
         if (possibleSuccess) {
             if (enableDebugCheck && (context?.isDebug() == true)) {
-                if (preferences != null && saveToSharedPreferences)
+                if (saveToSharedPreferences)
                     preferences?.edit()?.putBoolean(preferenceSaveResult, false)?.apply()
                 doNotAllowCallback?.doNotAllow(PiracyCheckerError.USING_DEBUG_APP, null)
-            } else if (enableEmulatorCheck && isInEmulator(
-                    enableDeepEmulatorCheck)) {
-                if (preferences != null && saveToSharedPreferences)
+            } else if (enableEmulatorCheck && isInEmulator(enableDeepEmulatorCheck)) {
+                if (saveToSharedPreferences)
                     preferences?.edit()?.putBoolean(preferenceSaveResult, false)?.apply()
                 doNotAllowCallback?.doNotAllow(PiracyCheckerError.USING_APP_IN_EMULATOR, null)
             } else if (app != null) {
-                if (preferences != null && saveToSharedPreferences)
+                if (saveToSharedPreferences)
                     preferences?.edit()?.putBoolean(preferenceSaveResult, false)?.apply()
-                if (preferences != null && blockUnauthorized && app.type == AppType.PIRATE)
+                if (blockUnauthorized && app.type == AppType.PIRATE)
                     preferences?.edit()?.putBoolean(preferenceBlockUnauthorized, true)?.apply()
                 doNotAllowCallback?.doNotAllow(
                     if (app.type == AppType.STORE)
@@ -430,15 +423,15 @@ class PiracyChecker(
                     else
                         PiracyCheckerError.PIRATE_APP_INSTALLED, app)
             } else {
-                if (preferences != null && saveToSharedPreferences)
+                if (saveToSharedPreferences)
                     preferences?.edit()?.putBoolean(preferenceSaveResult, true)?.apply()
                 allowCallback?.allow()
             }
         } else {
             if (app != null) {
-                if (preferences != null && saveToSharedPreferences)
+                if (saveToSharedPreferences)
                     preferences?.edit()?.putBoolean(preferenceSaveResult, false)?.apply()
-                if (preferences != null && blockUnauthorized && app.type == AppType.PIRATE)
+                if (blockUnauthorized && app.type == AppType.PIRATE)
                     preferences?.edit()?.putBoolean(preferenceBlockUnauthorized, true)?.apply()
                 doNotAllowCallback?.doNotAllow(
                     if (app.type == AppType.STORE)
@@ -446,7 +439,7 @@ class PiracyChecker(
                     else
                         PiracyCheckerError.PIRATE_APP_INSTALLED, app)
             } else {
-                if (preferences != null && saveToSharedPreferences)
+                if (saveToSharedPreferences)
                     preferences?.edit()?.putBoolean(preferenceSaveResult, false)?.apply()
                 doNotAllowCallback?.doNotAllow(PiracyCheckerError.NOT_LICENSED, null)
             }

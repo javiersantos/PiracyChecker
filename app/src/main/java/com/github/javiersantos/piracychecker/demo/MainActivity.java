@@ -3,10 +3,10 @@ package com.github.javiersantos.piracychecker.demo;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.IdRes;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     public void verifyUnauthorizedApps(View view) {
         new PiracyChecker(this)
             .display(piracyCheckerDisplay)
-            .enableUnauthorizedAppsCheck(true)
+            .enableUnauthorizedAppsCheck()
             //.blockIfUnauthorizedAppUninstalled("license_checker", "block")
             .start();
     }
@@ -86,21 +86,21 @@ public class MainActivity extends AppCompatActivity {
     public void verifyStores(View view) {
         new PiracyChecker(this)
             .display(piracyCheckerDisplay)
-            .enableStoresCheck(true)
+            .enableStoresCheck()
             .start();
     }
 
     public void verifyDebug(View view) {
         new PiracyChecker(this)
             .display(piracyCheckerDisplay)
-            .enableDebugCheck(true)
+            .enableDebugCheck()
             .start();
     }
 
     public void verifyEmulator(View view) {
         new PiracyChecker(this)
             .display(piracyCheckerDisplay)
-            .enableEmulatorCheck(true)
+            .enableEmulatorCheck(false)
             .start();
     }
 }
