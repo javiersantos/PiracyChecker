@@ -5,7 +5,8 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 public class PiracyCheckerDialog extends DialogFragment {
     private static PiracyCheckerDialog dialog;

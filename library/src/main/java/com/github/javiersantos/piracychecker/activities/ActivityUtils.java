@@ -2,8 +2,9 @@ package com.github.javiersantos.piracychecker.activities;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 class ActivityUtils {
 

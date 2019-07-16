@@ -1,7 +1,8 @@
 package com.github.javiersantos.piracychecker.enums;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 public class PirateApp {
     private String name;

@@ -6,11 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.provider.Settings;
-import android.support.annotation.ColorRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.util.Log;
 
 import com.github.javiersantos.licensing.AESObfuscator;
@@ -28,6 +23,12 @@ import com.github.javiersantos.piracychecker.enums.PirateApp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 @SuppressLint("HardwareIds")

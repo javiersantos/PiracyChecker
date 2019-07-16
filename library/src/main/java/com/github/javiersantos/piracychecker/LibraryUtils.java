@@ -14,8 +14,6 @@ import android.content.pm.Signature;
 import android.opengl.GLES20;
 import android.os.Build;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 
 import com.github.javiersantos.piracychecker.enums.AppType;
@@ -27,6 +25,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 
 class LibraryUtils {
 
