@@ -22,7 +22,7 @@ android:
     - '.+'
 
 before_install:
-  - yes | sdkmanager "platforms;android-28"
+  - yes | sdkmanager "platforms;android-$ANDROID_API"
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
