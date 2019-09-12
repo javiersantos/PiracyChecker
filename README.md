@@ -38,7 +38,7 @@ And add the library to your module **build.gradle**:
 
 ```gradle
 dependencies {
-    implementation 'com.github.javiersantos:PiracyChecker:1.2.5'
+    implementation 'com.github.javiersantos:PiracyChecker:1.2.6'
 }
 ```
 
