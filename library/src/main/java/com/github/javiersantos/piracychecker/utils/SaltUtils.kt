@@ -1,7 +1,7 @@
 package com.github.javiersantos.piracychecker.utils
 
 import android.content.Context
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import java.util.Random
 
 /**
@@ -16,10 +16,8 @@ internal object SaltUtils {
             val sb = StringBuilder()
             mSalt?.let {
                 for (i in it.indices) {
-                    if (i > 0) {
-                        sb.append(" ")
-                    }
-                    sb.append(java.lang.Byte.toString(it[i]))
+                    if (i > 0) sb.append(" ")
+                    sb.append(it[i].toString())
                 }
             }
             return sb.toString()
@@ -34,10 +32,8 @@ internal object SaltUtils {
             }
         }
         context ?: return
-        val saltStr = saltString
         PreferenceManager.getDefaultSharedPreferences(context)
-            .edit().putString(KEY_SALT, saltStr)
-            .apply()
+            .edit().putString(KEY_SALT, saltString).apply()
     }
     
     private fun bytesFromString(string: String): ByteArray {
@@ -54,20 +50,15 @@ internal object SaltUtils {
             mSalt = context?.let {
                 try {
                     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-                    if (prefs.contains(
-                            KEY_SALT)) {
-                        bytesFromString(
-                            prefs.getString(
-                                KEY_SALT,
-                                null))
+                    if (prefs.contains(KEY_SALT)) {
+                        val saltFromPrefs = prefs.getString(KEY_SALT, null)
+                        saltFromPrefs?.let { bytesFromString(it) }
                     } else null
                 } catch (e: Exception) {
                     null
                 }
             }
-            if (mSalt == null) {
-                generateSalt(context)
-            }
+            if (mSalt == null) generateSalt(context)
         }
         return mSalt
     }
