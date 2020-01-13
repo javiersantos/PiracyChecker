@@ -108,6 +108,7 @@ public class PiracyCheckerTest {
                     .enableInstallerId(InstallerID.GOOGLE_PLAY)
                     .enableInstallerId(InstallerID.AMAZON_APP_STORE)
                     .enableInstallerId(InstallerID.GALAXY_APPS)
+                    .enableInstallerId(InstallerID.HUAWEI_APPGALLERY)
                     .callback(new PiracyCheckerCallback() {
                         @Override
                         public void allow() {
