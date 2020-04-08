@@ -16,11 +16,14 @@ import com.github.javiersantos.piracychecker.R
 
 class LicenseActivity : AppCompatActivity() {
     private var description: String? = null
+    
     @ColorRes
     private var colorPrimary: Int = 0
+    
     @ColorRes
     private var colorPrimaryDark: Int = 0
     private var withLightStatusBar: Boolean = false
+    
     @LayoutRes
     private var layoutXML: Int = 0
     
@@ -35,11 +38,11 @@ class LicenseActivity : AppCompatActivity() {
     private fun getIntentData() {
         description = intent?.getStringExtra("content") ?: ""
         colorPrimary = intent?.getIntExtra(
-            "colorPrimary", ContextCompat.getColor(this, R.color.colorPrimary)) ?:
-            ContextCompat.getColor(this, R.color.colorPrimary)
+            "colorPrimary", ContextCompat.getColor(this, R.color.colorPrimary))
+            ?: ContextCompat.getColor(this, R.color.colorPrimary)
         colorPrimaryDark = intent?.getIntExtra(
-            "colorPrimaryDark", ContextCompat.getColor(this, R.color.colorPrimaryDark)) ?:
-            ContextCompat.getColor(this, R.color.colorPrimaryDark)
+            "colorPrimaryDark", ContextCompat.getColor(this, R.color.colorPrimaryDark))
+            ?: ContextCompat.getColor(this, R.color.colorPrimaryDark)
         withLightStatusBar = intent?.getBooleanExtra("withLightStatusBar", false) ?: false
         layoutXML = intent?.getIntExtra("layoutXML", -1) ?: -1
     }
