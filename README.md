@@ -89,10 +89,10 @@ In order to retrieve your BASE64 license key your app must be uploaded to the [G
 
 When using Google Play Licensing your should call `.destroy()` in the `onDestroy()` method of your Activity to avoid multiple instances of the service running. Have a look to the Wiki for a [sample Activity](https://github.com/javiersantos/PiracyChecker/wiki/Using-Google-Play-Licensing-(LVL)) with `destroy()`.
 
-### Verify your app's signing certificate (signature)
+### Verify your app's signing certificates (signatures)
 In a nutshell, developers must sign applications with their private key/certificate (contained in a .keystore file) before the app can be installed on user devices. The signing certificate must stay consistent throughout the life of the app, and typically have an expiry date of 25 years in the future.
 
-The app signature will be broken if the .apk is altered in any way — unsigned apps cannot typically be installed. We can imagine an attacker removing license-checking code to enable full app features without paying, for instance. A more dangerous example would be altering the .apk to include malware in a legitimate app to harvest sensitive user data. In order for the altered .apk to be installed, the attacker must resign it.
+The app signatures will be broken if the .apk is altered in any way — unsigned apps cannot typically be installed. We can imagine an attacker removing license-checking code to enable full app features without paying, for instance. A more dangerous example would be altering the .apk to include malware in a legitimate app to harvest sensitive user data. In order for the altered .apk to be installed, the attacker must resign it.
 
 
 ```kotlin
@@ -121,14 +121,16 @@ new PiracyChecker(this)
 
 ```kotlin
 // This method will print your app signature in the console
-Log.e("SIGNATURE", apkSignature)
+apkSignatures.forEach { Log.e("SIGNATURE", it) }
 ```
 
 <details><summary><b>Java Sample</b></summary>
 
 ```java
 // This method will print your app signature in the console
-Log.e("SIGNATURE", LibraryUtilsKt.getApkSignature(this));
+for (String signature : LibraryUtilsKt.getApkSignatures(this)) {
+    Log.e("SIGNATURE", signature);
+}
 ```
 
 </details><br>
@@ -549,7 +551,7 @@ Sure. You can use as many validation methods in the builder as you want. For exa
 ```kotlin
 piracyChecker {
 	enableGooglePlayLicensing("BASE_64_LICENSE_KEY")
-	enableSigningCertificate("YOUR_APK_SIGNATURE")
+	enableSigningCertificates("YOUR_APK_SIGNATURE")
 	enableUnauthorizedAppsCheck()
 	saveResultToSharedPreferences("my_app_preferences", "valid_license")
 	...
@@ -561,7 +563,7 @@ piracyChecker {
 ```java
 new PiracyChecker(this)
 	.enableGooglePlayLicensing("BASE_64_LICENSE_KEY")
-	.enableSigningCertificate("YOUR_APK_SIGNATURE")
+	.enableSigningCertificates("YOUR_APK_SIGNATURE")
 	.enableUnauthorizedAppsCheck()
 	.saveResultToSharedPreferences("my_app_preferences", "valid_license")
 	...
