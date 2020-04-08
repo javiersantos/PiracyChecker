@@ -37,7 +37,7 @@ And add the library to your module **build.gradle**:
 
 ```gradle
 dependencies {
-    implementation 'com.github.javiersantos:PiracyChecker:1.2.6'
+    implementation 'com.github.javiersantos:PiracyChecker:1.2.7'
 }
 ```
 
@@ -97,7 +97,7 @@ The app signature will be broken if the .apk is altered in any way — unsigned 
 
 ```kotlin
 piracyChecker {
-	enableSigningCertificate("478yYkKAQF+KST8y4ATKvHkYibo=") // The original APK signature for the PRODUCTION version
+	enableSigningCertificates("478yYkKAQF+KST8y4ATKvHkYibo=") // The original APK signature for the PRODUCTION version
 	...
 }.start()
 ```
@@ -106,7 +106,7 @@ piracyChecker {
 
 ```java
 new PiracyChecker(this)
-	.enableSigningCertificate("478yYkKAQF+KST8y4ATKvHkYibo=") // The original APK signature for the PRODUCTION version
+	.enableSigningCertificates("478yYkKAQF+KST8y4ATKvHkYibo=") // The original APK signature for the PRODUCTION version
 	...
 	.start();
 ```

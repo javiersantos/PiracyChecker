@@ -3,10 +3,6 @@ package com.github.javiersantos.piracychecker.demo;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.IdRes;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -15,6 +11,11 @@ import com.github.javiersantos.piracychecker.PiracyChecker;
 import com.github.javiersantos.piracychecker.enums.Display;
 import com.github.javiersantos.piracychecker.enums.InstallerID;
 import com.github.javiersantos.piracychecker.utils.LibraryUtilsKt;
+
+import androidx.annotation.IdRes;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity {
     private Display piracyCheckerDisplay = Display.DIALOG;
@@ -44,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Show APK signature
-        Log.e("Signature", LibraryUtilsKt.getApkSignature(this));
+        for (String signature : LibraryUtilsKt.getApkSignatures(this)) {
+            Log.e("Signature", signature);
+        }
     }
 
     public void toGithub(View view) {
@@ -55,16 +58,20 @@ public class MainActivity extends AppCompatActivity {
     public void verifySignature(View view) {
         new PiracyChecker(this)
             .display(piracyCheckerDisplay)
-            .enableSigningCertificate("478yYkKAQF+KST8y4ATKvHkYibo=") // Wrong signature
-            //.enableSigningCertificate("VHZs2aiTBiap/F+AYhYeppy0aF0=") // Right signature
+            .enableSigningCertificates("478yYkKAQF+KST8y4ATKvHkYibo=") // Wrong signature
+            //.enableSigningCertificates("VHZs2aiTBiap/F+AYhYeppy0aF0=") // Right signature
             .start();
     }
 
     public void readSignature(View view) {
-        Log.e("Signature", LibraryUtilsKt.getApkSignature(this));
+        StringBuilder dialogMessage = new StringBuilder();
+        for (String signature : LibraryUtilsKt.getApkSignatures(this)) {
+            Log.e("Signature", signature);
+            dialogMessage.append("* ").append(signature).append("\n");
+        }
         new AlertDialog.Builder(this)
-            .setTitle("APK")
-            .setMessage(LibraryUtilsKt.getApkSignature((this)))
+            .setTitle("APK Signatures:")
+            .setMessage(dialogMessage.toString())
             .show();
     }
 

@@ -3,11 +3,11 @@ package com.github.javiersantos.piracychecker.demo
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.widget.RadioGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import android.util.Log
-import android.widget.RadioGroup
 import com.github.javiersantos.piracychecker.allow
 import com.github.javiersantos.piracychecker.callback
 import com.github.javiersantos.piracychecker.doNotAllow
@@ -15,7 +15,7 @@ import com.github.javiersantos.piracychecker.enums.Display
 import com.github.javiersantos.piracychecker.enums.InstallerID
 import com.github.javiersantos.piracychecker.onError
 import com.github.javiersantos.piracychecker.piracyChecker
-import com.github.javiersantos.piracychecker.utils.apkSignature
+import com.github.javiersantos.piracychecker.utils.apkSignatures
 
 @Suppress("unused")
 class KotlinActivity : AppCompatActivity() {
@@ -38,7 +38,7 @@ class KotlinActivity : AppCompatActivity() {
         }
         
         // Show APK signature
-        Log.e("Signature", apkSignature)
+        apkSignatures.forEach { Log.e("Signature", it) }
     }
     
     fun toGithub() {
@@ -51,16 +51,20 @@ class KotlinActivity : AppCompatActivity() {
     fun verifySignature() {
         piracyChecker {
             display(piracyCheckerDisplay)
-            enableSigningCertificate("478yYkKAQF+KST8y4ATKvHkYibo=") // Wrong signature
-            //enableSigningCertificate("VHZs2aiTBiap/F+AYhYeppy0aF0=") // Right signature
+            enableSigningCertificates("478yYkKAQF+KST8y4ATKvHkYibo=") // Wrong signature
+            //enableSigningCertificates("VHZs2aiTBiap/F+AYhYeppy0aF0=") // Right signature
         }.start()
     }
     
     fun readSignature() {
-        Log.e("Signature", apkSignature)
+        val dialogMessage = StringBuilder()
+        apkSignatures.forEach {
+            Log.e("Signature", it)
+            dialogMessage.append("* ").append(it).append("\n")
+        }
         AlertDialog.Builder(this)
             .setTitle("APK")
-            .setMessage(apkSignature)
+            .setMessage(dialogMessage.toString())
             .show()
     }
     
