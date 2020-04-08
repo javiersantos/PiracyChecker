@@ -120,14 +120,14 @@ new PiracyChecker(this)
 **BE CAREFUL!!** Your app signature can be retrieved using a PiracyCheckerUtils method. Make sure that you have signed your APK using your PRODUCTION keystore (not using the DEBUG one) and installed the version that you plan to distribute. Then copy the signature returned by this method on the console and paste in `enableSigningCertificate("YOUR_APK_SIGNATURE")`
 
 ```kotlin
-// This method will print your app signature in the console
+// This method will print your app signatures in the console
 apkSignatures.forEach { Log.e("SIGNATURE", it) }
 ```
 
 <details><summary><b>Java Sample</b></summary>
 
 ```java
-// This method will print your app signature in the console
+// This method will print your app signatures in the console
 for (String signature : LibraryUtilsKt.getApkSignatures(this)) {
     Log.e("SIGNATURE", signature);
 }
