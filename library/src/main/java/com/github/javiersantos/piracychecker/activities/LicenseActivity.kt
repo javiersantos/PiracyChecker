@@ -36,7 +36,7 @@ class LicenseActivity : AppCompatActivity() {
     }
     
     private fun getIntentData() {
-        description = intent?.getStringExtra("content") ?: ""
+        description = intent?.getStringExtra("content").orEmpty()
         colorPrimary = intent?.getIntExtra(
             "colorPrimary", ContextCompat.getColor(this, R.color.colorPrimary))
             ?: ContextCompat.getColor(this, R.color.colorPrimary)
