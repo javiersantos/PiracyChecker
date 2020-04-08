@@ -14,7 +14,6 @@ import android.os.Environment
 import android.util.Base64
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
 import com.github.javiersantos.piracychecker.R
 import com.github.javiersantos.piracychecker.enums.AppType
 import com.github.javiersantos.piracychecker.enums.InstallerID
@@ -41,31 +40,54 @@ internal fun Context.buildUnlicensedDialog(title: String, content: String): Aler
     }
 }
 
-val Context.apkSignature: String
-    get() = currentSignature
+@Deprecated(
+    "Deprecated in favor of apkSignatures, which returns all valid signing signatures",
+    ReplaceWith("apkSignatures"))
+val Context.apkSignature: Array<String>
+    get() = apkSignatures
 
-val Fragment.apkSignature: String?
-    get() = context?.apkSignature
+val Context.apkSignatures: Array<String>
+    get() = currentSignatures
 
-val Context.currentSignature: String
-    @SuppressLint("PackageManagerGetSignatures")
+@Suppress("DEPRECATION")
+private val Context.currentSignatures: Array<String>
     get() {
-        var res = ""
-        try {
+        val actualSignatures = ArrayList<String>()
+        val signatures = try {
             val packageInfo =
-                packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
-            for (signature in packageInfo.signatures) {
-                val messageDigest = MessageDigest.getInstance("SHA")
-                messageDigest.update(signature.toByteArray())
-                res = Base64.encodeToString(messageDigest.digest(), Base64.DEFAULT)
-            }
-        } catch (ignored: Exception) {
+                packageManager.getPackageInfo(
+                    packageName,
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+                        PackageManager.GET_SIGNING_CERTIFICATES
+                    else PackageManager.GET_SIGNATURES)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                if (packageInfo.signingInfo.hasMultipleSigners())
+                    packageInfo.signingInfo.apkContentsSigners
+                else packageInfo.signingInfo.signingCertificateHistory
+            } else packageInfo.signatures
+        } catch (e: Exception) {
+            arrayOf()
         }
-        return res.trim()
+        for (signature in signatures) {
+            val messageDigest = MessageDigest.getInstance("SHA")
+            messageDigest.update(signature.toByteArray())
+            try {
+                actualSignatures.add(
+                    Base64.encodeToString(messageDigest.digest(), Base64.DEFAULT).trim())
+            } catch (e: Exception) {
+            }
+        }
+        return actualSignatures.filter { it.isNotEmpty() && it.isNotBlank() }.toTypedArray()
     }
 
-internal fun Context.verifySigningCertificate(appSignature: String?): Boolean =
-    appSignature?.let { currentSignature == it } ?: false
+private fun Context.verifySigningCertificate(appSignature: String?): Boolean =
+    appSignature?.let { appSign -> currentSignatures.any { it == appSign } } ?: false
+
+internal fun Context.verifySigningCertificates(appSignatures: Array<String>): Boolean {
+    var validCount = 0
+    appSignatures.forEach { if (verifySigningCertificate(it)) validCount += 1 }
+    return validCount >= appSignatures.size
+}
 
 internal fun Context.verifyInstallerId(installerID: List<InstallerID>): Boolean {
     val validInstallers = ArrayList<String>()
@@ -76,6 +98,7 @@ internal fun Context.verifyInstallerId(installerID: List<InstallerID>): Boolean 
     return installer != null && validInstallers.contains(installer)
 }
 
+@Suppress("DEPRECATION")
 @SuppressLint("SdCardPath")
 internal fun Context.getPirateApp(
     lpf: Boolean,
@@ -137,7 +160,7 @@ internal fun Context.getPirateApp(
                         
                         val appsContainer = File("/data/app/")
                         if (appsContainer.exists()) {
-                            for (f in appsContainer.listFiles()) {
+                            for (f in appsContainer.listFiles().orEmpty()) {
                                 if (f.name.startsWith(pack))
                                     containsFolder = true
                             }
@@ -172,6 +195,7 @@ internal fun Context.getPirateApp(
  *
  * Copyright (C) 2013, Vladislav Gingo Skoumal (http://www.skoumal.net)
  */
+@Suppress("DEPRECATION")
 internal fun isInEmulator(deepCheck: Boolean = false): Boolean {
     var ratingCheckEmulator = 0
     
@@ -528,9 +552,10 @@ private fun getApps(extraApps: ArrayList<PirateApp>): ArrayList<PirateApp> {
 }
 
 private fun Context.isIntentAvailable(intent: Intent?): Boolean {
+    intent ?: return false
     return try {
-        val list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
-        list?.isNotEmpty() ?: false
+        packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+            .orEmpty().isNotEmpty()
     } catch (e: Exception) {
         false
     }

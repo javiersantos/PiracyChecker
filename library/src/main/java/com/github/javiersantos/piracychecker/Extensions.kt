@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.github.javiersantos.piracychecker
 
 import android.content.Context
@@ -16,7 +18,7 @@ fun Context.piracyChecker(builder: PiracyChecker.() -> Unit): PiracyChecker {
 }
 
 fun Fragment.piracyChecker(builder: PiracyChecker.() -> Unit): PiracyChecker =
-    activity?.piracyChecker(builder) ?: context!!.piracyChecker(builder)
+    activity?.piracyChecker(builder) ?: requireContext().piracyChecker(builder)
 
 inline fun PiracyChecker.allow(crossinline allow: () -> Unit = {}) = apply {
     allowCallback(object : AllowCallback {

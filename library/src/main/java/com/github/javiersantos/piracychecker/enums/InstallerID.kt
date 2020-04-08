@@ -1,7 +1,6 @@
 package com.github.javiersantos.piracychecker.enums
 
 import java.util.ArrayList
-import java.util.Arrays
 
 enum class InstallerID(private val text: String) {
     GOOGLE_PLAY("com.android.vending|com.google.android.feedback"),
@@ -18,7 +17,7 @@ enum class InstallerID(private val text: String) {
     
     fun toIDs(): List<String> = if (text.contains("|")) {
         val split = text.split("\\|".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        ArrayList(Arrays.asList(*split))
+        ArrayList(listOf(*split))
     } else {
         ArrayList(listOf(text))
     }

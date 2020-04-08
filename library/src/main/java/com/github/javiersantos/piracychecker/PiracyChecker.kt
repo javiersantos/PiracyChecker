@@ -29,7 +29,7 @@ import com.github.javiersantos.piracychecker.utils.getPirateApp
 import com.github.javiersantos.piracychecker.utils.isDebug
 import com.github.javiersantos.piracychecker.utils.isInEmulator
 import com.github.javiersantos.piracychecker.utils.verifyInstallerId
-import com.github.javiersantos.piracychecker.utils.verifySigningCertificate
+import com.github.javiersantos.piracychecker.utils.verifySigningCertificates
 import java.util.ArrayList
 import java.util.Arrays
 
@@ -45,11 +45,14 @@ class PiracyChecker(
                    ) {
     
     private var display: Display? = null
+    
     @ColorRes
     private var colorPrimary: Int = 0
+    
     @ColorRes
     private var colorPrimaryDark: Int = 0
     private var withLightStatusBar: Boolean = false
+    
     @LayoutRes
     private var layoutXML = -1
     private var enableLVL: Boolean = false
@@ -67,7 +70,7 @@ class PiracyChecker(
     private var preferenceSaveResult: String? = null
     private var preferenceBlockUnauthorized: String? = null
     private var licenseBase64: String? = null
-    private var signature: String? = null
+    private var signatures: Array<String> = arrayOf()
     private val installerIDs: MutableList<InstallerID>
     private val extraApps: ArrayList<PirateApp>
     
@@ -77,6 +80,7 @@ class PiracyChecker(
     
     // LVL
     private var libraryLVLChecker: LibraryChecker? = null
+    
     // Dialog
     private var dialog: PiracyCheckerDialog? = null
     
@@ -115,14 +119,29 @@ class PiracyChecker(
         return this
     }
     
+    @Deprecated(
+        "Deprecated in favor of enableSigningCertificates so you can check for multiple signatures",
+        ReplaceWith("enableSigningCertificates(signature)"))
     fun enableSigningCertificate(signature: String): PiracyChecker {
         this.enableSigningCertificate = true
-        this.signature = signature
+        this.signatures = arrayOf(signature)
+        return this
+    }
+    
+    fun enableSigningCertificates(vararg signatures: String): PiracyChecker {
+        this.enableSigningCertificate = true
+        this.signatures = arrayOf(*signatures)
+        return this
+    }
+    
+    fun enableSigningCertificates(signatures: List<String>): PiracyChecker {
+        this.enableSigningCertificate = true
+        this.signatures = signatures.toTypedArray()
         return this
     }
     
     fun enableInstallerId(vararg installerID: InstallerID): PiracyChecker {
-        this.installerIDs.addAll(Arrays.asList(*installerID))
+        this.installerIDs.addAll(listOf(*installerID))
         return this
     }
     
@@ -385,7 +404,7 @@ class PiracyChecker(
     }
     
     private fun verifySigningCertificate(): Boolean {
-        return !enableSigningCertificate || (context?.verifySigningCertificate(signature) == true)
+        return !enableSigningCertificate || (context?.verifySigningCertificates(signatures) == true)
     }
     
     private fun verifyInstallerId(): Boolean {
