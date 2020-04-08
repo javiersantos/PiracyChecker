@@ -8,6 +8,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.content.pm.Signature
 import android.opengl.GLES20
 import android.os.Build
 import android.os.Environment
@@ -49,11 +50,11 @@ val Context.apkSignature: Array<String>
 val Context.apkSignatures: Array<String>
     get() = currentSignatures
 
-@Suppress("DEPRECATION")
+@Suppress("DEPRECATION", "RemoveExplicitTypeArguments")
 private val Context.currentSignatures: Array<String>
     get() {
         val actualSignatures = ArrayList<String>()
-        val signatures = try {
+        val signatures: Array<Signature> = try {
             val packageInfo =
                 packageManager.getPackageInfo(
                     packageName,
@@ -66,9 +67,9 @@ private val Context.currentSignatures: Array<String>
                 else packageInfo.signingInfo.signingCertificateHistory
             } else packageInfo.signatures
         } catch (e: Exception) {
-            arrayOf()
+            arrayOf<Signature>()
         }
-        for (signature in signatures) {
+        signatures.forEach { signature ->
             val messageDigest = MessageDigest.getInstance("SHA")
             messageDigest.update(signature.toByteArray())
             try {
