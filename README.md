@@ -521,7 +521,7 @@ callback {
 	}
 	
 	@Override
-	public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
+	public void doNotAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
 		// You can either do something specific when the user is not allowed to use the app
 		// Or manage the error, using the 'error' parameter, yourself (Check errors at {@link PiracyCheckerError}).
 		
