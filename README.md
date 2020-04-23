@@ -521,7 +521,7 @@ callback {
 	}
 	
 	@Override
-	public void dontAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
+	public void doNotAllow(@NonNull PiracyCheckerError error, @Nullable PirateApp app) {
 		// You can either do something specific when the user is not allowed to use the app
 		// Or manage the error, using the 'error' parameter, yourself (Check errors at {@link PiracyCheckerError}).
 		
@@ -533,7 +533,7 @@ callback {
 
 	@Override
 	public void onError(@NonNull PiracyCheckerError error) {
-		// This method is not required to be implemented/overriden but...
+		// This method is not required to be implemented/overridden but...
 		// You can either do something specific when an error occurs while checking the license,
 		// Or manage the error, using the 'error' parameter, yourself (Check errors at {@link PiracyCheckerError}).
     }
