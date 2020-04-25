@@ -30,7 +30,7 @@ class SaltUtils {
             if (i > 0) {
                 sb.append(" ");
             }
-            sb.append(Byte.toString(mSalt[i]));
+            sb.append(mSalt[i]);
         }
         return sb.toString();
     }

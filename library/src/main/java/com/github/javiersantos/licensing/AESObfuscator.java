@@ -20,6 +20,7 @@ import com.github.javiersantos.licensing.util.Base64;
 import com.github.javiersantos.licensing.util.Base64DecoderException;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.spec.KeySpec;
 
@@ -77,8 +78,8 @@ public class AESObfuscator implements Obfuscator {
         }
         try {
             // Header is appended as an integrity check
-            return Base64.encode(mEncryptor.doFinal((header + key + original).getBytes(UTF8)));
-        } catch (UnsupportedEncodingException | GeneralSecurityException e) {
+            return Base64.encode(mEncryptor.doFinal((header + key + original).getBytes(StandardCharsets.UTF_8)));
+        } catch (GeneralSecurityException e) {
             throw new RuntimeException("Invalid environment", e);
         }
     }
@@ -88,7 +89,7 @@ public class AESObfuscator implements Obfuscator {
             return null;
         }
         try {
-            String result = new String(mDecryptor.doFinal(Base64.decode(obfuscated)), UTF8);
+            String result = new String(mDecryptor.doFinal(Base64.decode(obfuscated)), StandardCharsets.UTF_8);
             // Check for presence of header. This serves as a final integrity check, for cases
             // where the block size is correct during decryption.
             int headerIndex = result.indexOf(header + key);
@@ -96,11 +97,9 @@ public class AESObfuscator implements Obfuscator {
                 throw new ValidationException("Header not found (invalid data or key)" + ":" +
                                                       obfuscated);
             }
-            return result.substring(header.length() + key.length(), result.length());
+            return result.substring(header.length() + key.length());
         } catch (Base64DecoderException | IllegalBlockSizeException | BadPaddingException e) {
             throw new ValidationException(e.getMessage() + ":" + obfuscated);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Invalid environment", e);
         }
     }
 }
