@@ -78,7 +78,7 @@ public class AESObfuscator implements Obfuscator {
         }
         try {
             // Header is appended as an integrity check
-            return Base64.encode(mEncryptor.doFinal((header + key + original).getBytes(StandardCharsets.UTF_8)));
+            return Base64.encode(mEncryptor.doFinal((header + key + original).getBytes("utf-8")));
         } catch (GeneralSecurityException e) {
             throw new RuntimeException("Invalid environment", e);
         }
@@ -89,7 +89,7 @@ public class AESObfuscator implements Obfuscator {
             return null;
         }
         try {
-            String result = new String(mDecryptor.doFinal(Base64.decode(obfuscated)), StandardCharsets.UTF_8);
+            String result = new String(mDecryptor.doFinal(Base64.decode(obfuscated)), "utf-8");
             // Check for presence of header. This serves as a final integrity check, for cases
             // where the block size is correct during decryption.
             int headerIndex = result.indexOf(header + key);
