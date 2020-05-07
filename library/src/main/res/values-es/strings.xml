@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_unlicensed">Licencia no válida</string>
-    <string name="app_unlicensed_description">Ésta app no dispone de una licencia válida. Por favor, descárgala de una fuente segura.</string>
-    <string name="app_unlicensed_close">Cerrar</string>
-</resources>
