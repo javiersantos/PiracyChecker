@@ -24,9 +24,11 @@ Some of the techniques included in this library can be found [here](https://www.
 Add the repository to your project **build.gradle**:
 
 ```gradle
-repositories {
-    maven {
-        url "https://jitpack.io"
+allprojects {
+    repositories {
+        maven {
+            url "https://jitpack.io"
+        }
     }
 }
 ```
