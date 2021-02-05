@@ -7,7 +7,7 @@
     android:padding="20dp"
     android:gravity="center">
 
-  <TextView
+  <androidx.appcompat.widget.AppCompatTextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="10dp"
@@ -18,7 +18,7 @@
       android:lines="2"
       android:gravity="center"/>
 
-  <TextView
+  <androidx.appcompat.widget.AppCompatTextView
       android:id="@+id/piracy_checker_description"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
