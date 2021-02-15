@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_unlicensed">این برنامه مجوز ندارد</string>
+    <string name="app_unlicensed_description">این برنامه مجوز ندارد و معتبر نیست. خواهشمندیم برنامه را از یک منبع معتبر دریافت کنید.</string>
+    <string name="app_unlicensed_close">بستن</string>
+    <string name="unauthorized_app_found">مجوز نامعتبر است زیرا متوجه شدیم شما برنامهٔ %1$s را بر روی دستگاه خود نصب کرده‌اید.</string>
+    <string name="unauthorized_app_blocked">مجوز نامعتبر است زیرا شما از یک برنامهٔ غیرمجاز مانند Lucky Pather استفاده کرده‌اید. خواهشمندیم این برنامه را هنگامی که برنامهٔ غیرمجاز کامل حذف شد، دوباره نصب کنید.</string>
+</resources>
