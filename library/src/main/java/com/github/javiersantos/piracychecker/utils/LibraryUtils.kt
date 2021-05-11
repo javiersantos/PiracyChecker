@@ -92,7 +92,11 @@ internal fun Context.verifySigningCertificates(appSignatures: Array<String>): Bo
 
 internal fun Context.verifyInstallerId(installerID: List<InstallerID>): Boolean {
     val validInstallers = ArrayList<String>()
-    val installer = packageManager.getInstallerPackageName(packageName)
+    val installer = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        packageManager.getInstallSourceInfo(packageName).installingPackageName
+    } else {
+        packageManager.getInstallerPackageName(packageName)
+    }
     for (id in installerID) {
         validInstallers.addAll(id.toIDs())
     }
