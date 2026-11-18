@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_unlicensed">Este app não está licenciado</string>
+    <string name="app_unlicensed_description">Este aplicativo não está licenciado nem é válido. Baixe o app de uma fonte confiável.</string>
+    <string name="app_unlicensed_close">Fechar</string>
+</resources>
